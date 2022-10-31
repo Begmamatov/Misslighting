@@ -2,6 +2,7 @@ export const ROUTES = {
   LOGIN: 'login',
   REGISTER: 'register',
   FORGOTPASSWORD: 'forgotpass',
+  PASSWORDSCREEN: 'passwordscreen',
   HOME: 'home',
   CATEGORIES: 'categories',
   CART: 'cart',

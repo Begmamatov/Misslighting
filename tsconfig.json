@@ -20,7 +20,10 @@
       "@images/*": ["./src/assets/images/*"],
       "@auth/*": ["./src/screens/Auth/*"],
       "@home/*": ["./src/screens/Home/*"],
-      "@constants/*": ["./src/constants/*"]
+      "@constants/*": ["./src/constants/*"],
+      "@routes/*": ["./src/routes/*"],
+      "@icons/*": ["./src/assets/icons/*"],
+      "@assets/*": ["./src/assets/*"]
     }
   },
   "exclude": [

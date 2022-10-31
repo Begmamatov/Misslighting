@@ -1,32 +1,39 @@
-import { Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { Text, TouchableOpacity, StyleSheet, ButtonProps, TextProps } from 'react-native'
 import React from 'react'
+import { COLORS } from '@constants/colors'
 
 type Props = {
     title: string,
-    onPress?: () => void,
-    backgroundColor?: string,
-    color?: string,
-    marginBottom?: number,
+    onPress?: () => void | undefined | Function,
+    ButtonStyle?: {
+        backgroundColor?: string,
+        marginBotton?: number,
+        marginTop?: number | string,
+        width?: number | string,
+    },
+    TextStyle?: {
+        color?: string,
+        fontSize?: number,
+    },
 }
 
 export default function DefaultButton(props: Props) {
     return (
-        <TouchableOpacity style={
-            [
-                styles.button,
-                {
-                    backgroundColor: props.backgroundColor,
-                    marginBottom: props.marginBottom,
-                }
-            ]
-        }>
+        <TouchableOpacity
+            style={
+                [
+                    styles.button,
+                    props.ButtonStyle
+                ]
+            }
+            onPress={props.onPress}
+        >
             <Text style={
                 [
                     styles.buttonText,
-                    {
-                        color: props.color,
-                    }
-                ]}>
+                    props.TextStyle
+                ]
+            }>
                 {props.title}
             </Text>
         </TouchableOpacity>
@@ -34,9 +41,14 @@ export default function DefaultButton(props: Props) {
 }
 
 DefaultButton.defaultProps = {
-    backgroundColor: '#fff',
-    color: '#000',
-    marginBottom: 25,
+    ButtonStyle: {
+        backgroundColor: COLORS.white,
+        marginBottom: 25,
+    },
+    TextStyle: {
+        color: COLORS.black,
+        fontSize: 16,
+    }
 }
 
 const styles = StyleSheet.create({

@@ -1,10 +1,10 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-export default function SignUp() {
+export default function FavoritesScreen() {
     return (
         <View>
-            <Text>SignUp</Text>
+            <Text>FavoritesScreen</Text>
         </View>
     )
 }

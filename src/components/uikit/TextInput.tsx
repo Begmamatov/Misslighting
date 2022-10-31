@@ -1,7 +1,9 @@
-import { StyleSheet, TextInput } from 'react-native'
+import { StyleSheet, Text, TextInput, View } from 'react-native'
 import React from 'react'
+import { COLORS } from '@constants/colors'
 
 type Props = {
+    label?: string,
     placeholder: string,
     backgroundColor?: string,
     color?: string,
@@ -11,11 +13,14 @@ type Props = {
 
 export default function DefaultInput(props: Props) {
     return (
-        <TextInput
-            placeholder='Ваш номер'
-            placeholderTextColor={props.placeholderColor ? props.placeholderColor : '#000'}
-            style={[styles.input, { backgroundColor: props.backgroundColor, color: props.color, marginBottom: props.marginBottom }]}
-        />
+        <View style={[styles.inputBox, { marginBottom: props.marginBottom }]}>
+            {props.label && <Text style={styles.inputLabel}>{props.label}</Text>}
+            <TextInput
+                placeholder={props.placeholder}
+                placeholderTextColor={props.placeholderColor ? props.placeholderColor : '#000'}
+                style={[styles.input, { backgroundColor: props.backgroundColor, color: props.color }]}
+            />
+        </View>
     )
 }
 
@@ -35,5 +40,14 @@ const styles = StyleSheet.create({
         paddingHorizontal: 24,
         fontSize: 16,
         marginBottom: 25,
+    },
+    inputBox: {
+        width: '100%',
+        marginBottom: 30,
+    },
+    inputLabel: {
+        fontSize: 16,
+        color: COLORS.labelText,
+        marginBottom: 15,
     },
 })

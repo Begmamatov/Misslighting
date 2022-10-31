@@ -3,15 +3,27 @@ import React from 'react'
 import WelcomeScreen from '@components/template/WelcomeScreen'
 import DefaultInput from '@components/uikit/TextInput'
 import DefaultButton from '@components/uikit/DefaultButton'
+import { ROUTES } from '@constants/routes'
 
-export default function Login() {
+export default function Login(props: any) {
+
+    const onPressRegister = () => {
+        props.navigation.navigate(ROUTES.REGISTER)
+    }
+    const onPressForgotPassword = () => {
+        props.navigation.navigate(ROUTES.FORGOTPASSWORD)
+    }
+    const onPressTabs = () => {
+        props.navigation.navigate(ROUTES.TABS)
+    }
+
     return (
         <WelcomeScreen title='Вход'>
             <DefaultInput placeholder='Ваш номер' />
             <DefaultInput placeholder='Ваш пароль' />
             <Text style={styles.text}>Забыли пароль?</Text>
-            <DefaultButton title='Войти' />
-            <DefaultButton title='Регистрация' />
+            <DefaultButton title='Войти' onPress={onPressTabs} />
+            <DefaultButton title='Регистрация' onPress={onPressRegister} />
         </WelcomeScreen>
     )
 }
