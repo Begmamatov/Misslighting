@@ -1,0 +1,46 @@
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import React from 'react';
+import {COLORS} from '@constants/colors';
+import {LeftArrow} from '@icons/icons';
+
+type Props = {
+  title?: string;
+  onPress?: () => void;
+};
+
+export default function GoBackHeader(props: Props) {
+  return (
+    <View
+      style={{
+        backgroundColor: COLORS.white,
+        paddingTop: 20,
+        paddingBottom: 20,
+        paddingHorizontal: 15,
+      }}>
+      <TouchableOpacity
+        hitSlop={{bottom: 20, top: 20, left: 20, right: 20}}
+        style={styles.row}>
+        <LeftArrow />
+        {props.title && <Text>{props.title}</Text>}
+      </TouchableOpacity>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  text: {
+    marginLeft: 10,
+    fontSize: 20,
+    // color: COLORS.defaultBlack,
+    fontFamily: 'Montserrat',
+    fontWeight: '600',
+  },
+
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  icon: {
+    color: '#71717184',
+  },
+});

@@ -3,7 +3,7 @@ import React from 'react';
 import {COLORS} from '@constants/colors';
 import {BasketIcon} from '@icons/icons';
 
-export default function ProductItemCard() {
+export default function AllProductItemCard() {
   return (
     <View style={styles.cartItem}>
       <Image style={styles.image} source={require('@images/Item.png')} />
@@ -23,11 +23,11 @@ export default function ProductItemCard() {
 
 const styles = StyleSheet.create({
   cartItem: {
-    width: 192,
+    width: 162,
     height: 330,
     backgroundColor: '#fff',
     borderRadius: 15,
-    marginRight: 15,
+    marginHorizontal: 10,
     marginBottom: 20,
     flexDirection: 'column',
   },

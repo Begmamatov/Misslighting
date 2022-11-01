@@ -35,4 +35,7 @@ export const ROUTES = {
   LANGUAGE: 'language',
   COURSE: 'cource',
   PAYMENTS: 'payments',
+  ALLPRODUCTS: 'AllProducts',
+  SORTVIEW: 'SortView',
+  FILTERVIEW: 'FilterView',
 };
