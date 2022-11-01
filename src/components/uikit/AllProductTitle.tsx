@@ -1,10 +1,18 @@
 import {View, Text, StyleSheet} from 'react-native';
 import React from 'react';
 
-export default function AllProductTitle() {
+type AllTitleType = {
+  title?: string;
+};
+
+export default function AllProductTitle(props: AllTitleType) {
   return (
     <View style={styles.title_container}>
-      <Text style={styles.title}>Популярные товары</Text>
+      {props ? (
+        <Text style={styles.title}>{props.title}</Text>
+      ) : (
+        <Text style={styles.title}>Популярные товары</Text>
+      )}
     </View>
   );
 }
