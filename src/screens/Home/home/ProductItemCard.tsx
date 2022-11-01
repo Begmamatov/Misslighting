@@ -1,12 +1,31 @@
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
-import React from 'react';
-import {COLORS} from '@constants/colors';
-import {BasketIcon} from '@icons/icons';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import React from 'react'
+import { COLORS } from '@constants/colors'
+import { BasketIcon, HeartIconNotActive } from '@icons/icons'
 
-export default function ProductItemCard() {
+type ProductItemCardProps = {
+  showNewProduct?: boolean
+  showDiscount?: boolean
+  imgRequire?: any
+}
+
+export default function ProductItemCard(props: ProductItemCardProps) {
   return (
     <View style={styles.cartItem}>
-      <Image style={styles.image} source={require('@images/Item.png')} />
+      <Image style={styles.image} source={props.imgRequire} />
+      {props.showDiscount &&
+        <View style={styles.sileBox}>
+          <Text style={styles.sileText}>10%</Text>
+        </View>
+      }
+      {props.showNewProduct &&
+        <View style={[styles.sileBox, styles.sileBoxBgColor]}>
+          <Text style={[styles.sileText, styles.sileTextFS]}>Новый</Text>
+        </View>
+      }
+      <View style={styles.heartIconBox}>
+        <HeartIconNotActive />
+      </View>
       <View style={styles.cartItemInfo}>
         <Text style={styles.typeText}>Люстры</Text>
         <Text style={styles.nameText}>KR77</Text>
@@ -18,7 +37,13 @@ export default function ProductItemCard() {
         </TouchableOpacity>
       </View>
     </View>
-  );
+  )
+}
+
+ProductItemCard.defaultProps = {
+  showNewProduct: false,
+  showDiscount: false,
+  imgRequire: require('@images/Item.png')
 }
 
 const styles = StyleSheet.create({
@@ -32,11 +57,16 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   image: {
-    width: '100%',
+    width: 192,
     height: 156,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
     marginBottom: 10,
+  },
+  heartIconBox: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
   },
   cartItemInfo: {
     paddingHorizontal: 10,
@@ -44,12 +74,12 @@ const styles = StyleSheet.create({
   typeText: {
     fontSize: 13,
     fontWeight: '400',
-    color: '#84A9C0',
+    color: "#84A9C0",
   },
   nameText: {
     fontSize: 21,
     fontWeight: '600',
-    color: '#3F3535',
+    color: "#3F3535",
     marginBottom: 5,
   },
   priceTextSile: {
@@ -84,4 +114,26 @@ const styles = StyleSheet.create({
     color: COLORS.textColorBlue,
     marginRight: 10,
   },
-});
+  sileBox: {
+    width: 70,
+    height: 24,
+    backgroundColor: COLORS.TextActiveColor,
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    top: 10,
+    left: 10,
+  },
+  sileBoxBgColor: {
+    backgroundColor: COLORS.textColorBlue,
+  },
+  sileText: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: COLORS.white,
+  },
+  sileTextFS: {
+    fontSize: 13,
+  },
+})

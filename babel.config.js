@@ -18,6 +18,7 @@ module.exports = {
           '@routes': './src/routes',
           '@icons': './src/assets/icons',
           '@assets': './src/assets',
+          '@locales': './src/locales',
         },
       },
     ],
