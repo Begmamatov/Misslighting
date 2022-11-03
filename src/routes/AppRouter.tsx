@@ -14,6 +14,7 @@ import SignUpPassword from '@auth/signup/SignUpPassword';
 import AllProducts from '@home/home/allProducts/view';
 import SortView from '@components/uikit/Sort/SortView';
 import FilterView from '@components/uikit/Filter/FilterView';
+import MyProduct from '@home/profile/MyProducts/MyProduct';
 
 let Stack = createNativeStackNavigator();
 
