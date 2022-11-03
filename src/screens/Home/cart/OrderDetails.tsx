@@ -14,16 +14,16 @@ const OrderDetails = () => {
 		<View style={styles.container}>
 			<View style={styles.box}>
 				<View style={styles.row}>
-					<Text>
+					<Text style={{ color: COLORS.labelText, }}>
 						Товары ( 1 )
 					</Text>
 					<Text style={styles.price}>36.000.000 сум</Text>
 				</View>
 				<View style={styles.row}>
 					<View style={{ flexDirection: "row", alignItems: "center" }}>
-						<Text>{STRINGS.ru.Delivery}</Text>
+						<Text style={{ color: COLORS.labelText, }}>{STRINGS.ru.Delivery}</Text>
 					</View>
-					<Text>30.000 сум</Text>
+					<Text style={{ color: COLORS.labelText, }}>30.000 сум</Text>
 				</View>
 				<View style={styles.rowFooter}>
 					<Text style={styles.footerTxt}>{STRINGS.ru.totalPrice}</Text>

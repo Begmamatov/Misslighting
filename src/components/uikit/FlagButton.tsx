@@ -52,5 +52,6 @@ const styles = StyleSheet.create({
         lineHeight: 48,
         fontWeight: '400',
         fontStyle: 'normal',
+        color: '#000',
     },
 })
