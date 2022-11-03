@@ -2,6 +2,7 @@ import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import React from 'react';
 import {COLORS} from '@constants/colors';
 import {LeftArrow} from '@icons/icons';
+import {useNavigation} from '@react-navigation/native';
 
 type Props = {
   title?: string;
@@ -9,6 +10,7 @@ type Props = {
 };
 
 export default function GoBackHeader(props: Props) {
+  const navigation = useNavigation<any>();
   return (
     <View
       style={{
@@ -18,6 +20,7 @@ export default function GoBackHeader(props: Props) {
         paddingHorizontal: 15,
       }}>
       <TouchableOpacity
+        onPress={() => navigation.goBack()}
         hitSlop={{bottom: 20, top: 20, left: 20, right: 20}}
         style={styles.row}>
         <LeftArrow />

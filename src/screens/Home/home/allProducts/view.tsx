@@ -21,7 +21,7 @@ const AllProducts = () => {
       <View style={styles.container}>
         <View style={{marginBottom: 10}}>
           <GoBackHeader />
-          <AllProductTitle />
+          <AllProductTitle title={'Популярные товары'} />
           <SortAndFilter />
         </View>
         <ScrollView
