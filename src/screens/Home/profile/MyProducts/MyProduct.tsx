@@ -13,16 +13,69 @@ const MyProduct = () => {
       </View>
       <View style={styles.switchBtns}>
         <TouchableOpacity
-          style={[styles.position, {left: state ? 0 : '50%'}]}
-          onPress={() => setState(prev => !prev)}></TouchableOpacity>
-        <Text style={[styles.textActive, {color: state ? '#fff' : '#777'}]}>
-          Активные
-        </Text>
-        <Text style={[styles.textNoActive, {color: state ? '#777' : '#fff'}]}>
-          История
-        </Text>
+          style={[
+            styles.position,
+            {left: state ? 0 : '50%'},
+          ]}></TouchableOpacity>
+        <TouchableOpacity
+          style={{zIndex: 100}}
+          onPress={() => setState(prev => !prev)}>
+          <Text style={[styles.textActive, {color: state ? '#fff' : '#777'}]}>
+            Активные
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{zIndex: 100}}
+          onPress={() => setState(prev => !prev)}>
+          <Text style={[styles.textNoActive, {color: state ? '#777' : '#fff'}]}>
+            История
+          </Text>
+        </TouchableOpacity>
       </View>
-      <View></View>
+      <View style={styles.itemProduct}>
+        <View style={styles.itemHeader}>
+          <View>
+            <Text style={styles.itemTextBold}>Заказ 118</Text>
+            <Text style={styles.itemText}>10.14.2022</Text>
+          </View>
+          <View>
+            <Text style={styles.itemTextRed}>Ожидает оплату</Text>
+          </View>
+        </View>
+        <View style={styles.itemHeader2}>
+          <View>
+            <Text style={styles.itemTextBold}>A55 MORENA</Text>
+            <Text style={styles.itemText}>Артикул: 34579</Text>
+          </View>
+          <View>
+            <Text>3.600.000 сум</Text>
+          </View>
+        </View>
+        <View style={styles.itemHeader2}>
+          <View>
+            <Text style={styles.itemTextBold}>A55 MORENA</Text>
+            <Text style={styles.itemText}>Артикул: 34579</Text>
+          </View>
+          <View>
+            <Text>3.600.000 сум</Text>
+          </View>
+        </View>
+        <View style={styles.itemFooter}>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <Text style={styles.itemTextBold}>Итого: </Text>
+            <Text>7.200.000 сум</Text>
+          </View>
+          <TouchableOpacity style={styles.btnMore}>
+            <Text style={{color: '#fff', fontWeight: '600'}}>Детали</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </View>
   );
 };
@@ -41,7 +94,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#84A9C0',
     borderRadius: 45,
     top: 0,
-    // left: 0,
     right: 0,
     zIndex: 2,
   },
@@ -79,5 +131,55 @@ const styles = StyleSheet.create({
   textActive: {
     fontWeight: '600',
     zIndex: 100,
+  },
+  itemProduct: {
+    marginTop: 20,
+    marginHorizontal: 20,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    paddingHorizontal: 16,
+  },
+  itemHeader: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderColor: 'rgba(113, 113, 113, 0.1)',
+  },
+  itemHeader2: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 12,
+  },
+  itemFooter: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 12,
+    borderTopWidth: 1,
+    borderColor: 'rgba(113, 113, 113, 0.1)',
+  },
+  btnMore: {
+    paddingVertical: 10,
+    paddingHorizontal: 21,
+    backgroundColor: '#84A9C0',
+    borderRadius: 45,
+  },
+  itemTextBold: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  itemText: {
+    color: '#C8C8C8',
+    paddingTop: 5,
+  },
+  itemTextRed: {
+    color: 'red',
+    fontSize: 14,
   },
 });
