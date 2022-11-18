@@ -19,6 +19,8 @@ module.exports = {
           '@icons': './src/assets/icons',
           '@assets': './src/assets',
           '@locales': './src/locales',
+          '@api': './src/api',
+          '@store': './src/service',
         },
       },
     ],
