@@ -23,7 +23,7 @@ export default function CartScreen() {
                     showsVerticalScrollIndicator={false}
                     style={{ marginBottom: 20 }}
                 />
-                <DefaultButton title='Продолжить оформление' ButtonStyle={{ backgroundColor: COLORS.textColorBlue }} TextStyle={{ color: COLORS.white }} />
+                <DefaultButton title='Продолжить оформление' ButtonStyle={{ backgroundColor: COLORS.textColorBlue, marginBottom: 100 }} TextStyle={{ color: COLORS.white }} />
             </ScrollView>
         </View>
     )

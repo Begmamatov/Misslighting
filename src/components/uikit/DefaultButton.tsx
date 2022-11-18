@@ -4,10 +4,10 @@ import { COLORS } from '@constants/colors'
 
 type Props = {
     title: string,
-    onPress?: () => void | undefined | Function,
+    onPress?: () => void,
     ButtonStyle?: {
         backgroundColor?: string,
-        marginBotton?: number,
+        marginBottom?: number,
         marginTop?: number | string,
         width?: number | string,
     },
