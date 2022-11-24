@@ -1,7 +1,7 @@
 // import LocalizedStrings from "react-native-localization";
 
 // export const STRINGS = new LocalizedStrings({
-export const Strings = {
+export const STRINGS = {
   ru: {
     characteristics: 'Характеристики',
     myOrders: 'Мои заказы',

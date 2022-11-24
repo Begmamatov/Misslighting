@@ -3,14 +3,11 @@
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "isolatedModules": true,
-    "jsx": "react-native",
-    "lib": ["es2017"],
-    "types": ["react-native", "jest"],
-    "moduleResolution": "node",
-    "noEmit": true,
+    "isolatedModules": false,
+    "jsx": "react",
+    "lib": ["es2015", "es2015.promise", "es2016.array.include", "dom"],
     "strict": true,
-    "target": "esnext",
+    "moduleResolution": "node",
     "baseUrl": "./",
     "paths": {
       "@components/*": ["./src/components/*"],
@@ -23,8 +20,15 @@
       "@constants/*": ["./src/constants/*"],
       "@routes/*": ["./src/routes/*"],
       "@icons/*": ["./src/assets/icons/*"],
-      "@assets/*": ["./src/assets/*"]
-    }
+      "@assets/*": ["./src/assets/*"],
+      "@locales/*": ["./src/locales/*"],
+      "@api/*": ["./src/api/*"],
+      "@store/*": ["./src/service/*"]
+    },
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "target": "esnext",
+    "types": ["jest"]
   },
   "exclude": [
     "node_modules",

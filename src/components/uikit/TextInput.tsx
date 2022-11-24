@@ -9,6 +9,8 @@ type Props = {
     color?: string,
     placeholderColor?: string,
     marginBottom?: number,
+    onChangeText?: (text: string) => void,
+    value?: string,
 }
 
 export default function DefaultInput(props: Props) {
@@ -19,6 +21,8 @@ export default function DefaultInput(props: Props) {
                 placeholder={props.placeholder}
                 placeholderTextColor={props.placeholderColor ? props.placeholderColor : '#000'}
                 style={[styles.input, { backgroundColor: props.backgroundColor, color: props.color }]}
+                onChangeText={props.onChangeText}
+                value={props.value}
             />
         </View>
     )

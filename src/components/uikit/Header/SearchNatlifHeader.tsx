@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         marginTop: 20,
         marginBottom: 20,
+        paddingHorizontal: 15,
     },
     searchInputBox: {
         width: '85%',

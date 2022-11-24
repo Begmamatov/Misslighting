@@ -13,14 +13,14 @@ export default function FlagButton(props: Props) {
     if (props.flagName === 'ru') {
         imgRequire = require('@images/ru.png')
     }
-    if (props.flagName === 'en') {
+    else if (props.flagName === 'en') {
         imgRequire = require('@images/en.png')
     }
-    if (props.flagName === 'uz') {
+    else if (props.flagName === 'uz') {
         imgRequire = require('@images/uz.png')
     }
     else {
-        imgRequire = require('@images/ru.png')
+        imgRequire = require('@images/en.png')
     }
 
     return (
@@ -52,5 +52,6 @@ const styles = StyleSheet.create({
         lineHeight: 48,
         fontWeight: '400',
         fontStyle: 'normal',
+        color: '#000',
     },
 })
