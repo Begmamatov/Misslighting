@@ -1,6 +1,6 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import GoBackHeader from '@components/uikit/Header/GoBackHeader';
+import GoBackHeader from '../../../../components/uikit/Header/GoBackHeader';
 
 const Message = () => {
   return (

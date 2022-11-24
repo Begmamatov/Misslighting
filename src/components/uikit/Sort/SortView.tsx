@@ -2,7 +2,7 @@ import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import GoBackHeader from '../Header/GoBackHeader';
 import AllProductTitle from '../AllProductTitle';
-import {COLORS} from '@constants/colors';
+import {COLORS} from '../../../constants/colors';
 
 type PropsSort = {
   item?: string;

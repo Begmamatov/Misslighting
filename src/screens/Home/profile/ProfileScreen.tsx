@@ -5,9 +5,10 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import React from 'react';
-import ProductsTitle from '@components/uikit/ProductsTitle';
+import ProductsTitle from '../../../components/uikit/ProductsTitle';
 import {
   NewAdminIcon,
   NewArrowIcon,
@@ -19,28 +20,52 @@ import {
   NewNotificationIcon,
   NewSettingIcon,
   NewTranstionIcon,
-} from '@icons/icons';
+} from '../../../assets/icons/icons';
 import {useNavigation} from '@react-navigation/native';
-import {ROUTES} from '@constants/routes';
+import {ROUTES} from '../../../constants/routes';
+import {userLoggedOut} from '@store/slices/userSlice';
+import {useAppDispatch} from '@store/hooks';
 
 export default function ProfileScreen() {
-  const navigatie = useNavigation();
+  const navigation = useNavigation();
+  const dispatch = useAppDispatch();
+
+  let onLogOut = () => {
+    Alert.alert('Вы точно хотите выйти из аккаунта ?', '', [
+      {
+        text: 'Cancel',
+        // onPress: () => console.log("Cancel Pressed"),
+        style: 'cancel',
+      },
+      {
+        text: 'OK',
+        onPress: () => {
+          dispatch(userLoggedOut());
+          navigation.navigate(ROUTES.LOGIN as never);
+        },
+      },
+    ]);
+  };
+
   return (
     <ScrollView style={style.container}>
       <ProductsTitle title="Профиль" showButton={false} />
       <View style={style.ProfileInfo}>
         <Image
           style={style.ProfileImage}
-          source={require('@assets/images/profile.png')}
+          source={require('../../../assets/images/profile.png')}
         />
         <View style={style.ProfileInfoTextBox}>
-          <Text style={style.ProfileInfoTextName}>Рафаэль</Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate(ROUTES.PERSONALDATE as never)}>
+            <Text style={style.ProfileInfoTextName}>Рафаэль</Text>
+          </TouchableOpacity>
           <Text style={style.ProfileInfoText}>Изменить личные данные</Text>
         </View>
       </View>
       <TouchableOpacity
         style={style.settingsButton}
-        onPress={() => navigatie.navigate(ROUTES.MY_PRODUCTS as never)}>
+        onPress={() => navigation.navigate(ROUTES.MY_PRODUCTS as never)}>
         <View style={style.settingsButtonIcon}>
           <NewBasketIcon />
           <Text style={style.settingsButtonText}>Мои заказы</Text>
@@ -49,7 +74,7 @@ export default function ProfileScreen() {
       </TouchableOpacity>
       <TouchableOpacity
         style={style.settingsButton}
-        onPress={() => navigatie.navigate(ROUTES.PROFILE_SETTING as never)}>
+        onPress={() => navigation.navigate(ROUTES.PROFILE_SETTING as never)}>
         <View style={style.settingsButtonIcon}>
           <NewSettingIcon />
           <Text style={style.settingsButtonText}>Настройки</Text>
@@ -63,21 +88,27 @@ export default function ProfileScreen() {
         </View>
         <NewArrowIcon />
       </TouchableOpacity>
-      <TouchableOpacity style={style.settingsButton}>
+      <TouchableOpacity
+        style={style.settingsButton}
+        onPress={() => navigation.navigate(ROUTES.TECHNICALSUPPORT as never)}>
         <View style={style.settingsButtonIcon}>
           <NewAdminIcon />
           <Text style={style.settingsButtonText}>Техническая поддержка</Text>
         </View>
         <NewArrowIcon />
       </TouchableOpacity>
-      <TouchableOpacity style={style.settingsButton}>
+      <TouchableOpacity
+        style={style.settingsButton}
+        onPress={() => navigation.navigate(ROUTES.BONUSPROGRAM as never)}>
         <View style={style.settingsButtonIcon}>
           <NewDiscountIcon />
           <Text style={style.settingsButtonText}>Бонусная программа</Text>
         </View>
         <NewArrowIcon />
       </TouchableOpacity>
-      <TouchableOpacity style={style.settingsButton}>
+      <TouchableOpacity
+        style={style.settingsButton}
+        onPress={() => navigation.navigate(ROUTES.TRANSACTIONS as never)}>
         <View style={style.settingsButtonIcon}>
           <NewTranstionIcon />
           <Text style={style.settingsButtonText}>Транзакции</Text>
@@ -90,7 +121,7 @@ export default function ProfileScreen() {
           <Text
             style={style.settingsButtonText}
             onPress={() =>
-              navigatie.navigate(ROUTES.PROFILE_NOTIFICATION as never)
+              navigation.navigate(ROUTES.PROFILE_NOTIFICATION as never)
             }>
             Уведомления
           </Text>
@@ -99,14 +130,14 @@ export default function ProfileScreen() {
       </TouchableOpacity>
       <TouchableOpacity
         style={style.settingsButton}
-        onPress={() => navigatie.navigate(ROUTES.MESSAGE as never)}>
+        onPress={() => navigation.navigate(ROUTES.MESSAGE as never)}>
         <View style={style.settingsButtonIcon}>
           <NewMessageIcon />
           <Text style={style.settingsButtonText}>Сообщения</Text>
         </View>
         <NewArrowIcon />
       </TouchableOpacity>
-      <TouchableOpacity style={style.logOutButton}>
+      <TouchableOpacity style={style.logOutButton} onPress={onLogOut}>
         <NewLogOutIcon />
         <Text style={style.logOutButtonText}>Выйти из аккаунта</Text>
       </TouchableOpacity>
@@ -199,3 +230,6 @@ const style = StyleSheet.create({
     color: '#000',
   },
 });
+function dispatch(arg0: any) {
+  throw new Error('Function not implemented.');
+}

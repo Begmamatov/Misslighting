@@ -1,9 +1,9 @@
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {BottomArrow, FilterIcon} from '@icons/icons';
-import {COLORS} from '@constants/colors';
+import {BottomArrow, FilterIcon} from '../../assets/icons/icons';
+import {COLORS} from '../../constants/colors';
 import {useNavigation} from '@react-navigation/native';
-import {ROUTES} from '@constants/routes';
+import {ROUTES} from '../../constants/routes';
 
 type PropsSnadAndFilter = {
   item?: string;

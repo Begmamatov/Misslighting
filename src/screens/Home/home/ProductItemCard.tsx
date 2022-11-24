@@ -1,57 +1,80 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
-import { COLORS } from '@constants/colors'
-import { BasketIcon, HeartIconNotActive } from '@icons/icons'
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from 'react-native';
+import React from 'react';
+import {BasketIcon, HeartIconNotActive} from '../../../assets/icons/icons';
+import {COLORS} from '../../../constants/colors';
+import {useNavigation} from '@react-navigation/native';
+import {ROUTES} from '../../../constants/routes';
 
-type ProductItemCardProps = {
-  showNewProduct?: boolean
-  showDiscount?: boolean
-  imgRequire?: any
-}
+export type ProductItemCardProps = {
+  showNewProduct?: boolean;
+  showDiscount?: boolean;
+  showDiscountAdd?: boolean;
+  imgRequire?: any;
+};
 
 export default function ProductItemCard(props: ProductItemCardProps) {
+  const navigation = useNavigation();
   return (
-    <View style={styles.cartItem}>
-      <Image style={styles.image} source={props.imgRequire} />
-      {props.showDiscount &&
-        <View style={styles.sileBox}>
-          <Text style={styles.sileText}>10%</Text>
+    <TouchableWithoutFeedback
+      onPress={() =>
+        //@ts-ignore
+        navigation.navigate(ROUTES.PRODUCTDETAILS, {props})
+      }>
+      <View style={styles.cartItem}>
+        <Image style={styles.image} source={props.imgRequire} />
+
+        {props.showDiscount && (
+          <View style={styles.sileBox}>
+            <Text style={styles.sileText}>10%</Text>
+          </View>
+        )}
+        {props.showNewProduct && (
+          <View style={[styles.sileBox, styles.sileBoxBgColor]}>
+            <Text style={[styles.sileText, styles.sileTextFS]}>Новый</Text>
+          </View>
+        )}
+        {props.showDiscountAdd && (
+          <View style={[styles.sileBox, styles.sileBoxBgColor]}>
+            <Text style={[styles.sileText, styles.sileTextFS]}>Под заказ</Text>
+          </View>
+        )}
+        <View style={styles.heartIconBox}>
+          <HeartIconNotActive />
         </View>
-      }
-      {props.showNewProduct &&
-        <View style={[styles.sileBox, styles.sileBoxBgColor]}>
-          <Text style={[styles.sileText, styles.sileTextFS]}>Новый</Text>
+        <View style={styles.cartItemInfo}>
+          <Text style={styles.typeText}>Люстры</Text>
+          <Text style={styles.nameText}>KR77</Text>
+          <Text style={styles.priceTextSile}>1.200.000 UZS</Text>
+          <Text style={styles.priceText}>700.000 UZS</Text>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>В корзину</Text>
+            <BasketIcon fill={COLORS.textColorBlue} />
+          </TouchableOpacity>
         </View>
-      }
-      <View style={styles.heartIconBox}>
-        <HeartIconNotActive />
       </View>
-      <View style={styles.cartItemInfo}>
-        <Text style={styles.typeText}>Люстры</Text>
-        <Text style={styles.nameText}>KR77</Text>
-        <Text style={styles.priceTextSile}>1.200.000 UZS</Text>
-        <Text style={styles.priceText}>700.000 UZS</Text>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>В корзину</Text>
-          <BasketIcon fill={COLORS.textColorBlue} />
-        </TouchableOpacity>
-      </View>
-    </View>
-  )
+    </TouchableWithoutFeedback>
+  );
 }
 
 ProductItemCard.defaultProps = {
   showNewProduct: false,
   showDiscount: false,
-  imgRequire: require('@images/Item.png')
-}
+  imgRequire: require('../../../assets/images/Item.png'),
+};
 
 const styles = StyleSheet.create({
   cartItem: {
     width: 192,
     height: 330,
     backgroundColor: '#fff',
-    borderRadius: 15,
+    // borderRadius: 15,
     marginRight: 15,
     marginBottom: 20,
     flexDirection: 'column',
@@ -74,12 +97,12 @@ const styles = StyleSheet.create({
   typeText: {
     fontSize: 13,
     fontWeight: '400',
-    color: "#84A9C0",
+    color: '#84A9C0',
   },
   nameText: {
     fontSize: 21,
     fontWeight: '600',
-    color: "#3F3535",
+    color: '#3F3535',
     marginBottom: 5,
   },
   priceTextSile: {
@@ -136,4 +159,4 @@ const styles = StyleSheet.create({
   sileTextFS: {
     fontSize: 13,
   },
-})
+});
