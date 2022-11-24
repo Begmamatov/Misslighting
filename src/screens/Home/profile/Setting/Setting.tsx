@@ -1,7 +1,6 @@
 import {StyleSheet, Switch, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import GoBackHeader from '@components/uikit/Header/GoBackHeader';
-import FlagButton from '@components/uikit/FlagButton';
+import GoBackHeader from '../../../../components/uikit/Header/GoBackHeader';
 
 const Setting = () => {
   return (

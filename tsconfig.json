@@ -18,12 +18,12 @@
       "@auth/*": ["./src/screens/Auth/*"],
       "@home/*": ["./src/screens/Home/*"],
       "@constants/*": ["./src/constants/*"],
-      "@routes/*": ["./src/routes/*"],
+      "@routes/*": ["src/routes/*"],
       "@icons/*": ["./src/assets/icons/*"],
       "@assets/*": ["./src/assets/*"],
       "@locales/*": ["./src/locales/*"],
-      "@api/*": ["./src/api/*"],
-      "@store/*": ["./src/service/*"]
+      "@api/*": ["src/api/*"],
+      "@store/*": ["src/service/*"]
     },
     "noEmit": true,
     "resolveJsonModule": true,
