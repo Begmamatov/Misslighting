@@ -1,81 +1,51 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useState} from 'react';
-import GoBackHeader from '@components/uikit/Header/GoBackHeader';
+import GoBackHeader from '../../../../components/uikit/Header/GoBackHeader';
+import {useNavigation} from '@react-navigation/native';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import {COLORS} from '../../../../constants/colors';
+import ActiveList from './components/ActiveList';
+import StoryList from './components/StoryList';
+const Tab = createMaterialTopTabNavigator();
 
 const MyProduct = () => {
   const [state, setState] = useState(false);
-
+  const navigation = useNavigation();
+  const width = Dimensions.get('window').width / 2;
+  const ActiveHandler = () => {
+    setState(prev => !prev);
+  };
+  const StoryHandler = () => {
+    setState(prev => !prev);
+  };
   return (
-    <View>
+    <View style={{flex: 1}}>
       <GoBackHeader />
       <View style={styles.header}>
         <Text style={styles.HeaderText}>Мои заказы</Text>
       </View>
-      <View style={styles.switchBtns}>
-        <TouchableOpacity
-          style={[
-            styles.position,
-            {left: state ? 0 : '50%'},
-          ]}></TouchableOpacity>
-        <TouchableOpacity
-          style={{zIndex: 100}}
-          onPress={() => setState(prev => !prev)}>
-          <Text style={[styles.textActive, {color: state ? '#fff' : '#777'}]}>
-            Активные
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{zIndex: 100}}
-          onPress={() => setState(prev => !prev)}>
-          <Text style={[styles.textNoActive, {color: state ? '#777' : '#fff'}]}>
-            История
-          </Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.itemProduct}>
-        <View style={styles.itemHeader}>
-          <View>
-            <Text style={styles.itemTextBold}>Заказ 118</Text>
-            <Text style={styles.itemText}>10.14.2022</Text>
-          </View>
-          <View>
-            <Text style={styles.itemTextRed}>Ожидает оплату</Text>
-          </View>
-        </View>
-        <View style={styles.itemHeader2}>
-          <View>
-            <Text style={styles.itemTextBold}>A55 MORENA</Text>
-            <Text style={styles.itemText}>Артикул: 34579</Text>
-          </View>
-          <View>
-            <Text>3.600.000 сум</Text>
-          </View>
-        </View>
-        <View style={styles.itemHeader2}>
-          <View>
-            <Text style={styles.itemTextBold}>A55 MORENA</Text>
-            <Text style={styles.itemText}>Артикул: 34579</Text>
-          </View>
-          <View>
-            <Text>3.600.000 сум</Text>
-          </View>
-        </View>
-        <View style={styles.itemFooter}>
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <Text style={styles.itemTextBold}>Итого: </Text>
-            <Text>7.200.000 сум</Text>
-          </View>
-          <TouchableOpacity style={styles.btnMore}>
-            <Text style={{color: '#fff', fontWeight: '600'}}>Детали</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+
+      <Tab.Navigator
+        screenOptions={{
+          tabBarLabelStyle: {fontSize: 10},
+          tabBarActiveTintColor: '#84A9C0',
+          tabBarInactiveTintColor: 'black',
+          tabBarItemStyle: {width: width},
+
+          tabBarStyle: {
+            backgroundColor: 'white',
+            borderRadius: 45,
+          },
+        }}>
+        <Tab.Screen name="Активные" component={ActiveList} />
+        <Tab.Screen name="История" component={StoryList} />
+      </Tab.Navigator>
     </View>
   );
 };
@@ -183,3 +153,22 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
 });
+{
+  /* <View style={styles.switchBtns}>
+        <TouchableOpacity
+          style={[
+            styles.position,
+            {left: state ? 0 : '50%'},
+          ]}></TouchableOpacity>
+        <TouchableOpacity style={{zIndex: 100}} onPress={ActiveHandler}>
+          <Text style={[styles.textActive, {color: state ? '#fff' : '#777'}]}>
+            Активные
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{zIndex: 100}} onPress={StoryHandler}>
+          <Text style={[styles.textNoActive, {color: state ? '#777' : '#fff'}]}>
+            История
+          </Text>
+        </TouchableOpacity>
+      </View> */
+}

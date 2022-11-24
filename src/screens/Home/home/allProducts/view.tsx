@@ -7,21 +7,28 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
-import {COLORS} from '@constants/colors';
-import GoBackHeader from '@components/uikit/Header/GoBackHeader';
-import AllProductTitle from '@components/uikit/AllProductTitle';
-import SortAndFilter from '@components/uikit/SortAndFilter';
+
 import AllProductItemCard from './AllProductItemCard';
+import GoBackHeader from '../../../../components/uikit/Header/GoBackHeader';
+import AllProductTitle from '../../../../components/uikit/AllProductTitle';
+import SortAndFilter from '../../../../components/uikit/SortAndFilter';
+import {COLORS} from '../../../../constants/colors';
+import {useRoute} from '@react-navigation/native';
 
 const product = [1, 2, 3, 4, 5, 6, 7, 8];
 
 const AllProducts = () => {
+  const route: any = useRoute();
+  console.log('=================Routes===================');
+  console.log(route);
+  console.log('=================Routes===================');
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
         <View style={{marginBottom: 10}}>
           <GoBackHeader />
-          <AllProductTitle title={'Популярные товары'} />
+          <AllProductTitle title={route.params.title} />
           <SortAndFilter />
         </View>
         <ScrollView
@@ -31,7 +38,14 @@ const AllProducts = () => {
             <FlatList
               showsVerticalScrollIndicator={false}
               data={product}
-              renderItem={() => <AllProductItemCard />}
+              renderItem={() => (
+                <AllProductItemCard
+                  imgRequire={route.params.imgRequire}
+                  showDiscount={route.params.showNewProduct}
+                  showNewProduct={route.params.showDiscount}
+                  showDiscountAdd={route.params.showDiscountAdd}
+                />
+              )}
               numColumns={2}
               contentContainerStyle={{
                 alignItems: 'center',

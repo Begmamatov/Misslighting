@@ -1,12 +1,13 @@
 import {View, Text} from 'react-native';
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {ROUTES} from '@constants/routes';
-import HomeScreen from '@home/home/HomeScreen';
-import ProfileScreen from '@home/profile/ProfileScreen';
-import FavoritesScreen from '@home/favorites/FavoritesScreen';
-import CatalogScreen from '@home/catalog/CatalogScreen';
-import CartScreen from '@home/cart/CartScreen';
+
+import {ROUTES} from '../../../constants/routes';
+import HomeScreen from '../home/HomeScreen';
+import FavoritesScreen from '../favorites/FavoritesScreen';
+import CatalogScreen from '../catalog/CatalogScreen';
+import CartScreen from '../cart/CartScreen';
+import ProfileNavigation from '../profile/ProfileNavigation';
 import {
   CartIconActive,
   CartIconNotActive,
@@ -18,8 +19,7 @@ import {
   HomeIconNotActive,
   ProfileIconActive,
   ProfileIconNotActive,
-} from '@assets/icons/icons';
-import ProfileNavigation from '@home/profile/ProfileNavigation';
+} from '../../../assets/icons/icons';
 
 const Tab = createBottomTabNavigator();
 

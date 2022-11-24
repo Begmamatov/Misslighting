@@ -6,7 +6,7 @@ import MirImg from '../../../../assets/images/mir.png';
 import VisaImg from '../../../../assets/images/visa.png';
 //@ts-ignore
 import MastercardImg from '../../../../assets/images/mastercard.png';
-import {COLORS} from '@constants/colors';
+import {COLORS} from '../../../constants/colors';
 
 const OrderDetails = () => {
   return (

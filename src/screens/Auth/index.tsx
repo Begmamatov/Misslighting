@@ -1,12 +1,12 @@
-import {View, Text} from 'react-native';
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {ROUTES} from '@constants/routes';
+import {ROUTES} from '../../constants/routes';
 import LanguageScreen from './languageScreen/LanguageScreen';
 import Login from './login/Login';
 import SignUpPhysical from './signup/SignUpPhysical';
 import TelNumberScreen from './RestorePassword/TelNumberScreen';
 import SignUpSMS from './signup/SignUpSMS';
+import SignUpPassword from './signup/SignUpPassword';
 
 let Stack = createNativeStackNavigator();
 

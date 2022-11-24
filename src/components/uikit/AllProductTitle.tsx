@@ -1,17 +1,21 @@
-import { View, Text, StyleSheet } from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import React from 'react';
 
 type AllTitleType = {
   title?: string;
+  color?: boolean;
 };
 
 export default function AllProductTitle(props: AllTitleType) {
   return (
     <View style={styles.title_container}>
       {props ? (
-        <Text style={styles.title}>{props.title}</Text>
+        <Text
+          style={[styles.title, {color: props.color ? '#3F3535' : '#FF9500'}]}>
+          {props.title}
+        </Text>
       ) : (
-        <Text style={styles.title}>Популярные товары</Text>
+        <Text style={[styles.title]}>Популярные товары</Text>
       )}
     </View>
   );
@@ -22,7 +26,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   title: {
-    color: '#FF9500',
     fontSize: 25,
     fontWeight: '700',
     lineHeight: 40,

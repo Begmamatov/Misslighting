@@ -1,12 +1,35 @@
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {COLORS} from '@constants/colors';
-import {BasketIcon} from '@icons/icons';
-
-export default function AllProductItemCard() {
+import {COLORS} from '../../../../constants/colors';
+import {BasketIcon, HeartIconNotActive} from '../../../../assets/icons/icons';
+type ProductItemCardProps = {
+  showNewProduct?: boolean;
+  showDiscount?: boolean;
+  showDiscountAdd?: boolean;
+  imgRequire?: any;
+};
+export default function AllProductItemCard(props: ProductItemCardProps) {
   return (
     <View style={styles.cartItem}>
-      <Image style={styles.image} source={require('@images/Item.png')} />
+      <Image style={styles.image} source={props.imgRequire} />
+      {props.showDiscount && (
+        <View style={styles.sileBox}>
+          <Text style={styles.sileText}>10%</Text>
+        </View>
+      )}
+      {props.showNewProduct && (
+        <View style={[styles.sileBox, styles.sileBoxBgColor]}>
+          <Text style={[styles.sileText, styles.sileTextFS]}>Новый</Text>
+        </View>
+      )}
+      {props.showDiscountAdd && (
+        <View style={[styles.sileBox, styles.sileBoxBgColor]}>
+          <Text style={[styles.sileText, styles.sileTextFS]}>Под заказ</Text>
+        </View>
+      )}
+      <View style={styles.heartIconBox}>
+        <HeartIconNotActive />
+      </View>
       <View style={styles.cartItemInfo}>
         <Text style={styles.typeText}>Люстры</Text>
         <Text style={styles.nameText}>KR77</Text>
@@ -20,7 +43,11 @@ export default function AllProductItemCard() {
     </View>
   );
 }
-
+AllProductItemCard.defaultProps = {
+  showNewProduct: false,
+  showDiscount: false,
+  imgRequire: require('../../../../assets/images/Item.png'),
+};
 const styles = StyleSheet.create({
   cartItem: {
     width: 162,
@@ -83,5 +110,32 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: COLORS.textColorBlue,
     marginRight: 10,
+  },
+  sileBox: {
+    width: 70,
+    height: 24,
+    backgroundColor: COLORS.TextActiveColor,
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    top: 10,
+    left: 10,
+  },
+  sileText: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: COLORS.white,
+  },
+  sileBoxBgColor: {
+    backgroundColor: COLORS.textColorBlue,
+  },
+  sileTextFS: {
+    fontSize: 13,
+  },
+  heartIconBox: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
   },
 });

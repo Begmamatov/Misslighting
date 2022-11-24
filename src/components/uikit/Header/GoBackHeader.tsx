@@ -1,8 +1,9 @@
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import React from 'react';
-import {COLORS} from '@constants/colors';
-import {LeftArrow} from '@icons/icons';
+
 import {useNavigation} from '@react-navigation/native';
+import {COLORS} from '../../../constants/colors';
+import {LeftArrow} from '../../../assets/icons/icons';
 
 type Props = {
   title?: string;
