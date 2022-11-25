@@ -1,21 +1,51 @@
 import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import React from 'react';
-import {HeartIconNotActive} from '../../../assets/icons/icons';
+import {HeartIconNotActive, HeartIconRed} from '../../../assets/icons/icons';
 import {COLORS} from '../../../constants/colors';
+import requests, {assetUrl} from '@api/requests';
+import {useNavigation} from '@react-navigation/native';
+import {useAppSelector} from '@store/hooks';
+import {cartSelector} from '@store/slices/cartSlice';
+import {useDispatch} from 'react-redux';
+import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
+import {toggleLoading} from '@store/slices/appSettings';
 
 type Props = {
+  photo: string;
   itemInfo: string;
-  imgRequire: any;
   buttonTitle: string;
+  id: number;
 };
 
 export default function ShopAndNewsItem(props: Props) {
+  const navigation = useNavigation();
+
+  const cart = useAppSelector(cartSelector);
+  let isInCart = !!cart[props.id];
+  const dispatch = useDispatch();
+  const fav = useAppSelector(favoriteSelector);
+  let isFav = !!fav[props.id];
+
+  const onAddFavorite = async () => {
+    try {
+      dispatch(toggleLoading(true));
+      let res = await requests.favorites.addFavorite({
+        product_id: props.id,
+      });
+      let r = await requests.favorites.getFavorites();
+      dispatch(loadFavorite(r.data.data));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      dispatch(toggleLoading(false));
+    }
+  };
   return (
     <View style={styles.cartItem}>
-      <Image style={styles.image} source={props.imgRequire} />
-      <View style={styles.heartIconBox}>
-        <HeartIconNotActive />
-      </View>
+      <Image style={styles.image} source={{uri: assetUrl + props.photo}} />
+      <TouchableOpacity onPress={onAddFavorite} style={styles.heartIconBox}>
+        {isFav ? <HeartIconRed fill={COLORS.red} /> : <HeartIconNotActive />}
+      </TouchableOpacity>
       <View style={styles.cartItemInfo}>
         <View style={styles.cartItemInfoBox}>
           <Text style={styles.typeText}>{props.itemInfo}</Text>

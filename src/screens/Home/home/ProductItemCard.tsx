@@ -7,20 +7,57 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import React from 'react';
-import {BasketIcon, HeartIconNotActive} from '../../../assets/icons/icons';
+import {
+  BasketIcon,
+  HeartIconBorder,
+  HeartIconNotActive,
+  HeartIconRed,
+} from '../../../assets/icons/icons';
 import {COLORS} from '../../../constants/colors';
 import {useNavigation} from '@react-navigation/native';
 import {ROUTES} from '../../../constants/routes';
+import requests, {assetUrl} from '@api/requests';
+import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
+import {toggleLoading} from '@store/slices/appSettings';
+import {useAppSelector} from '@store/hooks';
+import {cartSelector} from '@store/slices/cartSlice';
+import {useDispatch} from 'react-redux';
 
 export type ProductItemCardProps = {
+  name?: string;
+  photo?: string;
   showNewProduct?: boolean;
   showDiscount?: boolean;
   showDiscountAdd?: boolean;
-  imgRequire?: any;
+
+  price?: number;
+  price_usd?: number;
+  id: number;
 };
 
 export default function ProductItemCard(props: ProductItemCardProps) {
   const navigation = useNavigation();
+
+  const cart = useAppSelector(cartSelector);
+  let isInCart = !!cart[props.id];
+  const dispatch = useDispatch();
+  const fav = useAppSelector(favoriteSelector);
+  let isFav = !!fav[props.id];
+
+  const onAddFavorite = async () => {
+    try {
+      dispatch(toggleLoading(true));
+      let res = await requests.favorites.addFavorite({
+        product_id: props.id,
+      });
+      let r = await requests.favorites.getFavorites();
+      dispatch(loadFavorite(r.data.data));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      dispatch(toggleLoading(false));
+    }
+  };
   return (
     <TouchableWithoutFeedback
       onPress={() =>
@@ -28,7 +65,7 @@ export default function ProductItemCard(props: ProductItemCardProps) {
         navigation.navigate(ROUTES.PRODUCTDETAILS, {props})
       }>
       <View style={styles.cartItem}>
-        <Image style={styles.image} source={props.imgRequire} />
+        <Image style={styles.image} source={{uri: assetUrl + props.photo}} />
 
         {props.showDiscount && (
           <View style={styles.sileBox}>
@@ -45,14 +82,16 @@ export default function ProductItemCard(props: ProductItemCardProps) {
             <Text style={[styles.sileText, styles.sileTextFS]}>Под заказ</Text>
           </View>
         )}
-        <View style={styles.heartIconBox}>
-          <HeartIconNotActive />
-        </View>
+
+        <TouchableOpacity onPress={onAddFavorite} style={styles.heartIconBox}>
+          {isFav ? <HeartIconRed fill={COLORS.red} /> : <HeartIconNotActive />}
+        </TouchableOpacity>
+
         <View style={styles.cartItemInfo}>
           <Text style={styles.typeText}>Люстры</Text>
-          <Text style={styles.nameText}>KR77</Text>
-          <Text style={styles.priceTextSile}>1.200.000 UZS</Text>
-          <Text style={styles.priceText}>700.000 UZS</Text>
+          <Text style={styles.nameText}>{props.name}</Text>
+          <Text style={styles.priceTextSile}>{props.price_usd}UZS</Text>
+          <Text style={styles.priceText}>{props.price} UZS</Text>
           <TouchableOpacity style={styles.button}>
             <Text style={styles.buttonText}>В корзину</Text>
             <BasketIcon fill={COLORS.textColorBlue} />
@@ -62,12 +101,6 @@ export default function ProductItemCard(props: ProductItemCardProps) {
     </TouchableWithoutFeedback>
   );
 }
-
-ProductItemCard.defaultProps = {
-  showNewProduct: false,
-  showDiscount: false,
-  imgRequire: require('../../../assets/images/Item.png'),
-};
 
 const styles = StyleSheet.create({
   cartItem: {
@@ -160,3 +193,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
 });
+function dispatch(arg0: any) {
+  throw new Error('Function not implemented.');
+}

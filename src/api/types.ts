@@ -77,6 +77,7 @@ export interface ProductItemResponse {
   isFavorite: boolean;
   credit_label: string;
   shop: Shop;
+  price_usd?: string;
   getProducts?: () => void;
 }
 

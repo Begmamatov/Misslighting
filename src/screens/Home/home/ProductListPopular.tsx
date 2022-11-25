@@ -1,20 +1,34 @@
 import {View, Text, FlatList, StyleSheet} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import ProductsTitle from '../../../components/uikit/ProductsTitle';
 import ProductItemCard from './ProductItemCard';
 import {useNavigation} from '@react-navigation/native';
 import {ROUTES} from '../../../constants/routes';
+import {ProductItemResponse} from '@api/types';
+import requests from '@api/requests';
 
 type Props = {
   title: string;
-  imgRequire: string;
 };
 
 export default function ProductList(props: Props) {
-  const products = [1, 2, 3, 4, 5, 6, 7, 8];
   const navigation = useNavigation();
+  const [products, setProducts] = useState();
+
+  const getProducts = async () => {
+    try {
+      let res = await requests.sort.getPopular();
+      setProducts(res.data.data);
+    } catch (error) {
+      console.log('product lest', error);
+    }
+  };
+  useEffect(() => {
+    getProducts();
+  }, []);
+
   const onPress = () => {
-    navigation.navigate(ROUTES.ALLPRODUCTS as never, props);
+    navigation.navigate(ROUTES.ALLPRODUCTS as never, {props, products});
   };
 
   return (
@@ -24,10 +38,7 @@ export default function ProductList(props: Props) {
         horizontal
         showsHorizontalScrollIndicator={false}
         data={products}
-        renderItem={({item}) => (
-          <ProductItemCard imgRequire={props.imgRequire} />
-        )}
-        keyExtractor={item => item.toString()}
+        renderItem={({item}) => <ProductItemCard {...item} />}
         style={styles.container}
         contentContainerStyle={styles.contentContainerStyle}
       />

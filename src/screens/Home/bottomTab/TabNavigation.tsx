@@ -4,7 +4,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import {ROUTES} from '../../../constants/routes';
 import HomeScreen from '../home/HomeScreen';
-import FavoritesScreen from '../favorites/FavoritesScreen';
+
 import CatalogScreen from '../catalog/CatalogScreen';
 import CartScreen from '../cart/CartScreen';
 import ProfileNavigation from '../profile/ProfileNavigation';
@@ -20,6 +20,7 @@ import {
   ProfileIconActive,
   ProfileIconNotActive,
 } from '../../../assets/icons/icons';
+import FavoritesScreen from '@home/favorites';
 
 const Tab = createBottomTabNavigator();
 
