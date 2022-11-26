@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import GoBackHeader from '../../../../components/uikit/Header/GoBackHeader';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
@@ -22,9 +22,16 @@ import AllProductItemCard from '../../home/allProducts/AllProductItemCard';
 import {ROUTES} from '../../../../constants/routes';
 import {
   HeartIconNotActive,
+  HeartIconRed,
   LeftArrowIcon,
   StrokeIcon,
 } from '../../../../assets/icons/icons';
+import requests, {assetUrl} from '@api/requests';
+import {useAppSelector} from '@store/hooks';
+import {cartSelector} from '@store/slices/cartSlice';
+import {useDispatch} from 'react-redux';
+import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
+import {toggleLoading} from '@store/slices/appSettings';
 const CatalogArray = [
   {
     title: 'Black shadow',
@@ -51,24 +58,73 @@ const product = [1, 2, 3, 4];
 
 const PdoductDetails = () => {
   const width = Dimensions.get('window').width;
-  const item_width = Math.round(width * 1);
   const isCorusel = useRef(null);
   const [index, setIndex] = useState(0);
-  const route = useRoute();
+
+  const route = useRoute<any>();
+  let id = route.params.props.id;
+
+  const [detailIdValue, setDetailIdValue] = useState<any>([]);
+  const getDetailId = async () => {
+    try {
+      let res = await requests.products.getProductDetailID(id);
+      setDetailIdValue(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const navigation = useNavigation();
+
+  const cart = useAppSelector(cartSelector);
+  let isInCart = !!cart[id];
+  const dispatch = useDispatch();
+  const fav = useAppSelector(favoriteSelector);
+  let isFav = !!fav[id];
+
+  const onAddFavorite = async () => {
+    try {
+      dispatch(toggleLoading(true));
+      let res = await requests.favorites.addFavorite({
+        product_id: id,
+      });
+      let r = await requests.favorites.getFavorites();
+      dispatch(loadFavorite(r.data.data));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      dispatch(toggleLoading(false));
+    }
+  };
+  const [colorValue, seColorValue] = useState<any>([]);
+  const ColorHandler = async () => {
+    try {
+      let res = await requests.products.colorItem();
+      seColorValue(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const [colorActive, setColorActive] = useState();
+  useEffect(() => {
+    getDetailId();
+    ColorHandler();
+  }, []);
+  console.log('====================================');
+  console.log(JSON.stringify(colorValue, null, 2));
+  console.log('====================================');
   return (
     <ScrollView style={{flex: 1, backgroundColor: COLORS.white}}>
       <View style={{width: '100%', position: 'relative'}}>
         <Carousel
           ref={isCorusel}
-          data={CatalogArray}
+          data={detailIdValue.gallery}
           renderItem={({item}) => {
             return (
               <View style={{width: '100%', height: 356}}>
                 <Image
                   style={{width: '100%', height: '100%'}}
-                  source={item.img_url}
+                  source={{uri: assetUrl + detailIdValue.photo}}
                 />
               </View>
             );
@@ -78,7 +134,7 @@ const PdoductDetails = () => {
           onSnapToItem={index => setIndex(index)}
         />
         <Pagination
-          dotsLength={CatalogArray.length}
+          dotsLength={detailIdValue.gallery ? detailIdValue.gallery.length : 1}
           activeDotIndex={index}
           dotStyle={{
             width: 35,
@@ -90,9 +146,14 @@ const PdoductDetails = () => {
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <LeftArrowIcon />
           </TouchableOpacity>
-          <View style={styles.icons}>
-            <HeartIconNotActive />
-          </View>
+
+          <TouchableOpacity onPress={onAddFavorite} style={styles.icons}>
+            {isFav ? (
+              <HeartIconRed fill={COLORS.red} />
+            ) : (
+              <HeartIconNotActive />
+            )}
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -105,11 +166,13 @@ const PdoductDetails = () => {
             TextStyle={{color: 'white', fontSize: 15}}
           />
         </View>
-        <Text style={styles.title}>A55 MORENA</Text>
+        <Text style={styles.title}>{detailIdValue.name}</Text>
         <View style={styles.border}></View>
         <View style={styles.box2}>
-          <Text style={styles.box2_title_now}>3.600.000 UZS</Text>
-          <Text style={styles.box2_title_old}>4.500.000 сум</Text>
+          <Text style={styles.box2_title_now}>{detailIdValue.price} UZS</Text>
+          <Text style={styles.box2_title_old}>
+            {detailIdValue.price_usd}сум
+          </Text>
         </View>
         <View style={styles.border}></View>
         <View style={styles.box3}>
@@ -125,17 +188,31 @@ const PdoductDetails = () => {
           <Text style={styles.box4_title}>Параметры</Text>
           <View style={styles.box4_content}>
             <Text style={styles.content_title}>Цвет:</Text>
-            <View style={styles.colors}>
-              <View style={styles.active}>
-                <Text style={styles.active_title}>Черный</Text>
-              </View>
-              <View style={styles.active}>
-                <Text style={styles.active_title}>Черный</Text>
-              </View>
-              <View style={styles.active}>
-                <Text style={styles.active_title}>Черный</Text>
-              </View>
-            </View>
+            <FlatList
+              style={{marginTop: 18}}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              data={colorValue}
+              renderItem={({item}) => (
+                <TouchableOpacity
+                  onPress={() => setColorActive(item.id)}
+                  style={[
+                    styles.active,
+                    {
+                      backgroundColor:
+                        colorActive === item.id ? '#84A9C0' : '#FFFFFF',
+                    },
+                  ]}>
+                  <Text
+                    style={[
+                      styles.active_title,
+                      {color: colorActive === item.id ? '#ffffff' : '#84A9C0'},
+                    ]}>
+                    {item.name}
+                  </Text>
+                </TouchableOpacity>
+              )}
+            />
           </View>
         </View>
         <View style={styles.border}></View>
@@ -176,7 +253,7 @@ const PdoductDetails = () => {
             <FlatList
               showsVerticalScrollIndicator={false}
               data={product}
-              renderItem={() => <AllProductItemCard />}
+              renderItem={() => <AllProductItemCard id={0} />}
               numColumns={2}
               contentContainerStyle={{
                 alignItems: 'center',
