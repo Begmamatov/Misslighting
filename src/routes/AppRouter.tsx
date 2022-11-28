@@ -21,6 +21,8 @@ import SignUpPassword from '@auth/signup/SignUpPassword';
 import SignUpSMS from '@auth/signup/SignUpSMS';
 import TelNumberScreen from '@auth/RestorePassword/TelNumberScreen';
 import LanguageScreen from '@auth/languageScreen/LanguageScreen';
+import Reviews from '@home/modulus/components/reviews';
+import {CheckoutScreen} from '@home/cart/checkout';
 let Stack = createNativeStackNavigator();
 
 export default function AppRouter() {
@@ -60,10 +62,12 @@ export default function AppRouter() {
               <Stack.Screen name={ROUTES.SORTVIEW} component={SortView} />
               <Stack.Screen name={ROUTES.FILTERVIEW} component={FilterScren} />
               <Stack.Screen name={ROUTES.SUBCATEGORY} component={Subcategory} />
+              <Stack.Screen name={ROUTES.REVIEWS} component={Reviews} />
               <Stack.Screen
                 name={ROUTES.PRODUCTDETAILS}
                 component={ProductDetails}
               />
+              <Stack.Screen name={ROUTES.CHECKOUT} component={CheckoutScreen} />
             </>
           )}
         </Stack.Navigator>

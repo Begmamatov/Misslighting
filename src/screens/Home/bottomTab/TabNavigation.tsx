@@ -6,7 +6,7 @@ import {ROUTES} from '../../../constants/routes';
 import HomeScreen from '../home/HomeScreen';
 
 import CatalogScreen from '../catalog/CatalogScreen';
-import CartScreen from '../cart/CartScreen';
+import CartScreen from '../cart/view';
 import ProfileNavigation from '../profile/ProfileNavigation';
 import {
   CartIconActive,

@@ -32,31 +32,21 @@ import {cartSelector} from '@store/slices/cartSlice';
 import {useDispatch} from 'react-redux';
 import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
 import {toggleLoading} from '@store/slices/appSettings';
-const CatalogArray = [
-  {
-    title: 'Black shadow',
-    id: 1,
-    img_url: require('../../../../assets/images/carusel.png'),
-  },
-  {
-    title: 'Black shadow',
-    id: 2,
-    img_url: require('../../../../assets/images/carusel.png'),
-  },
-  {
-    title: 'Black shadow',
-    id: 3,
-    img_url: require('../../../../assets/images/carusel.png'),
-  },
-  {
-    title: 'Black shadow',
-    id: 4,
-    img_url: require('../../../../assets/images/carusel.png'),
-  },
-];
+import FilterModal from '../../../../components/uikit/Filter/FilterModal';
+import {ProductItemResponse} from '@api/types';
 const product = [1, 2, 3, 4];
 
 const PdoductDetails = () => {
+  const [active, setActive] = useState({
+    value1: false,
+    value2: false,
+  });
+  const onPress = () => {
+    setActive({...active, value1: !active.value1});
+  };
+  const onPress2 = () => {
+    setActive({...active, value2: !active.value2});
+  };
   const width = Dimensions.get('window').width;
   const isCorusel = useRef(null);
   const [index, setIndex] = useState(0);
@@ -106,13 +96,22 @@ const PdoductDetails = () => {
     }
   };
   const [colorActive, setColorActive] = useState();
+
+  const [products, setProducts] = useState<ProductItemResponse[]>([]);
+
+  const getProducts = async () => {
+    try {
+      let res = await requests.sort.getPopular();
+      setProducts(res.data.data);
+    } catch (error) {
+      console.log('product lest', error);
+    }
+  };
   useEffect(() => {
     getDetailId();
     ColorHandler();
+    getProducts();
   }, []);
-  console.log('====================================');
-  console.log(JSON.stringify(colorValue, null, 2));
-  console.log('====================================');
   return (
     <ScrollView style={{flex: 1, backgroundColor: COLORS.white}}>
       <View style={{width: '100%', position: 'relative'}}>
@@ -215,11 +214,27 @@ const PdoductDetails = () => {
             />
           </View>
         </View>
-        <View style={styles.border}></View>
-        <Description />
-        <View style={styles.border}></View>
-        <Characteristics />
-        <View style={styles.border}></View>
+        <View style={styles.border2}></View>
+        <FilterModal title="Валюта" active={active.value1} onPress={onPress}>
+          {active.value1 && (
+            <View style={[styles.box_noactive]}>
+              <Description description={detailIdValue.description} />
+            </View>
+          )}
+        </FilterModal>
+
+        <View style={styles.border2}></View>
+        <FilterModal title="Валюта" active={active.value2} onPress={onPress2}>
+          {active.value2 && (
+            <View style={[styles.box_noactive]}>
+              <Characteristics
+                productProperties={detailIdValue.productProperties}
+              />
+            </View>
+          )}
+        </FilterModal>
+
+        <View style={styles.border2}></View>
         <View style={styles.box5}>
           <TouchableOpacity
             onPress={() => navigation.navigate(ROUTES.REVIEWS as never)}>
@@ -249,17 +264,14 @@ const PdoductDetails = () => {
           <Text style={{fontSize: 17, color: '#3F3535', fontWeight: '700'}}>
             C этим товаром ищут
           </Text>
-          <View style={styles.render_container}>
-            <FlatList
-              showsVerticalScrollIndicator={false}
-              data={product}
-              renderItem={() => <AllProductItemCard id={0} />}
-              numColumns={2}
-              contentContainerStyle={{
-                alignItems: 'center',
-              }}
-            />
-          </View>
+
+          <FlatList
+            style={{marginTop: 20}}
+            showsVerticalScrollIndicator={false}
+            data={products}
+            renderItem={({item}) => <AllProductItemCard {...item} />}
+            numColumns={2}
+          />
         </View>
         <View style={styles.button}>
           <DefaultButton

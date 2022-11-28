@@ -2,8 +2,13 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {ROUTES} from '../../../../constants/routes';
 import {useNavigation} from '@react-navigation/native';
-
-const ProductCart = () => {
+type typesProps = {
+  name?: string;
+  photo?: string;
+  shopName?: string;
+  price?: number;
+};
+const ProductCart = (props: typesProps) => {
   const navigation = useNavigation();
   return (
     <View style={styles.itemProduct}>
@@ -18,22 +23,14 @@ const ProductCart = () => {
       </View>
       <View style={styles.itemHeader2}>
         <View>
-          <Text style={styles.itemTextBold}>A55 MORENA</Text>
-          <Text style={styles.itemText}>Артикул: 34579</Text>
+          <Text style={styles.itemTextBold}>{props.name}</Text>
+          <Text style={styles.itemText}>{props.shopName}</Text>
         </View>
         <View>
-          <Text>3.600.000 сум</Text>
+          <Text>{props.price}</Text>
         </View>
       </View>
-      <View style={styles.itemHeader2}>
-        <View>
-          <Text style={styles.itemTextBold}>A55 MORENA</Text>
-          <Text style={styles.itemText}>Артикул: 34579</Text>
-        </View>
-        <View>
-          <Text>3.600.000 сум</Text>
-        </View>
-      </View>
+
       <View style={styles.itemFooter}>
         <View
           style={{
@@ -43,7 +40,7 @@ const ProductCart = () => {
             justifyContent: 'center',
           }}>
           <Text style={styles.itemTextBold}>Итого: </Text>
-          <Text>7.200.000 сум</Text>
+          <Text></Text>
         </View>
         <TouchableOpacity
           style={styles.btnMore}

@@ -1,8 +1,9 @@
 import {View, Text, StyleSheet, ScrollView, FlatList} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {COLORS} from '../../../constants/colors';
 import SearchNatlifHeader from '../../../components/uikit/Header/SearchNatlifHeader';
 import CatalogListItem from './CatalogListItem';
+import requests from '@api/requests';
 
 const CatalogArray = [
   {
@@ -68,6 +69,21 @@ const CatalogArray = [
 ];
 
 export default function CatalogScreen() {
+  const [categories, setCategories] = useState([]);
+  let effect = async () => {
+    try {
+      let res = await requests.categories.getCategories();
+      setCategories(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    effect();
+  }, []);
+  console.log('====================================');
+  console.log('categories', JSON.stringify(categories, null, 2));
+  console.log('====================================');
   return (
     <View style={styles.container}>
       <SearchNatlifHeader />

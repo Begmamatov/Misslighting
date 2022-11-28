@@ -25,6 +25,7 @@ import {useNavigation} from '@react-navigation/native';
 import {ROUTES} from '../../../constants/routes';
 import {userLoggedOut} from '@store/slices/userSlice';
 import {useAppDispatch} from '@store/hooks';
+import SettingsItem from './Setting/SettingItem';
 
 export default function ProfileScreen() {
   const navigation = useNavigation();
@@ -63,80 +64,56 @@ export default function ProfileScreen() {
           <Text style={style.ProfileInfoText}>Изменить личные данные</Text>
         </View>
       </View>
-      <TouchableOpacity
-        style={style.settingsButton}
-        onPress={() => navigation.navigate(ROUTES.MY_PRODUCTS as never)}>
-        <View style={style.settingsButtonIcon}>
-          <NewBasketIcon />
-          <Text style={style.settingsButtonText}>Мои заказы</Text>
-        </View>
-        <NewArrowIcon />
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={style.settingsButton}
-        onPress={() => navigation.navigate(ROUTES.PROFILE_SETTING as never)}>
-        <View style={style.settingsButtonIcon}>
-          <NewSettingIcon />
-          <Text style={style.settingsButtonText}>Настройки</Text>
-        </View>
-        <NewArrowIcon />
-      </TouchableOpacity>
-      <TouchableOpacity style={style.settingsButton}>
-        <View style={style.settingsButtonIcon}>
-          <NewLocationIcon />
-          <Text style={style.settingsButtonText}>Мы на карте</Text>
-        </View>
-        <NewArrowIcon />
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={style.settingsButton}
-        onPress={() => navigation.navigate(ROUTES.TECHNICALSUPPORT as never)}>
-        <View style={style.settingsButtonIcon}>
-          <NewAdminIcon />
-          <Text style={style.settingsButtonText}>Техническая поддержка</Text>
-        </View>
-        <NewArrowIcon />
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={style.settingsButton}
-        onPress={() => navigation.navigate(ROUTES.BONUSPROGRAM as never)}>
-        <View style={style.settingsButtonIcon}>
-          <NewDiscountIcon />
-          <Text style={style.settingsButtonText}>Бонусная программа</Text>
-        </View>
-        <NewArrowIcon />
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={style.settingsButton}
-        onPress={() => navigation.navigate(ROUTES.TRANSACTIONS as never)}>
-        <View style={style.settingsButtonIcon}>
-          <NewTranstionIcon />
-          <Text style={style.settingsButtonText}>Транзакции</Text>
-        </View>
-        <NewArrowIcon />
-      </TouchableOpacity>
-      <TouchableOpacity style={style.settingsButton}>
-        <View style={style.settingsButtonIcon}>
-          <NewNotificationIcon />
-          <Text
-            style={style.settingsButtonText}
-            onPress={() =>
-              navigation.navigate(ROUTES.PROFILE_NOTIFICATION as never)
-            }>
-            Уведомления
-          </Text>
-        </View>
-        <NewArrowIcon />
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={style.settingsButton}
-        onPress={() => navigation.navigate(ROUTES.MESSAGE as never)}>
-        <View style={style.settingsButtonIcon}>
-          <NewMessageIcon />
-          <Text style={style.settingsButtonText}>Сообщения</Text>
-        </View>
-        <NewArrowIcon />
-      </TouchableOpacity>
+      <SettingsItem
+        onPress={() => navigation.navigate(ROUTES.MY_PRODUCTS as never)}
+        text={'Мои заказы'}
+        icon={() => <NewBasketIcon />}
+        icon2={() => <NewArrowIcon />}
+      />
+      <SettingsItem
+        onPress={() => navigation.navigate(ROUTES.PROFILE_SETTING as never)}
+        text={'Настройки'}
+        icon={() => <NewSettingIcon />}
+        icon2={() => <NewArrowIcon />}
+      />
+      <SettingsItem
+        text={'Мы на карте'}
+        icon={() => <NewLocationIcon />}
+        icon2={() => <NewArrowIcon />}
+      />
+      <SettingsItem
+        onPress={() => navigation.navigate(ROUTES.TECHNICALSUPPORT as never)}
+        text={'Техническая поддержка'}
+        icon={() => <NewAdminIcon />}
+        icon2={() => <NewArrowIcon />}
+      />
+      <SettingsItem
+        onPress={() => navigation.navigate(ROUTES.BONUSPROGRAM as never)}
+        text={'Бонусная программа'}
+        icon={() => <NewDiscountIcon />}
+        icon2={() => <NewArrowIcon />}
+      />
+      <SettingsItem
+        onPress={() => navigation.navigate(ROUTES.TRANSACTIONS as never)}
+        text={'Транзакции'}
+        icon={() => <NewTranstionIcon />}
+        icon2={() => <NewArrowIcon />}
+      />
+      <SettingsItem
+        onPress={() =>
+          navigation.navigate(ROUTES.PROFILE_NOTIFICATION as never)
+        }
+        text={'Уведомления'}
+        icon={() => <NewNotificationIcon />}
+        icon2={() => <NewArrowIcon />}
+      />
+      <SettingsItem
+        onPress={() => navigation.navigate(ROUTES.MESSAGE as never)}
+        text={'Сообщения'}
+        icon={() => <NewMessageIcon />}
+        icon2={() => <NewArrowIcon />}
+      />
+
       <TouchableOpacity style={style.logOutButton} onPress={onLogOut}>
         <NewLogOutIcon />
         <Text style={style.logOutButtonText}>Выйти из аккаунта</Text>

@@ -631,6 +631,22 @@ export const NewTopArrowIcon = (props: SvgProps) => {
     </Svg>
   );
 };
+export const NewTopArrowIcon2 = (props: SvgProps) => {
+  return (
+    <Svg
+      width="16"
+      height="10"
+      viewBox="0 0 16 9"
+      fill="none"
+      style={{transform: [{rotate: '180deg'}]}}
+      xmlns="http://www.w3.org/2000/svg">
+      <Path
+        d="M13.7143 9L8 3.375L2.28571 9L0 7.875L8 0L16 7.875L13.7143 9Z"
+        fill="#3F3535"
+      />
+    </Svg>
+  );
+};
 export const StrokeIcon = (props: SvgProps) => {
   return (
     <Svg

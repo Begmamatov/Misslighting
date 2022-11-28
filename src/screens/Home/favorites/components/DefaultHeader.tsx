@@ -21,10 +21,11 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.white,
     paddingHorizontal: 20,
-    paddingVertical: 15,
+    marginBottom: 14,
   },
   text: {
-    fontSize: 20,
-    color: COLORS.defaultBlack,
+    fontSize: 25,
+    color: COLORS.black,
+    fontWeight: '700',
   },
 });

@@ -1,4 +1,4 @@
-import Slider from '@react-native-community/slider';
+// import Slider from '@react-native-community/slider';
 import React, {useState} from 'react';
 import {
   SafeAreaView,
@@ -54,7 +54,11 @@ const FilterScren = () => {
       <ScrollView style={styles.container}>
         <View>
           {/* 1 */}
-          <FilterModal title="Валюта" active={active.modal1} onPress={onPress}>
+          <FilterModal
+            title="Валюта"
+            active={active.modal1}
+            onPress={onPress}
+            activeBorder={true}>
             {active.modal1 && (
               <View style={[styles.box_noactive]}>
                 <View style={styles.value}>
@@ -65,7 +69,11 @@ const FilterScren = () => {
             )}
           </FilterModal>
           {/* 2 */}
-          <FilterModal onPress={onPress2} title="Цена" active={active.modal2}>
+          <FilterModal
+            onPress={onPress2}
+            title="Цена"
+            active={active.modal2}
+            activeBorder={true}>
             {active.modal2 && (
               <View style={[styles.box_noactive]}>
                 <View
@@ -82,19 +90,23 @@ const FilterScren = () => {
                   </View>
                 </View>
                 <View style={{width: '100%', marginTop: 30}}>
-                  <Slider
+                  {/* <Slider
                     style={{width: '100%', borderWidth: 1}}
                     minimumValue={1}
                     maximumValue={2}
                     minimumTrackTintColor="#84A9C0"
                     maximumTrackTintColor="#000000"
-                  />
+                  /> */}
                 </View>
               </View>
             )}
           </FilterModal>
           {/* 3 */}
-          <FilterModal title="Стиль" active={active.modal3} onPress={onPress3}>
+          <FilterModal
+            title="Стиль"
+            active={active.modal3}
+            onPress={onPress3}
+            activeBorder={true}>
             {active.modal3 && (
               <View style={styles.box_noactive}>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -156,7 +168,8 @@ const FilterScren = () => {
           <FilterModal
             title="Кол-во патронов"
             active={active.modal4}
-            onPress={onPress4}>
+            onPress={onPress4}
+            activeBorder={true}>
             {active.modal4 && (
               <View style={styles.box_noactive}>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -215,21 +228,27 @@ const FilterScren = () => {
           </FilterModal>
 
           {/* 5 */}
-          <FilterModal title="Цвет" active={active.modal5} onPress={onPress5}>
+          <FilterModal
+            title="Цвет"
+            active={active.modal5}
+            onPress={onPress5}
+            activeBorder={true}>
             {active.modal5 && <View style={styles.box_noactive}></View>}
           </FilterModal>
           {/* 6 */}
           <FilterModal
             title="Материал"
             active={active.modal6}
-            onPress={onPress6}>
+            onPress={onPress6}
+            activeBorder={true}>
             {active.modal6 && <View style={styles.box_noactive}></View>}
           </FilterModal>
           {/* 7 */}
           <FilterModal
             title="Температура"
             active={active.modal7}
-            onPress={onPress7}>
+            onPress={onPress7}
+            activeBorder={true}>
             {active.modal7 && <View style={styles.box_noactive}></View>}
           </FilterModal>
         </View>

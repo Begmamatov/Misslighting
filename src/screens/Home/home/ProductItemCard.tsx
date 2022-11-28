@@ -5,8 +5,9 @@ import {
   Image,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  ActivityIndicator,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import {
   BasketIcon,
   HeartIconBorder,
@@ -20,7 +21,7 @@ import requests, {assetUrl} from '@api/requests';
 import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
 import {toggleLoading} from '@store/slices/appSettings';
 import {useAppSelector} from '@store/hooks';
-import {cartSelector} from '@store/slices/cartSlice';
+import {cartSelector, loadCart} from '@store/slices/cartSlice';
 import {useDispatch} from 'react-redux';
 
 export type ProductItemCardProps = {
@@ -58,6 +59,38 @@ export default function ProductItemCard(props: ProductItemCardProps) {
       dispatch(toggleLoading(false));
     }
   };
+  const [animate, setAnimate] = useState(false);
+  const onCartPress = async () => {
+    if (isInCart) {
+      try {
+        setAnimate(true);
+        let cartGet = await requests.products.getCarts();
+        dispatch(loadCart(cartGet.data.data));
+        setAnimate(false);
+      } catch (error) {
+        console.log(error);
+        setAnimate(false);
+      }
+    } else {
+      try {
+        setAnimate(true);
+        let res = await requests.products.addToCart({
+          amount: 1,
+          product_id: props.id,
+        });
+
+        let cartRes = await requests.products.getCarts();
+        dispatch(loadCart(cartRes.data.data));
+
+        setAnimate(false);
+      } catch (error) {
+        console.log('erorrs++++', JSON.stringify(error, null, 4));
+        alert(JSON.stringify(error, null, 4));
+      } finally {
+        setAnimate(false);
+      }
+    }
+  };
   return (
     <TouchableWithoutFeedback
       onPress={() =>
@@ -92,9 +125,20 @@ export default function ProductItemCard(props: ProductItemCardProps) {
           <Text style={styles.nameText}>{props.name}</Text>
           <Text style={styles.priceTextSile}>{props.price_usd}UZS</Text>
           <Text style={styles.priceText}>{props.price} UZS</Text>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>В корзину</Text>
-            <BasketIcon fill={COLORS.textColorBlue} />
+
+          <TouchableOpacity style={styles.button} onPress={onCartPress}>
+            {animate ? (
+              <ActivityIndicator
+                size="small"
+                color={COLORS.red}
+                animating={animate}
+              />
+            ) : (
+              <>
+                <Text style={styles.buttonText}>В корзину</Text>
+                <BasketIcon fill={COLORS.textColorBlue} />
+              </>
+            )}
           </TouchableOpacity>
         </View>
       </View>

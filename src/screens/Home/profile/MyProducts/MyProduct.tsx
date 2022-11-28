@@ -5,25 +5,20 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import GoBackHeader from '../../../../components/uikit/Header/GoBackHeader';
 import {useNavigation} from '@react-navigation/native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {COLORS} from '../../../../constants/colors';
 import ActiveList from './components/ActiveList';
 import StoryList from './components/StoryList';
+import {OrderItemResponse} from '@api/types';
+import requests from '@api/requests';
 const Tab = createMaterialTopTabNavigator();
 
 const MyProduct = () => {
-  const [state, setState] = useState(false);
-  const navigation = useNavigation();
   const width = Dimensions.get('window').width / 2;
-  const ActiveHandler = () => {
-    setState(prev => !prev);
-  };
-  const StoryHandler = () => {
-    setState(prev => !prev);
-  };
+
   return (
     <View style={{flex: 1}}>
       <GoBackHeader />
