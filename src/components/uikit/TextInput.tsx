@@ -1,6 +1,6 @@
-import {StyleSheet, Text, TextInput, View} from 'react-native';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
 import React from 'react';
-import {COLORS} from '../../constants/colors';
+import { COLORS } from '../../constants/colors';
 
 type Props = {
   label?: string;
@@ -11,20 +11,22 @@ type Props = {
   marginBottom?: number;
   onChangeText?: (val: string) => void;
   value?: string;
+  onFocus?: () => void;
 };
 
 export default function DefaultInput(props: Props) {
   return (
-    <View style={[styles.inputBox, {marginBottom: props.marginBottom}]}>
+    <View style={[styles.inputBox, { marginBottom: props.marginBottom }]}>
       {props.label && <Text style={styles.inputLabel}>{props.label}</Text>}
       <TextInput
         placeholder={props.placeholder}
+        onFocus={props.onFocus}
         placeholderTextColor={
           props.placeholderColor ? props.placeholderColor : '#000'
         }
         style={[
           styles.input,
-          {backgroundColor: props.backgroundColor, color: props.color},
+          { backgroundColor: props.backgroundColor, color: props.color },
         ]}
         onChangeText={props.onChangeText}
         value={props.value}

@@ -1,5 +1,4 @@
-import {LoginState} from './types';
-import {RegisterState} from './types';
+import { LoginState } from './types';
 import {store} from '@store/configureStore';
 import {userLoggedOut} from '@store/slices/userSlice';
 import axios, {AxiosResponse} from 'axios';
@@ -20,6 +19,7 @@ import {
   SendReviewProps,
   SliderTypes,
 } from './types';
+import { RegisterState } from '@auth/signup/hooks';
 
 export let url = 'https://miss.nolikvid.uz/api';
 export let assetUrl = 'https://miss.nolikvid.uz';
@@ -78,11 +78,18 @@ let requests = {
           data: {token: string; code: string};
         }>,
         RegisterState
-      >(`${url}/user/sign-up`, credentials),
+        >(`${url}/user/sign-up`, credentials),
+    
     verify: (credentials: {code: string; phone: string}, token: string) =>
       axios.post(`${url}/user/send-code`, credentials, {
         headers: {Authorization: `Bearer ${token}`},
       }),
+    
+    forgetPassword: (carcredentials : {phone:string}) => 
+      axios.post(`${url}/user/recover-password`, carcredentials),
+    
+    acceptPassword: (credentials: { phone: string; code: string }) =>
+      axios.post(`${url}/user/accept-recover-code`, credentials),
   },
   profile: {
     getProfile: () => axios.get<{data: LoginResponse}>(`${url}/user/profile`),
