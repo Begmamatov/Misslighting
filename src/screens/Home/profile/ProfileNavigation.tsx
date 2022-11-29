@@ -1,13 +1,12 @@
-import {View} from 'react-native';
+import { View } from 'react-native';
 import React from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MyProduct from './MyProducts/MyProduct';
 import ProfileScreen from './ProfileScreen';
 import Message from './Message/Message';
 import Setting from './Setting/Setting';
 import Notification from './Notification/Notification';
-import {ROUTES} from '../../../constants/routes';
-import SignUpPassword from '../../Auth/signup/SignUpPassword';
+import { ROUTES } from '../../../constants/routes';
 import Transactions from './Transactions/Transactions';
 import ActiveList from './MyProducts/components/ActiveList';
 import StoryList from './MyProducts/components/StoryList';
@@ -20,7 +19,7 @@ let Stack = createNativeStackNavigator();
 
 const ProfileNavigation = () => {
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
@@ -29,7 +28,6 @@ const ProfileNavigation = () => {
         <Stack.Screen name={ROUTES.MY_PRODUCTS} component={MyProduct} />
         <Stack.Screen name={ROUTES.MESSAGE} component={Message} />
         <Stack.Screen name={ROUTES.PROFILE_SETTING} component={Setting} />
-        <Stack.Screen name={ROUTES.SIGNUPPASSWORD} component={SignUpPassword} />
         <Stack.Screen name={ROUTES.TRANSACTIONS} component={Transactions} />
         <Stack.Screen name={ROUTES.ACTIVEVELIST} component={ActiveList} />
         <Stack.Screen name={ROUTES.STORYLIST} component={StoryList} />

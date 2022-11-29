@@ -5,13 +5,17 @@ import {
   ButtonProps,
   TextProps,
   GestureResponderEvent,
+  ActivityIndicator,
 } from 'react-native';
 import React from 'react';
-import {COLORS} from '../../constants/colors';
+import { COLORS } from '../../constants/colors';
 
 type Props = {
   title: string;
   onPress?: (event: GestureResponderEvent) => void;
+  loading?: boolean;
+  disabled?: boolean;
+  loadingColor?: string;
   ButtonStyle?: {
     backgroundColor?: string;
     marginBotton?: number;
@@ -30,8 +34,15 @@ export default function DefaultButton(props: Props) {
   return (
     <TouchableOpacity
       style={[styles.button, props.ButtonStyle]}
+      disabled={props.disabled}
       onPress={props.onPress}>
-      <Text style={[styles.buttonText, props.TextStyle]}>{props.title}</Text>
+      {
+        props.loading ? (
+          <ActivityIndicator animating={props.loading} size="small" color={props.loadingColor || COLORS.white} />
+        ) : (
+          <Text style={[styles.buttonText, props.TextStyle]}>{props.title}</Text>
+        )
+      }
     </TouchableOpacity>
   );
 }

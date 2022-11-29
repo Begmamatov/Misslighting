@@ -3,62 +3,47 @@ import CheckBox from '../../../components/uikit/CheckBox';
 import DefaultButton from '../../../components/uikit/DefaultButton';
 import SectionTitle from '../../../components/uikit/SectionTitle';
 import DefaultInput from '../../../components/uikit/TextInput';
-import {COLORS} from '../../../constants/colors';
-import React, {useState} from 'react';
+import { COLORS } from '../../../constants/colors';
+import React, { useState } from 'react';
 import {
-  StyleSheet,
-  Text,
-  Touchable,
-  TouchableOpacity,
-  View,
+  ScrollView,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {ROUTES} from '../../../constants/routes';
+import { useNavigation } from '@react-navigation/native';
+import { ROUTES } from '../../../constants/routes';
+import DatePicker from 'react-native-date-picker';
+import moment from 'moment';
+import useRegisterHook from './hooks';
 
-export interface RegisterState {
-  phone: string;
-  name: string;
-  lastName?: string;
-  middleName?: string;
-  birthday?: string;
-}
+// export interface RegisterStatePyhsical {
+//   phone: string;
+//   name: string;
+//   // lastName?: string;
+//   // middleName?: string;
+//   // birthday?: string;
+//   password: string;
+//   type: string;
+// }
 export default function SignUpPhysical() {
-  const [state, setState] = useState<RegisterState>({
-    phone: '',
-    name: '',
-  });
 
-  const onStateChange = (key: string) => (value: string) => {
-    setState({...state, [key]: value});
-  };
+  let {
+    loading,
+    onStateChange,
+    onRegister,
+    state,
+    onRegisterNavigation,
+    errTxt,
+  } = useRegisterHook();
   let navigation = useNavigation();
+  // const [date, setDate] = useState(new Date())
+  // const [open, setOpen] = useState(false)
+  // const formatDate = (date: Date) => setState({ ...state, birthday: moment(date).format('DD.MM.YYYY') })
+
+  console.log('====================================');
+  console.log(state);
+  console.log('====================================');
 
   return (
-    <SingUpTemplate>
-      <SectionTitle title="Регистрация" marginBottom={36} />
-      <View style={styles.buttonsBox}>
-        <DefaultButton
-          title="Физическое лицо"
-          // eslint-disable-next-line react-native/no-inline-styles
-          ButtonStyle={{
-            backgroundColor: COLORS.activeButtonBgColor,
-            width: '50%',
-          }}
-          // eslint-disable-next-line react-native/no-inline-styles
-          TextStyle={{color: COLORS.white, fontSize: 14}}
-        />
-        <DefaultButton
-          onPress={() => navigation.navigate(ROUTES.REGISTERLEGAL as never)}
-          title="Юридическое лицо"
-          // eslint-disable-next-line react-native/no-inline-styles
-          ButtonStyle={{
-            backgroundColor: COLORS.noActiveButtonBgColor2,
-            width: '50%',
-          }}
-          // eslint-disable-next-line react-native/no-inline-styles
-          TextStyle={{color: COLORS.noActiveButtonTextColor, fontSize: 14}}
-        />
-      </View>
+    <ScrollView style={{ backgroundColor: COLORS.white }} showsVerticalScrollIndicator={false}>
       <DefaultInput
         placeholder="Ваш номер"
         label="Номер телефона"
@@ -78,6 +63,15 @@ export default function SignUpPhysical() {
         value={state.name}
       />
       <DefaultInput
+        placeholder="Ваш пароль"
+        label="Введите пароль"
+        backgroundColor={COLORS.noActiveButtonBgColor2}
+        placeholderColor={COLORS.labelText}
+        marginBottom={0}
+        onChangeText={onStateChange('password')}
+        value={state.password}
+      />
+      {/* <DefaultInput
         placeholder="Ваша фамилия"
         label="Фамилия"
         backgroundColor={COLORS.noActiveButtonBgColor2}
@@ -94,38 +88,41 @@ export default function SignUpPhysical() {
         marginBottom={0}
         onChangeText={onStateChange('middleName')}
         value={state.middleName}
-      />
-      <DefaultInput
+      /> */}
+      {/* <DefaultInput
         placeholder="Ваша дата рождения"
         label="Дата рождения"
         backgroundColor={COLORS.noActiveButtonBgColor2}
         placeholderColor={COLORS.labelText}
         marginBottom={0}
-        onChangeText={onStateChange('birthday')}
         value={state.birthday}
+        onFocus={() => setOpen(true)}
       />
+      <DatePicker
+        modal
+        open={open}
+        date={date}
+        mode="date"
+        onConfirm={(date) => {
+          setOpen(false)
+          setDate(date)
+          formatDate(date)
+        }}
+        onCancel={() => {
+          setOpen(false)
+        }}
+      /> */}
       <CheckBox label="Я согласен с условиями" />
       <DefaultButton
-        onPress={() => navigation.navigate(ROUTES.VERIFICATION as never)}
+        onPress={() => onRegister('fiz')}
         title="Далее"
-        // eslint-disable-next-line react-native/no-inline-styles
         ButtonStyle={{
           backgroundColor: COLORS.activeButtonBgColor,
           width: '100%',
         }}
-        TextStyle={{color: COLORS.white}}
+        TextStyle={{ color: COLORS.white }}
+        loading={loading}
       />
-    </SingUpTemplate>
+    </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  buttonsBox: {
-    width: '100%',
-    flexDirection: 'row',
-    backgroundColor: COLORS.noActiveButtonBgColor2,
-    borderRadius: 45,
-    height: 55,
-    marginBottom: 30,
-  },
-});
