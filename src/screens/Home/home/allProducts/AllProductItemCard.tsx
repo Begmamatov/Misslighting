@@ -1,5 +1,12 @@
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
-import React from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
+import React, {useState} from 'react';
 import {COLORS} from '../../../../constants/colors';
 import {
   BasketIcon,
@@ -8,10 +15,11 @@ import {
 } from '../../../../assets/icons/icons';
 import requests, {assetUrl} from '@api/requests';
 import {useAppSelector} from '@store/hooks';
-import {cartSelector} from '@store/slices/cartSlice';
+import {cartSelector, loadCart} from '@store/slices/cartSlice';
 import {useDispatch} from 'react-redux';
 import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
 import {toggleLoading} from '@store/slices/appSettings';
+import {STRINGS} from '@locales/strings';
 type ProductItemCardProps = {
   showNewProduct?: boolean;
   showDiscount?: boolean;
@@ -44,6 +52,40 @@ export default function AllProductItemCard(props: ProductItemCardProps) {
       dispatch(toggleLoading(false));
     }
   };
+  const [animate, setAnimate] = useState(false);
+  const onCartPress = async () => {
+    if (isInCart) {
+      try {
+        setAnimate(true);
+        let cartGet = await requests.products.getCarts();
+        dispatch(loadCart(cartGet.data.data));
+        setColarActive(true);
+        setAnimate(false);
+      } catch (error) {
+        console.log(error);
+        setAnimate(false);
+      }
+    } else {
+      try {
+        setAnimate(true);
+        let res = await requests.products.addToCart({
+          amount: 1,
+          product_id: props.id,
+        });
+
+        let cartRes = await requests.products.getCarts();
+        dispatch(loadCart(cartRes.data.data));
+        setColarActive(true);
+        setAnimate(false);
+      } catch (error) {
+        console.log('erorrs++++', JSON.stringify(error, null, 4));
+        alert(JSON.stringify(error, null, 4));
+      } finally {
+        setAnimate(false);
+        setColarActive(true);
+      }
+    }
+  };
   return (
     <View style={styles.cartItem}>
       <Image style={styles.image} source={{uri: assetUrl + props.photo}} />
@@ -71,9 +113,29 @@ export default function AllProductItemCard(props: ProductItemCardProps) {
         <Text style={styles.nameText}>{props.name}</Text>
         <Text style={styles.priceTextSile}>{props.price_usd} UZS</Text>
         <Text style={styles.priceText}>{props.price}UZS</Text>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>В корзину</Text>
-          <BasketIcon fill={COLORS.textColorBlue} />
+        <TouchableOpacity
+          style={[
+            styles.button,
+            {backgroundColor: isInCart ? '#84A9C0' : '#FFFFFF'},
+          ]}
+          onPress={onCartPress}>
+          {animate ? (
+            <ActivityIndicator
+              size="small"
+              color={'#84A9C0'}
+              animating={animate}
+            />
+          ) : (
+            <View style={styles.buttonContainer}>
+              <Text
+                style={[isInCart ? styles.cartText : styles.inactiveCartText]}>
+                {isInCart
+                  ? `${STRINGS.ru.addToCart}е`
+                  : `${STRINGS.ru.addToCart}у`}
+              </Text>
+              <BasketIcon fill={isInCart ? COLORS.white : '#84A9C0'} />
+            </View>
+          )}
         </TouchableOpacity>
       </View>
     </View>
@@ -89,6 +151,22 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginBottom: 20,
     flexDirection: 'column',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+  },
+  cartText: {
+    color: COLORS.white,
+    marginRight: 4,
+    fontWeight: '700',
+    fontSize: 15,
+  },
+  inactiveCartText: {
+    color: '#84A9C0',
+    marginRight: 8,
+
+    fontWeight: '700',
+    fontSize: 15,
   },
   image: {
     width: '100%',
@@ -171,3 +249,6 @@ const styles = StyleSheet.create({
     right: 10,
   },
 });
+function setColarActive(arg0: boolean) {
+  throw new Error('Function not implemented.');
+}

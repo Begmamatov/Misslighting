@@ -21,10 +21,15 @@ import {
   ProfileIconNotActive,
 } from '../../../assets/icons/icons';
 import FavoritesScreen from '@home/favorites';
+import {useSelector} from 'react-redux';
+import {favoriteArraySelector} from '@store/slices/favoriteSlice';
+import {cartTotalSelector} from '@store/slices/cartSlice';
 
 const Tab = createBottomTabNavigator();
 
 export default function TabNavigation() {
+  let favs = useSelector(favoriteArraySelector);
+  let total = useSelector(cartTotalSelector);
   return (
     <Tab.Navigator
       screenOptions={{
@@ -76,6 +81,7 @@ export default function TabNavigation() {
               </Text>
             </View>
           ),
+          tabBarBadge: favs?.length == 0 ? undefined : favs.length,
         }}
         name={ROUTES.FAVORITES}
         component={FavoritesScreen}
@@ -118,6 +124,7 @@ export default function TabNavigation() {
               </Text>
             </View>
           ),
+          tabBarBadge: total.count == 0 ? undefined : total.count,
         }}
         name={ROUTES.CART}
         component={CartScreen}

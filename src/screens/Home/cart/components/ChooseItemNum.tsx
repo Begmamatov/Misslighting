@@ -8,7 +8,7 @@ import {
   MinusIcon,
   PlusCounterIcon,
 } from '@icons/icons';
-import Text from '@components/uikit/Text';
+
 import {COLORS, GRADIENT_COLORS} from '@constants/colors';
 import {STRINGS} from '@locales/strings';
 import {useAppSelector} from '@store/hooks';
@@ -22,6 +22,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
+  Text,
 } from 'react-native';
 // import LinearGradient from 'react-native-linear-gradient';
 import {useDispatch} from 'react-redux';

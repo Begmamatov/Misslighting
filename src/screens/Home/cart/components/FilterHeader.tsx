@@ -1,10 +1,9 @@
-import Text from '@components/uikit/Text';
 import {COLORS} from '@constants/colors';
 import {CancelIcon} from '@icons/icons';
 import {STRINGS} from '@locales/strings';
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, Text} from 'react-native';
 
 const FilterHeader = () => {
   let navigation = useNavigation();

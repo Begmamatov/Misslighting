@@ -1,8 +1,7 @@
-import Text from '@components/uikit/Text';
 import {COLORS} from '@constants/colors';
 import {STRINGS} from '@locales/strings';
 import React from 'react';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View, Text} from 'react-native';
 
 const ChooseBrands = () => {
   return (

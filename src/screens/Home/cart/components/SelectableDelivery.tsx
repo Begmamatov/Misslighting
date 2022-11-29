@@ -1,10 +1,10 @@
 import requests from '@api/requests';
 import {DeliveryMethodResponse} from '@api/types';
-import Text from '@components/uikit/Text';
+
 import {COLORS} from '@constants/colors';
 import {STRINGS} from '@locales/strings';
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View, Text} from 'react-native';
 
 const SelectableDelivery = () => {
   const [activeIndex, setIsActive] = useState(0);

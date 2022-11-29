@@ -23,6 +23,7 @@ import {toggleLoading} from '@store/slices/appSettings';
 import {useAppSelector} from '@store/hooks';
 import {cartSelector, loadCart} from '@store/slices/cartSlice';
 import {useDispatch} from 'react-redux';
+import {STRINGS} from '@locales/strings';
 
 export type ProductItemCardProps = {
   name?: string;
@@ -38,7 +39,7 @@ export type ProductItemCardProps = {
 
 export default function ProductItemCard(props: ProductItemCardProps) {
   const navigation = useNavigation();
-
+  const [colorActive, setColarActive] = useState(false);
   const cart = useAppSelector(cartSelector);
   let isInCart = !!cart[props.id];
   const dispatch = useDispatch();
@@ -66,6 +67,7 @@ export default function ProductItemCard(props: ProductItemCardProps) {
         setAnimate(true);
         let cartGet = await requests.products.getCarts();
         dispatch(loadCart(cartGet.data.data));
+        setColarActive(true);
         setAnimate(false);
       } catch (error) {
         console.log(error);
@@ -81,13 +83,14 @@ export default function ProductItemCard(props: ProductItemCardProps) {
 
         let cartRes = await requests.products.getCarts();
         dispatch(loadCart(cartRes.data.data));
-
+        setColarActive(true);
         setAnimate(false);
       } catch (error) {
         console.log('erorrs++++', JSON.stringify(error, null, 4));
         alert(JSON.stringify(error, null, 4));
       } finally {
         setAnimate(false);
+        setColarActive(true);
       }
     }
   };
@@ -126,18 +129,30 @@ export default function ProductItemCard(props: ProductItemCardProps) {
           <Text style={styles.priceTextSile}>{props.price_usd}UZS</Text>
           <Text style={styles.priceText}>{props.price} UZS</Text>
 
-          <TouchableOpacity style={styles.button} onPress={onCartPress}>
+          <TouchableOpacity
+            style={[
+              styles.button,
+              {backgroundColor: isInCart ? '#84A9C0' : '#FFFFFF'},
+            ]}
+            onPress={onCartPress}>
             {animate ? (
               <ActivityIndicator
                 size="small"
-                color={COLORS.red}
+                color={'#84A9C0'}
                 animating={animate}
               />
             ) : (
-              <>
-                <Text style={styles.buttonText}>В корзину</Text>
-                <BasketIcon fill={COLORS.textColorBlue} />
-              </>
+              <View style={styles.buttonContainer}>
+                <Text
+                  style={[
+                    isInCart ? styles.cartText : styles.inactiveCartText,
+                  ]}>
+                  {isInCart
+                    ? `${STRINGS.ru.addToCart}е`
+                    : `${STRINGS.ru.addToCart}у`}
+                </Text>
+                <BasketIcon fill={isInCart ? COLORS.white : '#84A9C0'} />
+              </View>
             )}
           </TouchableOpacity>
         </View>
@@ -155,6 +170,21 @@ const styles = StyleSheet.create({
     marginRight: 15,
     marginBottom: 20,
     flexDirection: 'column',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+  },
+  cartText: {
+    color: COLORS.white,
+    marginRight: 4,
+    fontWeight: '700',
+    fontSize: 15,
+  },
+  inactiveCartText: {
+    color: '#84A9C0',
+    marginRight: 8,
+    fontWeight: '700',
+    fontSize: 15,
   },
   image: {
     width: 192,
