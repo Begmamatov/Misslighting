@@ -7,62 +7,24 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
-import {NewTopArrowIcon} from '../../../../assets/icons/icons';
 
-const data = [
-  {
-    id: 0,
-    title: 'Габариты:',
-    value: 'диаметр и высота',
-  },
-  {
-    id: 2,
-    title: 'Габариты:',
-    value: 'диаметр и высота',
-  },
-  {
-    id: 3,
-    title: 'Габариты:',
-    value: 'диаметр и высота',
-  },
-  {
-    id: 4,
-    title: 'Габариты:',
-    value: 'диаметр и высота',
-  },
-  {
-    id: 5,
-    title: 'Габариты:',
-    value: 'диаметр и высота',
-  },
-  {
-    id: 6,
-    title: 'Габариты:',
-    value: 'диаметр и высота',
-  },
-];
-
-const Characteristics = () => {
+type typeProps = {
+  productProperties: any;
+};
+const Characteristics = (props: typeProps) => {
   return (
-    <View style={styles.container}>
-      <View style={styles.active}>
-        <Text>Характеристики</Text>
-        {/* <NewTopArrowIcon /> */}
-        <Text>X</Text>
-      </View>
-      <View style={styles.noActive}>
-        <FlatList
-          data={data}
-          renderItem={({item}) => {
-            return (
-              <View style={styles.box}>
-                <Text style={styles.box_title}>{item.title}</Text>
-                <Text style={styles.box_value}>{item.value}</Text>
-              </View>
-            );
-          }}
-        />
-      </View>
+    <View style={styles.noActive}>
+      <FlatList
+        data={props.productProperties}
+        renderItem={({item}) => {
+          return (
+            <View style={styles.box}>
+              <Text style={styles.box_title}>{item.key_name}</Text>
+              <Text style={styles.box_value}>{item.value_name}</Text>
+            </View>
+          );
+        }}
+      />
     </View>
   );
 };
@@ -70,9 +32,7 @@ const Characteristics = () => {
 export default Characteristics;
 
 const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: 15,
-  },
+  container: {},
   active: {
     flexDirection: 'row',
     alignItems: 'center',

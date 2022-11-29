@@ -48,3 +48,16 @@ export const COLORS = {
 };
 
 export const BOX = [COLORS.bgColor];
+
+export const CART_COLORS = [
+  COLORS.cartColor1,
+  COLORS.cartColor2,
+  COLORS.cartColor3,
+];
+
+export const GRADIENT_COLORS = [
+  COLORS.darkBlue2,
+  COLORS.lighBlue2,
+  COLORS.lighBlue,
+  COLORS.darkBlue,
+];

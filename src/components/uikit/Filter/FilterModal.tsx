@@ -8,11 +8,12 @@ type Props = {
   children: React.ReactNode;
   active: boolean;
   title: string;
+  activeBorder?: boolean;
 };
 
 const FilterModal = (props: Props) => {
   return (
-    <View style={styles.box}>
+    <View style={[styles.box, {borderWidth: props.activeBorder ? 1 : 0}]}>
       <View style={styles.box_active}>
         <Text style={styles.active_title}>{props.title}</Text>
         <TouchableOpacity style={styles.icon_box} onPress={props.onPress}>
@@ -30,7 +31,6 @@ const styles = StyleSheet.create({
   box: {
     marginLeft: 15,
     marginRight: 15,
-    borderBottomWidth: 1,
     borderBottomColor: '#71717119',
     paddingBottom: 5,
     paddingTop: 5,

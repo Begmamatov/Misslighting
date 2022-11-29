@@ -1,3 +1,5 @@
+import {StyleProp, ViewStyle} from 'react-native';
+
 export interface LoginState {
   phone?: string;
   password?: string;
@@ -64,6 +66,8 @@ export interface Shop {
 }
 
 export interface ProductItemResponse {
+  size: number;
+  color: any;
   id: number;
   name: string;
   price: number;
@@ -77,6 +81,7 @@ export interface ProductItemResponse {
   isFavorite: boolean;
   credit_label: string;
   shop: Shop;
+  price_usd?: string;
   getProducts?: () => void;
 }
 

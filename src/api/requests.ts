@@ -131,6 +131,10 @@ let requests = {
       axios.get<BaseResponse<ProductItemResponse>>(
         `${url}/product/by-shop?id=${id}`,
       ),
+    getProductDetailID: (id: number) =>
+      axios.get<BaseResponse<ProductItemResponse>>(
+        `${url}/product/detail?id=${id}`,
+      ),
     getProductsWithBrand: (id: number) =>
       axios.get<BaseResponse<ProductItemResponse>>(
         `${url}/product/by-brand?id=${id}`,
@@ -167,6 +171,7 @@ let requests = {
 
     sendReview: (data: SendReviewProps) =>
       axios.post(`${url}/product/set-review`, data),
+    colorItem: () => axios.get(`${url}/color`),
   },
 
   news: {

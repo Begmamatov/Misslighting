@@ -1,23 +1,34 @@
 import {View, Text, FlatList, StyleSheet} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 import ProductItemCard from './ProductItemCard';
 import ProductsTitle from '../../../components/uikit/ProductsTitle';
 import {ROUTES} from '../../../constants/routes';
 import {useNavigation} from '@react-navigation/native';
+import {NewsItemResponse} from '@api/types';
+import requests from '@api/requests';
 
 type ProductListProps = {
   title: string;
-  imgRequire?: any;
+
   showNewProduct?: boolean;
   showDiscount?: boolean;
 };
 
 export default function ProductListNew(props: ProductListProps) {
-  const products = [1, 2, 3, 4, 5, 6, 7, 8];
+  const [products, setProducts] = useState<NewsItemResponse[]>([]);
+  let effect = async () => {
+    try {
+      let res = await requests.sort.getNewAdded();
+      setProducts(res.data.data);
+    } catch (error) {}
+  };
+  useEffect(() => {
+    effect();
+  }, []);
   const navigation = useNavigation();
   const onPress = () => {
-    navigation.navigate(ROUTES.ALLPRODUCTS as never, props);
+    navigation.navigate(ROUTES.ALLPRODUCTS as never, {products, props});
   };
   return (
     <View>
@@ -27,10 +38,7 @@ export default function ProductListNew(props: ProductListProps) {
         showsHorizontalScrollIndicator={false}
         data={products}
         renderItem={({item}) => (
-          <ProductItemCard
-            showNewProduct={true}
-            imgRequire={props.imgRequire}
-          />
+          <ProductItemCard showNewProduct={true} {...item} />
         )}
         keyExtractor={item => item.toString()}
         style={styles.container}
@@ -44,3 +52,6 @@ const styles = StyleSheet.create({
   container: {marginBottom: 15},
   contentContainerStyle: {paddingHorizontal: 10},
 });
+function setNews(data: NewsItemResponse[]) {
+  throw new Error('Function not implemented.');
+}

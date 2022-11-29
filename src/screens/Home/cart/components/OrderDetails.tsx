@@ -1,30 +1,36 @@
 import React from 'react';
-import {Image, StyleSheet, Text, TextInput, View} from 'react-native';
+import {Image, StyleSheet, TextInput, View} from 'react-native';
+
 //@ts-ignore
 import MirImg from '../../../../assets/images/mir.png';
 //@ts-ignore
 import VisaImg from '../../../../assets/images/visa.png';
 //@ts-ignore
 import MastercardImg from '../../../../assets/images/mastercard.png';
-import {COLORS} from '../../../constants/colors';
+import Text from '@components/uikit/Text';
+import {STRINGS} from '@locales/strings';
+import {COLORS} from '@constants/colors';
 
-const OrderDetails = () => {
+const OrderDetails = ({total}: {total: {total: number; count: number}}) => {
   return (
     <View style={styles.container}>
+      <Text style={styles.headerTxt}>{STRINGS.ru.orderDetails}</Text>
       <View style={styles.box}>
         <View style={styles.row}>
-          <Text style={{color: COLORS.labelText}}>Товары ( 1 )</Text>
-          <Text style={styles.price}>36.000.000 сум</Text>
+          <Text>
+            {STRINGS.ru.items} ({total?.count}){' '}
+          </Text>
+          <Text style={styles.price}>{total.total} сум</Text>
         </View>
         <View style={styles.row}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Text style={{color: COLORS.labelText}}>Доставка</Text>
+            <Text>{STRINGS.ru.Delivery}</Text>
           </View>
-          <Text style={{color: COLORS.labelText}}>30.000 сум</Text>
+          <Text>-50 сум</Text>
         </View>
         <View style={styles.rowFooter}>
-          <Text style={styles.footerTxt}>Итого</Text>
-          <Text style={styles.total}> 36.000.000 сум </Text>
+          <Text style={styles.footerTxt}>{STRINGS.ru.totalPrice}</Text>
+          <Text style={styles.total}> {total?.total} сум </Text>
         </View>
       </View>
     </View>
@@ -35,28 +41,39 @@ export default OrderDetails;
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 20,
+    marginVertical: 20,
+    marginHorizontal: 15,
   },
+
   headerTxt: {
     fontSize: 19,
-    color: COLORS.labelText,
+    fontFamily: 'Montserrat',
+    color: COLORS.defaultBlack,
   },
 
   box: {
-    padding: 15,
+    padding: 10,
+    elevation: 5,
+    backgroundColor: COLORS.white,
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
     borderRadius: 8,
-    backgroundColor: COLORS.bgColor2,
+    marginVertical: 10,
   },
 
   row: {
     flexDirection: 'row',
-    marginVertical: 10,
+    marginVertical: 5,
     justifyContent: 'space-between',
   },
 
   price: {
     fontSize: 14,
-    color: COLORS.labelText,
+    color: COLORS.defaultBlack,
     fontWeight: '700',
   },
 
@@ -71,7 +88,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     letterSpacing: 0.5,
-    color: COLORS.black,
+    color: COLORS.defaultBlack,
   },
 
   rowFooter: {
@@ -84,6 +101,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     letterSpacing: 0.5,
-    color: COLORS.black,
+    color: COLORS.red,
   },
 });

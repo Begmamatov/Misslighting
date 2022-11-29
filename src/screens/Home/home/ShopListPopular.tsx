@@ -1,21 +1,35 @@
 import {View, Text, StyleSheet, FlatList} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 import ShopAndNewsItem from './ShopAndNewsItem';
 import ProductsTitle from '../../../components/uikit/ProductsTitle';
 import {useNavigation} from '@react-navigation/native';
 import {ROUTES} from '../../../constants/routes';
+import requests from '@api/requests';
+import {ProductItemResponse} from '@api/types';
 
 type ProductListProps = {
   title: string;
-  imgRequire?: any;
 };
 
 export default function ShopListPopular(props: ProductListProps) {
-  const shops = [1, 2, 3, 4, 5, 6, 7, 8];
+  const [products, setProducts] = useState<ProductItemResponse[]>([]);
+
+  const getProducts = async () => {
+    try {
+      let res = await requests.sort.getPopular();
+      setProducts(res.data.data);
+    } catch (error) {
+      console.log('product lest', error);
+    }
+  };
+  useEffect(() => {
+    getProducts();
+  }, []);
   const navigation = useNavigation();
+
   const onPress = () => {
-    navigation.navigate(ROUTES.ALLPRODUCTS as never, props);
+    navigation.navigate(ROUTES.ALLPRODUCTS as never, {products, props});
   };
 
   return (
@@ -24,12 +38,12 @@ export default function ShopListPopular(props: ProductListProps) {
       <FlatList
         horizontal
         showsHorizontalScrollIndicator={false}
-        data={shops}
+        data={products}
         renderItem={({item}) => (
           <ShopAndNewsItem
             itemInfo="Ваш Проводник Света"
-            imgRequire={require('../../../assets/images/Brand1.png')}
             buttonTitle="Посмотреть"
+            {...item}
           />
         )}
         keyExtractor={item => item.toString()}
