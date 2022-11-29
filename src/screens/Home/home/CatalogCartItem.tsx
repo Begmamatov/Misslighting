@@ -1,13 +1,17 @@
 import {View, Text, StyleSheet, Image} from 'react-native';
 import React from 'react';
+import {assetUrl} from '@api/requests';
 
-export default function CatalogCartItem() {
+type Props = {
+  photo: string;
+  itemInfo: string;
+  imgRequire: any;
+  buttonTitle: string;
+};
+export default function CatalogCartItem(props: Props) {
   return (
     <View style={styles.cartItem}>
-      <Image
-        style={styles.image}
-        source={require('../../../assets/images/ProductCatalog.png')}
-      />
+      <Image style={styles.image} source={{uri: assetUrl + props.photo}} />
       <Text style={styles.title}>Осветительные Приборы</Text>
     </View>
   );

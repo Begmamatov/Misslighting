@@ -1,5 +1,12 @@
-import {View, Text, ScrollView, StyleSheet, Image} from 'react-native';
-import React from 'react';
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  Image,
+  Dimensions,
+} from 'react-native';
+import React, {useRef, useState} from 'react';
 
 import ProductCatalog from './ProductCatalog';
 import ProductListPopular from './ProductListPopular';
@@ -11,59 +18,126 @@ import ShopListPopular from './ShopListPopular';
 import NewsList from './NewsList';
 import SearchNatlifHeader from '../../../components/uikit/Header/SearchNatlifHeader';
 import {COLORS} from '../../../constants/colors';
-
+import Carousel, {Pagination} from 'react-native-snap-carousel';
+import {useNavigation, useRoute} from '@react-navigation/native';
 export default function HomeScreen() {
+  const width = Dimensions.get('window').width;
+  const item_width = Math.round(width * 1);
+  const isCorusel = useRef(null);
+  const [index, setIndex] = useState(0);
+  const [index2, setIndex2] = useState(0);
+  const route = useRoute();
+
+  const navigation = useNavigation();
+  const CatalogArray = [
+    {
+      title: 'Black shadow',
+      id: 1,
+      img_url: require('../../../assets/images/carusel.png'),
+    },
+    {
+      title: 'Black shadow',
+      id: 2,
+      img_url: require('../../../assets/images/carusel.png'),
+    },
+    {
+      title: 'Black shadow',
+      id: 3,
+      img_url: require('../../../assets/images/carusel.png'),
+    },
+    {
+      title: 'Black shadow',
+      id: 4,
+      img_url: require('../../../assets/images/carusel.png'),
+    },
+  ];
+  const CatalogArray2 = [
+    {
+      title: 'Black shadow',
+      id: 1,
+      img_url: require('../../../assets/images/BannerTop.png'),
+    },
+    {
+      title: 'Black shadow',
+      id: 2,
+      img_url: require('../../../assets/images/BannerTop.png'),
+    },
+    {
+      title: 'Black shadow',
+      id: 3,
+      img_url: require('../../../assets/images/BannerTop.png'),
+    },
+    {
+      title: 'Black shadow',
+      id: 4,
+      img_url: require('../../../assets/images/BannerTop.png'),
+    },
+  ];
   return (
     <ScrollView style={styles.scroll}>
-      <Image
-        style={styles.imageBannerTop}
-        source={require('../../../assets/images/BannerTop.png')}
-      />
-      <View style={styles.caruselBadge}>
-        <View style={styles.caruselBadgeItem} />
-        <View style={styles.caruselBadgeItem} />
-        <View style={styles.caruselBadgeItem} />
-        <View style={styles.caruselBadgeItem} />
-      </View>
-      <Image
-        style={styles.imageBannerBattom}
-        source={require('../../../assets/images/BannerBattom.png')}
-      />
-      <View style={styles.caruselBadge}>
-        <View style={styles.caruselBadgeItem} />
-        <View style={styles.caruselBadgeItem} />
-        <View style={styles.caruselBadgeItem} />
-        <View style={styles.caruselBadgeItem} />
+      <View>
+        <Carousel
+          ref={isCorusel}
+          data={CatalogArray2}
+          renderItem={({item}) => {
+            return (
+              <View style={{width: '100%', height: 116}}>
+                <Image
+                  style={{width: '100%', height: '100%'}}
+                  source={item.img_url}
+                />
+              </View>
+            );
+          }}
+          sliderWidth={width}
+          itemWidth={width}
+          onSnapToItem={index => setIndex2(index)}
+        />
+        <Pagination
+          dotsLength={CatalogArray.length}
+          activeDotIndex={index2}
+          dotStyle={{
+            width: 35,
+            height: 3,
+            backgroundColor: 'black',
+          }}
+        />
+        <Carousel
+          ref={isCorusel}
+          data={CatalogArray}
+          renderItem={({item}) => {
+            return (
+              <View style={{width: '100%', height: 245}}>
+                <Image
+                  style={{width: '100%', height: '100%'}}
+                  source={item.img_url}
+                />
+              </View>
+            );
+          }}
+          sliderWidth={width}
+          itemWidth={width}
+          onSnapToItem={index => setIndex(index)}
+        />
+        <Pagination
+          dotsLength={CatalogArray.length}
+          activeDotIndex={index}
+          dotStyle={{
+            width: 35,
+            height: 3,
+            backgroundColor: 'black',
+          }}
+        />
       </View>
       <View style={styles.container}>
         <SearchNatlifHeader />
-        <ProductListPopular
-          title={'Популярные товары'}
-          imgRequire={require('../../../assets/images/Item.png')}
-        />
+        <ProductListPopular title={'Популярные товары'} />
         <ProductCatalog />
-        <ProductListSale
-          imgRequire={require('../../../assets/images/Product2.png')}
-          title={'Товары со скидкой'}
-          showNewProduct={true}
-          // showDiscount={false}
-        />
-        <ProductListNew
-          imgRequire={require('../../../assets/images/Product3.png')}
-          title={'Новые товары'}
-          // showNewProduct={true}
-          showDiscount={true}
-        />
-        <ProductListTopShop
-          showDiscountAdd={true}
-          title="Товары под заказ"
-          imgRequire={require('../../../assets/images/Product4.png')}
-        />
+        <ProductListSale title={'Товары со скидкой'} showDiscount={true} />
+        <ProductListNew title={'Новые товары'} showNewProduct={true} />
+        <ProductListTopShop showDiscountAdd={true} title="Товары под заказ" />
         <ShopListPopular title="Популярные магазины" />
-        <NewsList
-          title="Новости"
-          imgRequire={require('../../../assets/images/Product4.png')}
-        />
+        <NewsList title="Новости" />
       </View>
     </ScrollView>
   );

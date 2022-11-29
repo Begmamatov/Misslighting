@@ -15,44 +15,36 @@ import SortAndFilter from '../../../../components/uikit/SortAndFilter';
 import {COLORS} from '../../../../constants/colors';
 import {useRoute} from '@react-navigation/native';
 
-const product = [1, 2, 3, 4, 5, 6, 7, 8];
-
 const AllProducts = () => {
   const route: any = useRoute();
-  console.log('=================Routes===================');
-  console.log(route);
-  console.log('=================Routes===================');
-
+  console.log('====================================');
+  console.log(JSON.stringify(route, null, 2));
+  console.log('====================================');
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
         <View style={{marginBottom: 10}}>
           <GoBackHeader />
-          <AllProductTitle title={route.params.title} />
+          <AllProductTitle title={route.params.props.title} />
           <SortAndFilter />
         </View>
-        <ScrollView
-          style={{flex: 1, paddingHorizontal: 15}}
-          showsVerticalScrollIndicator={false}>
-          <View style={styles.render_container}>
-            <FlatList
-              showsVerticalScrollIndicator={false}
-              data={product}
-              renderItem={() => (
-                <AllProductItemCard
-                  imgRequire={route.params.imgRequire}
-                  showDiscount={route.params.showNewProduct}
-                  showNewProduct={route.params.showDiscount}
-                  showDiscountAdd={route.params.showDiscountAdd}
-                />
-              )}
-              numColumns={2}
-              contentContainerStyle={{
-                alignItems: 'center',
-              }}
+
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={route.params.products}
+          renderItem={({item}) => (
+            <AllProductItemCard
+              imgRequire={route.params.props.imgRequire}
+              showDiscount={route.params.props.showDiscount}
+              showNewProduct={route.params.props.showNewProduct}
+              showDiscountAdd={route.params.props.showDiscountAdd}
+              {...item}
             />
-          </View>
-        </ScrollView>
+          )}
+          numColumns={2}
+          style={styles.container2}
+          contentContainerStyle={styles.contentContainerStyle}
+        />
       </View>
     </SafeAreaView>
   );
@@ -73,4 +65,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     flexDirection: 'row',
   },
+  container2: {marginBottom: 15},
+  contentContainerStyle: {paddingHorizontal: 10},
 });

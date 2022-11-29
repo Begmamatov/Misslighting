@@ -1,17 +1,12 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-
-const Description = () => {
+type typeProps = {
+  description?: string;
+};
+const Description = (props: typeProps) => {
   return (
-    <View
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingHorizontal: 15,
-      }}>
-      <Text>Описание</Text>
-      <Text>X</Text>
+    <View>
+      <Text>{props.description}</Text>
     </View>
   );
 };

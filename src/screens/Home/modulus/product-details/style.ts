@@ -31,6 +31,11 @@ export const styles = StyleSheet.create({
     marginTop: 14,
     marginBottom: 14,
   },
+  border2: {
+    width: '100%',
+    borderWidth: 1,
+    borderColor: '#7171712d',
+  },
   box2: {
     width: '100%',
     paddingHorizontal: 15,

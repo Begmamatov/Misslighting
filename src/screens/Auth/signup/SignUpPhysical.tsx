@@ -65,7 +65,7 @@ export default function SignUpPhysical() {
         backgroundColor={COLORS.noActiveButtonBgColor2}
         placeholderColor={COLORS.labelText}
         marginBottom={0}
-        onChange={onStateChange('phone')}
+        onChangeText={onStateChange('phone')}
         value={state.phone}
       />
       <DefaultInput
@@ -74,7 +74,7 @@ export default function SignUpPhysical() {
         backgroundColor={COLORS.noActiveButtonBgColor2}
         placeholderColor={COLORS.labelText}
         marginBottom={0}
-        onChange={onStateChange('name')}
+        onChangeText={onStateChange('name')}
         value={state.name}
       />
       <DefaultInput
@@ -83,7 +83,7 @@ export default function SignUpPhysical() {
         backgroundColor={COLORS.noActiveButtonBgColor2}
         placeholderColor={COLORS.labelText}
         marginBottom={0}
-        onChange={onStateChange('lastName')}
+        onChangeText={onStateChange('lastName')}
         value={state.lastName}
       />
       <DefaultInput
@@ -92,7 +92,7 @@ export default function SignUpPhysical() {
         backgroundColor={COLORS.noActiveButtonBgColor2}
         placeholderColor={COLORS.labelText}
         marginBottom={0}
-        onChange={onStateChange('middleName')}
+        onChangeText={onStateChange('middleName')}
         value={state.middleName}
       />
       <DefaultInput
@@ -101,12 +101,12 @@ export default function SignUpPhysical() {
         backgroundColor={COLORS.noActiveButtonBgColor2}
         placeholderColor={COLORS.labelText}
         marginBottom={0}
-        onChange={onStateChange('birthday')}
+        onChangeText={onStateChange('birthday')}
         value={state.birthday}
       />
       <CheckBox label="Я согласен с условиями" />
       <DefaultButton
-        onPress={() => navigation.navigate(ROUTES.VERIFICATION)}
+        onPress={() => navigation.navigate(ROUTES.VERIFICATION as never)}
         title="Далее"
         // eslint-disable-next-line react-native/no-inline-styles
         ButtonStyle={{
