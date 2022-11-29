@@ -1,34 +1,111 @@
-import {View, Text, StyleSheet} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Animated, Dimensions } from 'react-native';
 import React from 'react';
 import SingUpTemplate from '../../../components/template/SingUpTemplate';
 import SectionTitle from '../../../components/uikit/SectionTitle';
-import DefaultButton from '../../../components/uikit/DefaultButton';
-import {COLORS} from '../../../constants/colors';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import { COLORS } from '../../../constants/colors';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { ROUTES } from '@constants/routes';
+import SignUpLegal from './SignUpLegal';
+import SignUpPhysical from './SignUpPhysical';
 
 const Tab = createMaterialTopTabNavigator();
+
+type Props = {
+  navigation: any;
+  state: any;
+  descriptors: any;
+  position: any;
+};
+
+function MyTabBar({ state, descriptors, navigation, position }: Props) {
+  return (
+    <View style={{ flexDirection: 'row', ...styles.buttonsBox }}>
+      {state.routes.map((route: { key: string | number; name: any; }, index: any) => {
+        const { options } = descriptors[route.key];
+        const label =
+          options.tabBarLabel !== undefined
+            ? options.tabBarLabel
+            : options.title !== undefined
+              ? options.title
+              : route.name;
+
+        const isFocused = state.index === index;
+
+        const onPress = () => {
+          const event = navigation.emit({
+            type: 'tabPress',
+            target: route.key,
+            canPreventDefault: true,
+          });
+
+          if (!isFocused && !event.defaultPrevented) {
+            // The `merge: true` option makes sure that the params inside the tab screen are preserved
+            navigation.navigate({ name: route.name, merge: true });
+          }
+        };
+
+        const onLongPress = () => {
+          navigation.emit({
+            type: 'tabLongPress',
+            target: route.key,
+          });
+        };
+
+        const inputRange = state.routes.map((_: any, i: any) => i);
+        const opacity = position.interpolate({
+          inputRange,
+          outputRange: inputRange.map((i: any) => (i === index ? 1 : 0)),
+        });
+
+        return (
+          <TouchableOpacity
+            accessibilityRole="button"
+            accessibilityState={isFocused ? { selected: true } : {}}
+            accessibilityLabel={options.tabBarAccessibilityLabel}
+            testID={options.tabBarTestID}
+            key={route.key}
+            onPress={onPress}
+            onLongPress={onLongPress}
+            style={{
+              height: 55,
+              borderRadius: 45,
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginBottom: 25,
+              backgroundColor: isFocused ? COLORS.activeButtonBgColor : COLORS.noActiveButtonBgColor2,
+              width: '50%',
+            }}
+          >
+            <Animated.Text style={{
+              color: isFocused ? COLORS.white : COLORS.noActiveButtonTextColor,
+              fontSize: 14,
+              fontWeight: '700',
+            }}>
+              {label}
+            </Animated.Text>
+          </TouchableOpacity>
+        );
+      })}
+    </View>
+  );
+}
+
 
 export default function SingUpScreen() {
   return (
     <SingUpTemplate>
       <SectionTitle title="Регистрация" marginBottom={36} />
-      <View style={styles.buttonsBox}>
-        <DefaultButton
-          title="Физическое лицо"
-          ButtonStyle={{
-            backgroundColor: COLORS.noActiveButtonBgColor2,
-            width: '50%',
-          }}
-          TextStyle={{color: COLORS.noActiveButtonTextColor, fontSize: 14}}
-        />
-        <DefaultButton
-          title="Юридическое лицо"
-          ButtonStyle={{
-            backgroundColor: COLORS.activeButtonBgColor,
-            width: '50%',
-          }}
-          TextStyle={{color: COLORS.white, fontSize: 14}}
-        />
+      <View style={{ width: '100%', height: Dimensions.get('screen').height - 200 }}>
+        <Tab.Navigator
+          tabBar={props => <MyTabBar {...props} />}
+        >
+          <Tab.Screen name={ROUTES.SIGNUPPHYSCIAL} component={SignUpPhysical} options={{
+            tabBarLabel: 'Физическое лицо',
+          }} />
+          <Tab.Screen name={ROUTES.SIGNUPLEGAL} component={SignUpLegal} options={{
+            tabBarLabel: 'Юридическое лицо',
+          }} />
+        </Tab.Navigator>
       </View>
     </SingUpTemplate>
   );
@@ -37,7 +114,6 @@ export default function SingUpScreen() {
 const styles = StyleSheet.create({
   buttonsBox: {
     width: '100%',
-    flexDirection: 'row',
     backgroundColor: COLORS.noActiveButtonBgColor2,
     borderRadius: 45,
     height: 55,
