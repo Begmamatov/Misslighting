@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, StyleSheet, TextInput, View} from 'react-native';
+import {Image, StyleSheet, TextInput, View, Text} from 'react-native';
 
 //@ts-ignore
 import MirImg from '../../../../assets/images/mir.png';
@@ -7,7 +7,7 @@ import MirImg from '../../../../assets/images/mir.png';
 import VisaImg from '../../../../assets/images/visa.png';
 //@ts-ignore
 import MastercardImg from '../../../../assets/images/mastercard.png';
-import Text from '@components/uikit/Text';
+
 import {STRINGS} from '@locales/strings';
 import {COLORS} from '@constants/colors';
 

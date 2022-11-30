@@ -1,7 +1,8 @@
 import Text from '@components/uikit/Text';
+import {COLORS} from '@constants/colors';
 import {STRINGS} from '@locales/strings';
 import React, {useEffect} from 'react';
-import {ScrollView, TouchableOpacity, View} from 'react-native';
+import {SafeAreaView, ScrollView, TouchableOpacity, View} from 'react-native';
 import {Modal} from 'react-native';
 import DefaultHeader from './components/DefaultHeader';
 import Products from './components/Products';
@@ -32,7 +33,7 @@ const FavoriteView = () => {
   console.log('favorites', favorites);
 
   return (
-    <>
+    <SafeAreaView style={{flex: 1, backgroundColor: COLORS.white}}>
       <DefaultHeader name={STRINGS.ru.favorites} />
       <ScrollView style={styles.container}>
         {/* <SelectableMenu /> */}
@@ -46,7 +47,7 @@ const FavoriteView = () => {
         <Text style={styles.text}>{STRINGS.ru.advertBlock}</Text>
         <ProductsListFav />
       </ScrollView>
-    </>
+    </SafeAreaView>
   );
 };
 

@@ -1,13 +1,12 @@
-import Text from '@components/uikit/Text';
 import {COLORS} from '@constants/colors';
 import {ROUTES} from '@constants/routes';
 import {GeoIcon, RightArrow} from '@icons/icons';
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 const LocationBox = () => {
-  let navigation = useNavigation();
+  let navigation: any = useNavigation();
   return (
     <TouchableOpacity
       style={styles.container}

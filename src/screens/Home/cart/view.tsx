@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/core';
 import React, {useEffect} from 'react';
-import {SafeAreaView, ScrollView, View} from 'react-native';
+import {SafeAreaView, ScrollView, View, Text} from 'react-native';
 import {useSelector} from 'react-redux';
 import DefaultHeader from '../favorites/components/DefaultHeader';
 import ChooseItemNum from './components/ChooseItemNum';
@@ -11,7 +11,7 @@ import {styles} from './style';
 import {useRoute} from '@react-navigation/native';
 import {cartArraySelector, cartTotalSelector} from '@store/slices/cartSlice';
 import {STRINGS} from '@locales/strings';
-import Text from '@components/uikit/Text';
+
 import DefaultButton from '@components/uikit/DefaultButton';
 import {ROUTES} from '@constants/routes';
 import {COLORS} from '@constants/colors';
