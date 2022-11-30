@@ -1,8 +1,7 @@
-import Text from '@components/uikit/Text';
 import {COLORS} from '@constants/colors';
 import {STRINGS} from '@locales/strings';
 import React from 'react';
-import {Platform, StyleSheet, TextInput, View} from 'react-native';
+import {Platform, StyleSheet, TextInput, View, Text} from 'react-native';
 
 const PriceChoosing = () => {
   return (

@@ -1,5 +1,5 @@
 import {FilterIcon, GeoIcon, SearchIcon} from '@icons/icons';
-import Text from '@components/uikit/Text';
+
 import GoBackHeader from '@components/uikit/Header/GoBackHeader';
 import {COLORS, GRADIENT_COLORS} from '@constants/colors';
 import {STRINGS} from '@locales/strings';

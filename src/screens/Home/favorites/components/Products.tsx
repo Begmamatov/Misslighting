@@ -11,8 +11,9 @@ import {useAppSelector} from '@store/hooks';
 import {toggleLoading} from '@store/slices/appSettings';
 import {cartSelector, loadCart} from '@store/slices/cartSlice';
 import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
-import React from 'react';
+import React, {useState} from 'react';
 import {
+  ActivityIndicator,
   Image,
   LayoutAnimation,
   StyleSheet,
@@ -32,29 +33,33 @@ const Products = ({item}: {item: ProductItemResponse}) => {
   let isInFavorite = !!favorite[id];
 
   const navigation: any = useNavigation();
-
+  const [animate, setAnimate] = useState(false);
   const onCartPress = async () => {
     try {
       if (isInCart) {
         //TODO remove from cart
         try {
+          setAnimate(true);
           let res = await requests.products.removeItem({
             product_id: id,
           });
           let cartRes = await requests.products.getCarts();
           dispatch(loadCart(cartRes.data.data));
+          setAnimate(false);
         } catch (error) {
           console.log(error);
         } finally {
           effect();
         }
       } else {
+        setAnimate(true);
         let res = await requests.products.addToCart({
           amount: 1,
           product_id: id,
         });
         let cartRes = await requests.products.getCarts();
         dispatch(loadCart(cartRes.data.data));
+        setAnimate(false);
       }
     } catch (error) {
       console.log(error);
@@ -117,8 +122,23 @@ const Products = ({item}: {item: ProductItemResponse}) => {
                 X
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
-              <BasketIcon fill={COLORS.textColorBlue} />
+            <TouchableOpacity
+              style={[
+                styles.button,
+                {backgroundColor: isInCart ? '#84A9C0' : '#FFFFFF'},
+              ]}
+              onPress={onCartPress}>
+              {animate ? (
+                <ActivityIndicator
+                  size="small"
+                  color={'red'}
+                  animating={animate}
+                />
+              ) : (
+                <View style={styles.buttonContainer}>
+                  <BasketIcon fill={isInCart ? COLORS.white : '#84A9C0'} />
+                </View>
+              )}
             </TouchableOpacity>
           </View>
         </View>

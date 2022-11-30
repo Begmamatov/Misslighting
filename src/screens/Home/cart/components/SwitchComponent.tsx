@@ -1,7 +1,6 @@
-import Text from '@components/uikit/Text';
 import {COLORS} from '@constants/colors';
 import React, {useState} from 'react';
-import {StyleSheet, Switch, View} from 'react-native';
+import {StyleSheet, Switch, View, Text} from 'react-native';
 
 export interface SwitchComponentProps {
   text?: string;

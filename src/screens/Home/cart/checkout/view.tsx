@@ -7,7 +7,7 @@ import {
 import AllProductTitle from '@components/uikit/AllProductTitle';
 import DefaultButton from '@components/uikit/DefaultButton';
 import GoBackHeader from '@components/uikit/Header/GoBackHeader';
-import Text from '@components/uikit/Text';
+
 import DefaultInput from '@components/uikit/TextInput';
 import {COLORS} from '@constants/colors';
 import DefaultHeader from '@home/favorites/components/DefaultHeader';
@@ -24,6 +24,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Text,
 } from 'react-native';
 import {Snackbar} from 'react-native-paper';
 import {useDispatch} from 'react-redux';

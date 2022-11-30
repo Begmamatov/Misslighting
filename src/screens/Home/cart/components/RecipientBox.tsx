@@ -1,5 +1,5 @@
 import DefaultButton from '@components/uikit/DefaultButton';
-import Text from '@components/uikit/Text';
+
 import {COLORS} from '@constants/colors';
 import {STRINGS} from '@locales/strings';
 import React, {useState} from 'react';
@@ -11,6 +11,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Text,
 } from 'react-native';
 
 const RecipientBox = () => {

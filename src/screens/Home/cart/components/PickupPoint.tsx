@@ -1,12 +1,12 @@
 import {appendUrl} from '@api/requests';
-import Text from '@components/uikit/Text';
+
 import DefaultInput from '@components/uikit/TextInput';
 import {COLORS} from '@constants/colors';
 import {WINDOW_WIDTH} from '@constants/sizes';
 import {STRINGS} from '@locales/strings';
 import {useNavigation} from '@react-navigation/core';
 import React from 'react';
-import {Image, StyleSheet, View} from 'react-native';
+import {Image, StyleSheet, View, Text} from 'react-native';
 
 type Props = any;
 

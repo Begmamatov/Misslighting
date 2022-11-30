@@ -1,22 +1,49 @@
-import {StyleSheet, Switch, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Switch,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, {useState} from 'react';
 import GoBackHeader from '../../../../components/uikit/Header/GoBackHeader';
+import AllProductTitle from '@components/uikit/AllProductTitle';
+import {COLORS} from '@constants/colors';
 
 const Setting = () => {
+  const [isEnabled, setIsEnabled] = useState(false);
+  const [isEnabled2, setIsEnabled2] = useState(false);
+  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+  const toggleSwitch2 = () => setIsEnabled2(previousState => !previousState);
+
   return (
-    <View style={{height: '95%'}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: COLORS.white}}>
       <GoBackHeader />
-      <View style={styles.header}>
-        <Text style={styles.HeaderText}>Настройки</Text>
-      </View>
+      <AllProductTitle title="Настройки" color={true} />
+
       <View style={styles.switchContainer}>
         <View style={styles.switchContext}>
           <Text style={styles.switchText}>Получать Push-уведомления</Text>
-          <Switch />
+          <Switch
+            hitSlop={{top: 10, left: 10, right: 10, bottom: 10}}
+            trackColor={{false: '#767577', true: '#84A9C0'}}
+            thumbColor={isEnabled ? '#1f5c81' : COLORS.white}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={toggleSwitch}
+            value={isEnabled}
+          />
         </View>
         <View style={styles.switchContext}>
           <Text style={styles.switchText}>Получать SMS-уведомления</Text>
-          <Switch />
+          <Switch
+            hitSlop={{top: 10, left: 10, right: 10, bottom: 10}}
+            trackColor={{false: '#767577', true: '#84A9C0'}}
+            thumbColor={isEnabled2 ? '#1f5c81' : COLORS.white}
+            ios_backgroundColor="#3e3e3e"
+            onValueChange={toggleSwitch2}
+            value={isEnabled2}
+          />
         </View>
       </View>
       <TouchableOpacity style={styles.saveBtn}>
@@ -24,7 +51,7 @@ const Setting = () => {
           Сохранить
         </Text>
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -42,7 +69,7 @@ const styles = StyleSheet.create({
   },
   saveBtn: {
     position: 'absolute',
-    bottom: 0,
+    bottom: 66,
     backgroundColor: '#84A9C0',
     marginHorizontal: 48,
     borderRadius: 45,
@@ -51,7 +78,9 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
   },
-  switchContainer: {},
+  switchContainer: {
+    marginTop: 26,
+  },
   switchContext: {
     display: 'flex',
     flexDirection: 'row',
@@ -64,3 +93,6 @@ const styles = StyleSheet.create({
     color: '#C8C8C8',
   },
 });
+function setIsEnabled(arg0: (previousState: any) => boolean) {
+  throw new Error('Function not implemented.');
+}

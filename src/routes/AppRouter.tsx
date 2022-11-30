@@ -15,7 +15,19 @@ import FilterScren from '@components/template/FilterScreen';
 import Subcategory from '@home/catalog/Subcategory';
 import ProductDetails from '../screens/Home/modulus/product-details/PdoductDetails';
 import Reviews from '@home/modulus/components/reviews';
-import { CheckoutScreen } from '@home/cart/checkout';
+import {CheckoutScreen} from '@home/cart/checkout';
+import ProfileScreen from '@home/profile/ProfileScreen';
+import MyProduct from '@home/profile/MyProducts/MyProduct';
+import Message from '@home/profile/Message/Message';
+import Setting from '@home/profile/Setting/Setting';
+import Transactions from '@home/profile/Transactions/Transactions';
+import ActiveList from '@home/profile/MyProducts/components/ActiveList';
+import StoryList from '@home/profile/MyProducts/components/StoryList';
+import TechnicalSupport from '@home/profile/Technical_Support/TechnicalSupport';
+import BonusProgram from '@home/profile/BonusProgram/BonusProgram';
+import PersonalData from '@home/profile/PersonalData/PersonalData';
+import PersonalDataChange from '@home/profile/PersonDataChange/PersonDataChange';
+import Notification from '@home/profile/Notification/Notification';
 let Stack = createNativeStackNavigator();
 
 export default function AppRouter() {
@@ -45,6 +57,37 @@ export default function AppRouter() {
                 component={ProductDetails}
               />
               <Stack.Screen name={ROUTES.CHECKOUT} component={CheckoutScreen} />
+              <Stack.Screen name={ROUTES.PROFILE} component={ProfileScreen} />
+              <Stack.Screen name={ROUTES.MY_PRODUCTS} component={MyProduct} />
+              <Stack.Screen name={ROUTES.MESSAGE} component={Message} />
+              <Stack.Screen name={ROUTES.PROFILE_SETTING} component={Setting} />
+
+              <Stack.Screen
+                name={ROUTES.TRANSACTIONS}
+                component={Transactions}
+              />
+              <Stack.Screen name={ROUTES.ACTIVEVELIST} component={ActiveList} />
+              <Stack.Screen name={ROUTES.STORYLIST} component={StoryList} />
+              <Stack.Screen
+                name={ROUTES.TECHNICALSUPPORT}
+                component={TechnicalSupport}
+              />
+              <Stack.Screen
+                name={ROUTES.PROFILE_NOTIFICATION}
+                component={Notification}
+              />
+              <Stack.Screen
+                name={ROUTES.BONUSPROGRAM}
+                component={BonusProgram}
+              />
+              <Stack.Screen
+                name={ROUTES.PERSONALDATE}
+                component={PersonalData}
+              />
+              <Stack.Screen
+                name={ROUTES.PersonalDataChange}
+                component={PersonalDataChange}
+              />
             </>
           )}
         </Stack.Navigator>
