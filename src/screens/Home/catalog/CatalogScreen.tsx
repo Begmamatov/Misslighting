@@ -81,9 +81,7 @@ export default function CatalogScreen() {
   useEffect(() => {
     effect();
   }, []);
-  console.log('====================================');
-  console.log('categories', JSON.stringify(categories, null, 2));
-  console.log('====================================');
+
   return (
     <View style={styles.container}>
       <SearchNatlifHeader />

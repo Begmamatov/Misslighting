@@ -28,13 +28,9 @@ export default function ProductCatalog() {
         showsHorizontalScrollIndicator={false}
         data={products}
         renderItem={({item}) => (
-          <CatalogCartItem
-            itemInfo={''}
-            imgRequire={undefined}
-            buttonTitle={''}
-            {...item}
-          />
+          <CatalogCartItem itemInfo={''} buttonTitle={''} {...item} />
         )}
+        keyExtractor={item => item.id}
         style={{marginBottom: 15}}
         contentContainerStyle={{paddingHorizontal: 15}}
       />

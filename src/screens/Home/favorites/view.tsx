@@ -1,8 +1,13 @@
-import Text from '@components/uikit/Text';
 import {COLORS} from '@constants/colors';
 import {STRINGS} from '@locales/strings';
 import React, {useEffect} from 'react';
-import {SafeAreaView, ScrollView, TouchableOpacity, View} from 'react-native';
+import {
+  SafeAreaView,
+  ScrollView,
+  TouchableOpacity,
+  View,
+  Text,
+} from 'react-native';
 import {Modal} from 'react-native';
 import DefaultHeader from './components/DefaultHeader';
 import Products from './components/Products';
@@ -29,8 +34,6 @@ const FavoriteView = () => {
       </View>
     );
   }
-
-  console.log('favorites', favorites);
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.white}}>

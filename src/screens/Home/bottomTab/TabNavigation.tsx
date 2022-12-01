@@ -7,7 +7,6 @@ import HomeScreen from '../home/HomeScreen';
 
 import CatalogScreen from '../catalog/CatalogScreen';
 import CartScreen from '../cart/view';
-import ProfileNavigation from '../profile/ProfileNavigation';
 import {
   CartIconActive,
   CartIconNotActive,
@@ -24,6 +23,7 @@ import FavoritesScreen from '@home/favorites';
 import {useSelector} from 'react-redux';
 import {favoriteArraySelector} from '@store/slices/favoriteSlice';
 import {cartTotalSelector} from '@store/slices/cartSlice';
+import ProfileScreen from '@home/profile/ProfileScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -147,7 +147,7 @@ export default function TabNavigation() {
           ),
         }}
         name={ROUTES.PROFILE_STACK}
-        component={ProfileNavigation}
+        component={ProfileScreen}
       />
     </Tab.Navigator>
   );

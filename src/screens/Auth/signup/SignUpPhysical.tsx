@@ -3,13 +3,11 @@ import CheckBox from '../../../components/uikit/CheckBox';
 import DefaultButton from '../../../components/uikit/DefaultButton';
 import SectionTitle from '../../../components/uikit/SectionTitle';
 import DefaultInput from '../../../components/uikit/TextInput';
-import { COLORS } from '../../../constants/colors';
-import React, { useState } from 'react';
-import {
-  ScrollView,
-} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { ROUTES } from '../../../constants/routes';
+import {COLORS} from '../../../constants/colors';
+import React, {useState} from 'react';
+import {ScrollView} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {ROUTES} from '../../../constants/routes';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
 import useRegisterHook from './hooks';
@@ -24,7 +22,6 @@ import useRegisterHook from './hooks';
 //   type: string;
 // }
 export default function SignUpPhysical() {
-
   let {
     loading,
     onStateChange,
@@ -38,12 +35,10 @@ export default function SignUpPhysical() {
   // const [open, setOpen] = useState(false)
   // const formatDate = (date: Date) => setState({ ...state, birthday: moment(date).format('DD.MM.YYYY') })
 
-  console.log('====================================');
-  console.log(state);
-  console.log('====================================');
-
   return (
-    <ScrollView style={{ backgroundColor: COLORS.white }} showsVerticalScrollIndicator={false}>
+    <ScrollView
+      style={{backgroundColor: COLORS.white}}
+      showsVerticalScrollIndicator={false}>
       <DefaultInput
         placeholder="Ваш номер"
         label="Номер телефона"
@@ -120,7 +115,7 @@ export default function SignUpPhysical() {
           backgroundColor: COLORS.activeButtonBgColor,
           width: '100%',
         }}
-        TextStyle={{ color: COLORS.white }}
+        TextStyle={{color: COLORS.white}}
         loading={loading}
       />
     </ScrollView>
