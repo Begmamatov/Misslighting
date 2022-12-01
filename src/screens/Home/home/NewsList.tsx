@@ -6,14 +6,13 @@ import ProductsTitle from '../../../components/uikit/ProductsTitle';
 import {useNavigation} from '@react-navigation/native';
 import {ROUTES} from '../../../constants/routes';
 import requests from '@api/requests';
-import {ProductItemResponse} from '@api/types';
 
 type ProductListProps = {
   title: string;
 };
 
 export default function NewsList(props: ProductListProps) {
-  const [products, setProducts] = useState<ProductItemResponse[]>([]);
+  const [products, setProducts] = useState<any>();
 
   const getProducts = async () => {
     try {
@@ -45,7 +44,7 @@ export default function NewsList(props: ProductListProps) {
             {...item}
           />
         )}
-        keyExtractor={item => item.toString()}
+        keyExtractor={item => item.id}
         style={styles.container}
         contentContainerStyle={styles.contentContainerStyle}
       />

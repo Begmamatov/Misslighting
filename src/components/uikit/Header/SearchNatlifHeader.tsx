@@ -1,4 +1,10 @@
-import {View, Text, StyleSheet, TextInput} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native';
 import React from 'react';
 import {
   CameraIcon,
@@ -6,17 +12,36 @@ import {
   SearchIcon,
 } from '../../../assets/icons/icons';
 import {COLORS} from '../../../constants/colors';
-
-export default function SearchNatlifHeader() {
+import {STRINGS} from '@locales/strings';
+import {useNavigation} from '@react-navigation/native';
+import {ROUTES} from '@constants/routes';
+interface SearchProps {
+  autoFocus?: boolean;
+  onChange?: (val: string) => void;
+}
+export default function SearchNatlifHeader({autoFocus, onChange}: SearchProps) {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <View style={styles.searchInputBox}>
+        <TextInput
+          style={styles.searchInput}
+          placeholder={STRINGS.ru.searching}
+          placeholderTextColor={COLORS.whiteGray}
+          autoFocus={false}
+          autoCorrect={false}
+          onChangeText={onChange}
+          onPressIn={() => navigation.navigate(ROUTES.SEARCH as never)}
+        />
         <SearchIcon fill={'#84A9C0'} style={{marginRight: 10}} />
-        <TextInput style={styles.searchInput} placeholder="Я ищу..." />
-        <CameraIcon fill={'#84A9C0'} style={{marginLeft: 10}} />
       </View>
       <View style={styles.NotificationBox}>
-        <NotificationIcon fill={'#84A9C0'} />
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate(ROUTES.PROFILE_NOTIFICATION as never)
+          }>
+          <NotificationIcon fill={'#84A9C0'} />
+        </TouchableOpacity>
         <View style={styles.NotificationBoxBadge}>
           <Text style={styles.NotificationBoxBadgeText}>2</Text>
         </View>
@@ -30,7 +55,6 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 20,
     marginBottom: 20,
     paddingHorizontal: 15,
   },
@@ -50,7 +74,7 @@ const styles = StyleSheet.create({
   searchInput: {
     fontSize: 16,
     backgroundColor: COLORS.tabBgColor,
-    width: '75%',
+    width: '90%',
   },
   NotificationBox: {
     width: 50,

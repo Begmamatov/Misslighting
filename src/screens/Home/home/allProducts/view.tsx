@@ -17,9 +17,7 @@ import {useRoute} from '@react-navigation/native';
 
 const AllProducts = () => {
   const route: any = useRoute();
-  console.log('====================================');
-  console.log(JSON.stringify(route, null, 2));
-  console.log('====================================');
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>

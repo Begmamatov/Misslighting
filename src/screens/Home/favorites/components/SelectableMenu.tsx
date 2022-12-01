@@ -1,7 +1,12 @@
-import Text from '@components/uikit/Text';
 import {COLORS} from '@constants/colors';
 import React, {useState} from 'react';
-import {ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  Text,
+} from 'react-native';
 
 const SelectableMenu = () => {
   const [activeIndex, setIsActive] = useState(0);

@@ -76,7 +76,7 @@ export interface Shop {
 }
 
 export interface ProductItemResponse {
-  size: number;
+  size?: number;
   color: any;
   id: number;
   name: string;
@@ -93,6 +93,7 @@ export interface ProductItemResponse {
   shop: Shop;
   price_usd?: string;
   getProducts?: () => void;
+  text?: string;
 }
 
 export interface CartItemResponse {

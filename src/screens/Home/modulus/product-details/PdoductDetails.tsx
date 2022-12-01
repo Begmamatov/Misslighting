@@ -3,13 +3,11 @@ import {
   FlatList,
   Image,
   ScrollView,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
-import GoBackHeader from '../../../../components/uikit/Header/GoBackHeader';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import ProductDetailsButton from '../components/productDetailsButton';
@@ -34,8 +32,6 @@ import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
 import {toggleLoading} from '@store/slices/appSettings';
 import FilterModal from '../../../../components/uikit/Filter/FilterModal';
 import {ProductItemResponse} from '@api/types';
-import {SafeAreaView} from 'react-native-safe-area-context';
-const product = [1, 2, 3, 4];
 
 const PdoductDetails = () => {
   const [active, setActive] = useState({
@@ -122,10 +118,10 @@ const PdoductDetails = () => {
             data={detailIdValue.gallery}
             renderItem={({item}) => {
               return (
-                <View style={{width: '100%', height: 356}}>
+                <View style={{width: '100%', height: 346}}>
                   <Image
                     style={{width: '100%', height: '100%'}}
-                    source={{uri: assetUrl + detailIdValue.photo}}
+                    source={{uri: assetUrl + item}}
                   />
                 </View>
               );

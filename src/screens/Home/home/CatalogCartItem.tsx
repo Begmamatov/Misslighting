@@ -5,7 +5,6 @@ import {assetUrl} from '@api/requests';
 type Props = {
   photo: string;
   itemInfo: string;
-  imgRequire: any;
   buttonTitle: string;
 };
 export default function CatalogCartItem(props: Props) {
