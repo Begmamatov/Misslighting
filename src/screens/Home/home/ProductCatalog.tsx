@@ -1,12 +1,11 @@
-import {View, Text, FlatList} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import { View, Text, FlatList } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import ProductsTitle from '../../../components/uikit/ProductsTitle';
 import CatalogCartItem from './CatalogCartItem';
 import requests from '@api/requests';
-import {ProductItemResponse} from '@api/types';
 
 export default function ProductCatalog() {
-  const [products, setProducts] = useState<ProductItemResponse[]>([]);
+  const [products, setProducts] = useState<any>();
 
   const getProducts = async () => {
     try {
@@ -27,12 +26,12 @@ export default function ProductCatalog() {
         horizontal
         showsHorizontalScrollIndicator={false}
         data={products}
-        renderItem={({item}) => (
+        renderItem={({ item }) => (
           <CatalogCartItem itemInfo={''} buttonTitle={''} {...item} />
         )}
         keyExtractor={item => item.id}
-        style={{marginBottom: 15}}
-        contentContainerStyle={{paddingHorizontal: 15}}
+        style={{ marginBottom: 15 }}
+        contentContainerStyle={{ paddingHorizontal: 15 }}
       />
     </View>
   );

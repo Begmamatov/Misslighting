@@ -5,6 +5,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistor, store } from '@store/configureStore';
+import { LoaderProvider } from '@store/Loader/Loader';
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -17,7 +18,9 @@ const App = () => {
     <SafeAreaProvider>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <AppRouter />
+          <LoaderProvider>
+            <AppRouter />
+          </LoaderProvider>
         </PersistGate>
       </Provider>
     </SafeAreaProvider>

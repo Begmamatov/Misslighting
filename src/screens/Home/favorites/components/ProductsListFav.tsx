@@ -1,11 +1,10 @@
 import requests from '@api/requests';
-import {ProductItemResponse} from '@api/types';
-import {COLORS} from '@constants/colors';
+import { ProductItemResponse } from '@api/types';
+import { COLORS } from '@constants/colors';
 import AllProductItemCard from '@home/home/allProducts/AllProductItemCard';
-import ProductItemCard from '@home/home/ProductItemCard';
-import {STRINGS} from '@locales/strings';
-import React, {useEffect, useState} from 'react';
-import {FlatList, StyleSheet, View} from 'react-native';
+import { STRINGS } from '@locales/strings';
+import React, { useEffect, useState } from 'react';
+import { FlatList, StyleSheet, View } from 'react-native';
 
 export interface PropularProductsProps {
   title?: string;
@@ -33,8 +32,9 @@ const ProductsListFav = ({
         data={products}
         style={styles.container}
         showsHorizontalScrollIndicator={false}
-        renderItem={({item}) => <AllProductItemCard {...item} />}
+        renderItem={({ item }) => <AllProductItemCard {...item} />}
         contentContainerStyle={styles.contentContainerStyle}
+        keyExtractor={item => item.id}
       />
     </View>
   );
@@ -51,6 +51,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     letterSpacing: 0.5,
   },
-  container: {marginBottom: 20, marginHorizontal: 0},
-  contentContainerStyle: {paddingHorizontal: 12},
+  container: { marginBottom: 20, marginHorizontal: 0 },
+  contentContainerStyle: { paddingHorizontal: 12 },
 });
