@@ -1,5 +1,5 @@
-import requests, {appendUrl} from '@api/requests';
-import {CartItemResponse} from '@api/types';
+import requests, { appendUrl } from '@api/requests';
+import { CartItemResponse } from '@api/types';
 import {
   CrashIcon,
   HeartIcon,
@@ -9,13 +9,13 @@ import {
   PlusCounterIcon,
 } from '@icons/icons';
 
-import {COLORS, GRADIENT_COLORS} from '@constants/colors';
-import {STRINGS} from '@locales/strings';
-import {useAppSelector} from '@store/hooks';
-import {toggleLoading} from '@store/slices/appSettings';
-import {loadCart} from '@store/slices/cartSlice';
-import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
-import React, {useState} from 'react';
+import { COLORS, GRADIENT_COLORS } from '@constants/colors';
+import { STRINGS } from '@locales/strings';
+import { useAppSelector } from '@store/hooks';
+import { toggleLoading } from '@store/slices/appSettings';
+import { loadCart } from '@store/slices/cartSlice';
+import { favoriteSelector, loadFavorite } from '@store/slices/favoriteSlice';
+import React, { useState } from 'react';
 import {
   Image,
   LayoutAnimation,
@@ -25,7 +25,7 @@ import {
   Text,
 } from 'react-native';
 // import LinearGradient from 'react-native-linear-gradient';
-import {useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 export let imageURL =
   'https://static.theblacktux.com/products/suits/gray-suit/1_2018_0326_TBT_Spring-Ecomm_Shot03_-31_w1_1812x1875.jpg?width=1024';
@@ -36,11 +36,9 @@ export let ProductsData = {
 };
 
 export default function ChooseItemNum({
-  data,
-  index,
+  data
 }: {
   data: CartItemResponse;
-  index: number;
 }) {
   const [shouldShow, setShouldShow] = useState(true);
   const dispatch = useDispatch();
@@ -112,11 +110,11 @@ export default function ChooseItemNum({
   };
 
   return (
-    <View key={index} style={styles.container}>
+    <View style={styles.container}>
       <View>
         <Image
           style={styles.leftImage}
-          source={{uri: appendUrl(data.product.photo)}}
+          source={{ uri: appendUrl(data.product.photo) }}
         />
       </View>
       <View style={styles.textBox}>
@@ -144,7 +142,7 @@ export default function ChooseItemNum({
       <View style={styles.iconBox}>
         <TouchableOpacity
           onPress={onAddFavorite}
-          hitSlop={{left: 10, right: 10, top: 10, bottom: 10}}>
+          hitSlop={{ left: 10, right: 10, top: 10, bottom: 10 }}>
           {isFav ? (
             <HeartIconRed fill={COLORS.red} />
           ) : (
@@ -153,7 +151,7 @@ export default function ChooseItemNum({
         </TouchableOpacity>
         <TouchableOpacity
           onPress={onRemoveItem}
-          hitSlop={{left: 10, right: 10, top: 10, bottom: 10}}>
+          hitSlop={{ left: 10, right: 10, top: 10, bottom: 10 }}>
           <CrashIcon fill={COLORS.gray} />
         </TouchableOpacity>
       </View>
