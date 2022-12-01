@@ -1,4 +1,4 @@
-import {COLORS} from '../../constants/colors';
+import { COLORS } from '../../constants/colors';
 import React from 'react';
 import Svg, {
   Circle,
@@ -441,7 +441,7 @@ export const NewDiscountIcon = (props: SvgProps) => {
     <Svg
       width="29"
       height="29"
-      style={{zIndex: 100}}
+      style={{ zIndex: 100 }}
       viewBox="0 0 29 29"
       fill="none"
       xmlns="http://www.w3.org/2000/svg">
@@ -481,7 +481,7 @@ export const NewDiscountWhiteIcon = (props: SvgProps) => {
     <Svg
       width="29"
       height="29"
-      style={{zIndex: 100}}
+      style={{ zIndex: 100 }}
       viewBox="0 0 29 29"
       fill="none"
       xmlns="http://www.w3.org/2000/svg">
@@ -615,14 +615,14 @@ export const NewArrowIcon = (props: SvgProps) => {
   );
 };
 
-export const NewTopArrowIcon = (props: SvgProps) => {
+export const NewTopArrowIcon = (props: SvgProps & { rotateValue: string }) => {
   return (
     <Svg
       width="16"
       height="10"
       viewBox="0 0 16 9"
       fill="none"
-      style={{transform: [{rotate: props.rotateValue}]}}
+      style={{ transform: [{ rotate: props.rotateValue }] }}
       xmlns="http://www.w3.org/2000/svg">
       <Path
         d="M13.7143 9L8 3.375L2.28571 9L0 7.875L8 0L16 7.875L13.7143 9Z"
@@ -638,7 +638,7 @@ export const NewTopArrowIcon2 = (props: SvgProps) => {
       height="10"
       viewBox="0 0 16 9"
       fill="none"
-      style={{transform: [{rotate: '180deg'}]}}
+      style={{ transform: [{ rotate: '180deg' }] }}
       xmlns="http://www.w3.org/2000/svg">
       <Path
         d="M13.7143 9L8 3.375L2.28571 9L0 7.875L8 0L16 7.875L13.7143 9Z"
@@ -1164,7 +1164,7 @@ export function TelegramIconProduct(props: SvgProps) {
     <Svg
       width="36"
       height="29"
-      style={{marginRight: 24}}
+      style={{ marginRight: 24 }}
       viewBox="0 0 36 29"
       fill="none"
       xmlns="http://www.w3.org/2000/svg">
@@ -1182,7 +1182,7 @@ export function FaceBookIconProduct(props: SvgProps) {
       height="33"
       viewBox="0 0 34 33"
       fill="none"
-      style={{marginRight: 24}}
+      style={{ marginRight: 24 }}
       xmlns="http://www.w3.org/2000/svg">
       <Path
         fill-rule="evenodd"
@@ -1840,7 +1840,7 @@ export function HeartIconRed(props: SvgProps) {
       <Path
         d="M7 3c-1.536 0-3.078.5-4.25 1.7-2.343 2.4-2.279 6.1 0 8.5L12 23l9.25-9.8c2.279-2.4 2.343-6.1 0-8.5-2.343-2.3-6.157-2.3-8.5 0l-.75.8-.75-.8C10.078 3.5 8.535 3 7 3z"
         fill="#e03c2a"
-        // className="fill-c0392b"
+      // className="fill-c0392b"
       />
     </Svg>
   );
