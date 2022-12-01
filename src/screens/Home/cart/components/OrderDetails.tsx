@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
 
   headerTxt: {
     fontSize: 19,
-    fontFamily: 'Montserrat',
+    // fontFamily: 'Montserrat',
     color: COLORS.defaultBlack,
   },
 

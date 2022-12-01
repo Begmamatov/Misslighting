@@ -1,7 +1,7 @@
 import requests, {appendUrl} from '@api/requests';
 import {ProductItemResponse} from '@api/types';
 import DefaultButton from '@components/uikit/DefaultButton';
-import Text from '@components/uikit/Text';
+
 import {COLORS} from '@constants/colors';
 import {ROUTES} from '@constants/routes';
 import {BasketIcon, HeartIconBorder, HeartIconRed} from '@icons/icons';
@@ -20,6 +20,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
+  Text,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 

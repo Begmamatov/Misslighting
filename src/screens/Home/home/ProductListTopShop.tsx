@@ -42,7 +42,7 @@ export default function ProductListTopShop(props: ProductListProps) {
         renderItem={({item}) => (
           <ProductItemCard showDiscountAdd={props.showDiscountAdd} {...item} />
         )}
-        keyExtractor={item => item.toString()}
+        keyExtractor={item => item.id}
         style={styles.container}
         contentContainerStyle={styles.contentContainerStyle}
       />

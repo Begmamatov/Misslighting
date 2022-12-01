@@ -31,7 +31,6 @@ export type ProductItemCardProps = {
   showNewProduct?: boolean;
   showDiscount?: boolean;
   showDiscountAdd?: boolean;
-
   price?: number;
   price_usd?: number;
   id: number;

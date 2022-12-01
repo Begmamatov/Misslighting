@@ -14,7 +14,7 @@ type ProductListProps = {
 };
 
 export default function ProductListSale(props: ProductListProps) {
-  const [products, setProducts] = useState<any>();
+  const [products, setProducts] = useState();
 
   const getProducts = async () => {
     try {
@@ -41,6 +41,7 @@ export default function ProductListSale(props: ProductListProps) {
         renderItem={({item}) => (
           <ProductItemCard showDiscount={true} {...item} />
         )}
+        keyExtractor={item => item.id}
         style={styles.container}
         contentContainerStyle={styles.contentContainerStyle}
       />

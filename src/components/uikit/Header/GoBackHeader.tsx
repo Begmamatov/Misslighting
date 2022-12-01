@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontSize: 20,
     // color: COLORS.defaultBlack,
-    fontFamily: 'Montserrat',
+    // fontFamily: 'Montserrat',
     fontWeight: '600',
   },
 

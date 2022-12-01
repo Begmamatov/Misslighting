@@ -13,7 +13,7 @@ type ProductListProps = {
 };
 
 export default function ShopListPopular(props: ProductListProps) {
-  const [products, setProducts] = useState<ProductItemResponse[]>([]);
+  const [products, setProducts] = useState<any>();
 
   const getProducts = async () => {
     try {
@@ -46,7 +46,7 @@ export default function ShopListPopular(props: ProductListProps) {
             {...item}
           />
         )}
-        keyExtractor={item => item.toString()}
+        keyExtractor={item => item.id}
         style={styles.container}
         contentContainerStyle={styles.contentContainerStyle}
       />

@@ -6,20 +6,22 @@ import {
   Image,
   Dimensions,
 } from 'react-native';
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 
 import ProductCatalog from './ProductCatalog';
 import ProductListPopular from './ProductListPopular';
 import ProductListSale from './ProductListSale';
 import ProductListNew from './ProductListNew';
 import ProductListTopShop from './ProductListTopShop';
-import ShopAndNewsItem from './ShopAndNewsItem';
+
 import ShopListPopular from './ShopListPopular';
 import NewsList from './NewsList';
 import SearchNatlifHeader from '../../../components/uikit/Header/SearchNatlifHeader';
 import {COLORS} from '../../../constants/colors';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import {useNavigation, useRoute} from '@react-navigation/native';
+import requests from '@api/requests';
+
 export default function HomeScreen() {
   const width = Dimensions.get('window').width;
   const item_width = Math.round(width * 1);
@@ -27,8 +29,8 @@ export default function HomeScreen() {
   const [index, setIndex] = useState(0);
   const [index2, setIndex2] = useState(0);
   const route = useRoute();
+  const [dataSlider, setDataSlider] = useState<any>([]);
 
-  const navigation = useNavigation();
   const CatalogArray = [
     {
       title: 'Black shadow',
@@ -73,6 +75,22 @@ export default function HomeScreen() {
       img_url: require('../../../assets/images/BannerTop.png'),
     },
   ];
+
+  const CaruselHandler = async () => {
+    try {
+      let res = await requests.slider.getSliders();
+      setDataSlider(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    CaruselHandler();
+  }, []);
+  console.log('================dataSlider====================');
+  console.log(JSON.stringify(dataSlider, null, 2));
+  console.log('================dataSlider====================');
   return (
     <ScrollView style={styles.scroll}>
       <View>

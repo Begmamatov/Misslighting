@@ -16,7 +16,7 @@ type ProductListProps = {
 };
 
 export default function ProductListNew(props: ProductListProps) {
-  const [products, setProducts] = useState<NewsItemResponse[]>([]);
+  const [products, setProducts] = useState<any>();
   let effect = async () => {
     try {
       let res = await requests.sort.getNewAdded();
@@ -40,7 +40,7 @@ export default function ProductListNew(props: ProductListProps) {
         renderItem={({item}) => (
           <ProductItemCard showNewProduct={true} {...item} />
         )}
-        keyExtractor={item => item.toString()}
+        keyExtractor={item => item.id}
         style={styles.container}
         contentContainerStyle={styles.contentContainerStyle}
       />

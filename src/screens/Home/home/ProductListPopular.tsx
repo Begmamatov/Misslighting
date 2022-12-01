@@ -4,7 +4,6 @@ import ProductsTitle from '../../../components/uikit/ProductsTitle';
 import ProductItemCard from './ProductItemCard';
 import {useNavigation} from '@react-navigation/native';
 import {ROUTES} from '../../../constants/routes';
-import {ProductItemResponse} from '@api/types';
 import requests from '@api/requests';
 
 type Props = {
@@ -41,6 +40,7 @@ export default function ProductList(props: Props) {
         renderItem={({item}) => <ProductItemCard {...item} />}
         style={styles.container}
         contentContainerStyle={styles.contentContainerStyle}
+        keyExtractor={item => item.id}
       />
     </View>
   );

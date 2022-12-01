@@ -38,9 +38,6 @@ const PersonalData = () => {
     fetchData();
   }, []);
 
-  console.log('====================================');
-  console.log('Profel Value', JSON.stringify(params, null, 2));
-  console.log('====================================');
   return (
     <View style={{marginBottom: 100, backgroundColor: COLORS.white}}>
       <GoBackHeader />

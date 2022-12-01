@@ -101,9 +101,7 @@ const CheckoutView = () => {
       setIsLoading(false);
     }
   };
-  console.log('====================================');
-  console.log(JSON.stringify(state, null, 2));
-  console.log('====================================');
+
   const massive = [
     {
       date: '2022-09-28 09:00:08',
