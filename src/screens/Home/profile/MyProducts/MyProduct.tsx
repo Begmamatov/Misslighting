@@ -12,6 +12,7 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 
 import ActiveList from './components/ActiveList';
 import StoryList from './components/StoryList';
+import {COLORS} from '@constants/colors';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -27,14 +28,13 @@ const MyProduct = () => {
 
       <Tab.Navigator
         screenOptions={{
-          tabBarLabelStyle: {fontSize: 10},
+          tabBarLabelStyle: {fontSize: 15},
           tabBarActiveTintColor: '#84A9C0',
           tabBarInactiveTintColor: 'black',
           tabBarItemStyle: {width: width},
 
           tabBarStyle: {
             backgroundColor: 'white',
-            borderRadius: 45,
           },
         }}>
         <Tab.Screen name="Активные" component={ActiveList} />
@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: '600',
     zIndex: 100,
+    color: COLORS.black,
   },
   switchBtns: {
     display: 'flex',

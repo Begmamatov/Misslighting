@@ -1,5 +1,6 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
+import {COLORS} from '@constants/colors';
 
 const BonusProgramCart = () => {
   return (
@@ -15,7 +16,13 @@ const BonusProgramCart = () => {
       </Text>
       <View style={styles.box}>
         <View style={styles.cart}>
-          <Text style={{lineHeight: 40, fontSize: 17, fontWeight: '700'}}>
+          <Text
+            style={{
+              lineHeight: 40,
+              fontSize: 17,
+              fontWeight: '700',
+              color: COLORS.defaultBlack,
+            }}>
             Начисление бонусов
           </Text>
         </View>

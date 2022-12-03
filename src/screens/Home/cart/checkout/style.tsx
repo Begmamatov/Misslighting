@@ -98,6 +98,8 @@ export const styles = StyleSheet.create({
 
   comment: {
     fontSize: 12,
+    color: '#C8C8C8',
+    lineHeight: 40,
   },
   pickupContainer: {
     marginVertical: 10,

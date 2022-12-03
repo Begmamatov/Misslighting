@@ -161,7 +161,9 @@ const FilterScren = () => {
                         },
                       ]}></View>
                   </View>
-                  <Text style={{marginLeft: 13}}>Нео-классика</Text>
+                  <Text style={{marginLeft: 13, color: COLORS.defaultBlack}}>
+                    Нео-классика
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => setActiveModal(a => !a)}
@@ -196,7 +198,9 @@ const FilterScren = () => {
                         },
                       ]}></View>
                   </View>
-                  <Text style={{marginLeft: 13}}>Минимализм</Text>
+                  <Text style={{marginLeft: 13, color: COLORS.defaultBlack}}>
+                    Минимализм
+                  </Text>
                 </TouchableOpacity>
               </View>
             )}
@@ -243,7 +247,9 @@ const FilterScren = () => {
                         },
                       ]}></View>
                   </View>
-                  <Text style={{marginLeft: 13}}>1</Text>
+                  <Text style={{marginLeft: 13, color: COLORS.defaultBlack}}>
+                    1
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => setActiveModal2(a => !a)}
@@ -278,7 +284,9 @@ const FilterScren = () => {
                         },
                       ]}></View>
                   </View>
-                  <Text style={{marginLeft: 13}}>2</Text>
+                  <Text style={{marginLeft: 13, color: COLORS.defaultBlack}}>
+                    2
+                  </Text>
                 </TouchableOpacity>
               </View>
             )}

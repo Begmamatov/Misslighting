@@ -1,3 +1,4 @@
+import {COLORS} from '@constants/colors';
 import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
@@ -46,6 +47,7 @@ export const styles = StyleSheet.create({
   box2_title_now: {
     fontSize: 24,
     lineHeight: 40,
+    color: '#131313',
   },
   box2_title_old: {
     fontSize: 18,
@@ -63,6 +65,7 @@ export const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: '700',
     lineHeight: 40,
+    color: COLORS.black,
   },
   box4: {
     paddingHorizontal: 15,
@@ -71,6 +74,7 @@ export const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 17,
     lineHeight: 40,
+    color: COLORS.black,
   },
   box4_content: {
     position: 'relative',
@@ -176,5 +180,10 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  contentContainerStyle: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

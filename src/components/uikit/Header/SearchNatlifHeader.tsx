@@ -75,6 +75,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     backgroundColor: COLORS.tabBgColor,
     width: '90%',
+    borderRadius: 45,
+    height: '100%',
   },
   NotificationBox: {
     width: 50,
