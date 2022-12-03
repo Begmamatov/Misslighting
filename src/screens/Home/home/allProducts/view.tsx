@@ -6,7 +6,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 import AllProductItemCard from './AllProductItemCard';
 import GoBackHeader from '../../../../components/uikit/Header/GoBackHeader';
@@ -14,10 +14,37 @@ import AllProductTitle from '../../../../components/uikit/AllProductTitle';
 import SortAndFilter from '../../../../components/uikit/SortAndFilter';
 import {COLORS} from '../../../../constants/colors';
 import {useRoute} from '@react-navigation/native';
+import requests from '@api/requests';
 
 const AllProducts = () => {
   const route: any = useRoute();
-
+  const [valueActiveHandler, setValueActiveHandler] = useState('');
+  const [newTovarvalue, setNewTovarvalue] = useState<any>();
+  const [popularTovarvalue, setPopularTovarvalue] = useState<any>();
+  const populyarneTovar = async () => {
+    try {
+      let res = await requests.sort.getPopular();
+      setPopularTovarvalue(res.data.data);
+    } catch (error) {
+      console.log('====================================');
+      console.log(error);
+      console.log('====================================');
+    }
+  };
+  const newTovarHandler = async () => {
+    try {
+      let res = await requests.sort.getNewAdded();
+      setNewTovarvalue(res.data.data);
+    } catch (error) {
+      console.log('====================================');
+      console.log(error);
+      console.log('====================================');
+    }
+  };
+  useEffect(() => {
+    populyarneTovar();
+    newTovarHandler();
+  }, []);
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>

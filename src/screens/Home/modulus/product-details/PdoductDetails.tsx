@@ -7,31 +7,32 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, { useEffect, useRef, useState } from 'react';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import Carousel, { Pagination } from 'react-native-snap-carousel';
+import React, {useEffect, useRef, useState} from 'react';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import Carousel, {Pagination} from 'react-native-snap-carousel';
 import ProductDetailsButton from '../components/productDetailsButton';
 import DefaultButton from '../../../../components/uikit/DefaultButton';
-import { COLORS } from '../../../../constants/colors';
-import { styles } from './style';
+import {COLORS} from '../../../../constants/colors';
+import {styles} from './style';
 import Description from '../components/Description';
 import Characteristics from '../components/Characteristics';
 import AllProductItemCard from '../../home/allProducts/AllProductItemCard';
-import { ROUTES } from '../../../../constants/routes';
+import {ROUTES} from '../../../../constants/routes';
 import {
   HeartIconNotActive,
   HeartIconRed,
   LeftArrowIcon,
   StrokeIcon,
 } from '../../../../assets/icons/icons';
-import requests, { assetUrl } from '@api/requests';
-import { useAppSelector } from '@store/hooks';
-import { cartSelector } from '@store/slices/cartSlice';
-import { useDispatch } from 'react-redux';
-import { favoriteSelector, loadFavorite } from '@store/slices/favoriteSlice';
-import { toggleLoading } from '@store/slices/appSettings';
+import requests, {assetUrl} from '@api/requests';
+import {useAppSelector} from '@store/hooks';
+import {cartSelector} from '@store/slices/cartSlice';
+import {useDispatch} from 'react-redux';
+import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
+import {toggleLoading} from '@store/slices/appSettings';
 import FilterModal from '../../../../components/uikit/Filter/FilterModal';
-import { ProductItemResponse } from '@api/types';
+import {ProductItemResponse} from '@api/types';
+import {Rating} from 'react-native-ratings';
 
 const PdoductDetails = () => {
   const [active, setActive] = useState({
@@ -39,10 +40,10 @@ const PdoductDetails = () => {
     value2: false,
   });
   const onPress = () => {
-    setActive({ ...active, value1: !active.value1 });
+    setActive({...active, value1: !active.value1});
   };
   const onPress2 = () => {
-    setActive({ ...active, value2: !active.value2 });
+    setActive({...active, value2: !active.value2});
   };
   const width = Dimensions.get('window').width;
   const isCorusel = useRef(null);
@@ -50,6 +51,13 @@ const PdoductDetails = () => {
 
   const route = useRoute<any>();
   let id = route.params.props.id;
+  const navigation = useNavigation();
+
+  const cart = useAppSelector(cartSelector);
+  let isInCart = !!cart[id];
+  const dispatch = useDispatch();
+  const fav = useAppSelector(favoriteSelector);
+  let isFav = !!fav[id];
 
   const [detailIdValue, setDetailIdValue] = useState<any>([]);
   const getDetailId = async () => {
@@ -60,14 +68,6 @@ const PdoductDetails = () => {
       console.log(error);
     }
   };
-
-  const navigation = useNavigation();
-
-  const cart = useAppSelector(cartSelector);
-  let isInCart = !!cart[id];
-  const dispatch = useDispatch();
-  const fav = useAppSelector(favoriteSelector);
-  let isFav = !!fav[id];
 
   const onAddFavorite = async () => {
     try {
@@ -83,19 +83,10 @@ const PdoductDetails = () => {
       dispatch(toggleLoading(false));
     }
   };
-  const [colorValue, seColorValue] = useState<any>([]);
-  const ColorHandler = async () => {
-    try {
-      let res = await requests.products.colorItem();
-      seColorValue(res.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
   const [colorActive, setColorActive] = useState();
 
   const [products, setProducts] = useState<ProductItemResponse[]>([]);
-
   const getProducts = async () => {
     try {
       let res = await requests.sort.getPopular();
@@ -106,22 +97,24 @@ const PdoductDetails = () => {
   };
   useEffect(() => {
     getDetailId();
-    ColorHandler();
     getProducts();
   }, []);
+  console.log('=================detailIdValue===================');
+  console.log(JSON.stringify(detailIdValue, null, 2));
+  console.log('=================detailIdValue===================');
   return (
-    <View style={{ backgroundColor: COLORS.white }}>
+    <View style={{backgroundColor: COLORS.white}}>
       <ScrollView>
-        <View style={{ width: '100%', position: 'relative' }}>
+        <View style={{width: '100%', position: 'relative'}}>
           <Carousel
             ref={isCorusel}
             data={detailIdValue.gallery}
-            renderItem={({ item }) => {
+            renderItem={({item}) => {
               return (
-                <View style={{ width: '100%', height: 346 }}>
+                <View style={{width: '100%', height: 346}}>
                   <Image
-                    style={{ width: '100%', height: '100%' }}
-                    source={{ uri: assetUrl + item }}
+                    style={{width: '100%', height: '100%'}}
+                    source={{uri: assetUrl + item}}
                   />
                 </View>
               );
@@ -161,8 +154,8 @@ const PdoductDetails = () => {
             <Text style={styles.box1_title}>Артикул: 34579</Text>
             <ProductDetailsButton
               title={'Нет в наличии'}
-              ButtonStyle={{ width: 146, backgroundColor: 'red' }}
-              TextStyle={{ color: 'white', fontSize: 15 }}
+              ButtonStyle={{width: 146, backgroundColor: 'red'}}
+              TextStyle={{color: 'white', fontSize: 15}}
             />
           </View>
           <Text style={styles.title}>{detailIdValue.name}</Text>
@@ -178,8 +171,8 @@ const PdoductDetails = () => {
             <Text style={styles.box3_title}>Магазин</Text>
             <ProductDetailsButton
               title={'Название'}
-              ButtonStyle={{ width: 146, backgroundColor: '#E6E8E9' }}
-              TextStyle={{ color: 'black', fontSize: 15 }}
+              ButtonStyle={{width: 146, backgroundColor: '#E6E8E9'}}
+              TextStyle={{color: 'black', fontSize: 15}}
             />
           </View>
           <View style={styles.border}></View>
@@ -188,11 +181,11 @@ const PdoductDetails = () => {
             <View style={styles.box4_content}>
               <Text style={styles.content_title}>Цвет:</Text>
               <FlatList
-                style={{ marginTop: 18 }}
+                style={{marginTop: 18}}
                 horizontal
                 showsHorizontalScrollIndicator={false}
-                data={colorValue}
-                renderItem={({ item }) => (
+                data={detailIdValue.productColors}
+                renderItem={({item}) => (
                   <TouchableOpacity
                     onPress={() => setColorActive(item.id)}
                     style={[
@@ -218,7 +211,10 @@ const PdoductDetails = () => {
             </View>
           </View>
           <View style={styles.border2}></View>
-          <FilterModal title="Валюта" active={active.value1} onPress={onPress}>
+          <FilterModal
+            title="Описание"
+            active={active.value1}
+            onPress={onPress}>
             {active.value1 && (
               <View style={[styles.box_noactive]}>
                 <Description description={detailIdValue.description} />
@@ -227,7 +223,10 @@ const PdoductDetails = () => {
           </FilterModal>
 
           <View style={styles.border2}></View>
-          <FilterModal title="Валюта" active={active.value2} onPress={onPress2}>
+          <FilterModal
+            title="Характеристики"
+            active={active.value2}
+            onPress={onPress2}>
             {active.value2 && (
               <View style={[styles.box_noactive]}>
                 <Characteristics
@@ -238,54 +237,59 @@ const PdoductDetails = () => {
           </FilterModal>
 
           <View style={styles.border2}></View>
-          <View style={styles.box5}>
-            <TouchableOpacity
-              onPress={() => navigation.navigate(ROUTES.REVIEWS as never)}>
-              <Text style={{ fontSize: 17, fontWeight: '700', lineHeight: 40 }}>
-                Оценка и отзывы (2)
-              </Text>
-            </TouchableOpacity>
-            <View>
-              <StrokeIcon />
-            </View>
-          </View>
+          <TouchableOpacity
+            onPress={() => navigation.navigate(ROUTES.REVIEWS as never)}
+            style={styles.box5}>
+            <Text style={{fontSize: 17, fontWeight: '700', lineHeight: 40}}>
+              Оценка и отзывы
+            </Text>
+            <Rating
+              type="custom"
+              ratingCount={5}
+              imageSize={18}
+              ratingColor="#edcf21"
+              ratingBackgroundColor="#FFFFFF"
+              readonly={true}
+              startingValue={detailIdValue?.rating}
+            />
+          </TouchableOpacity>
           <View style={styles.border}></View>
           <View style={styles.box6}>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text style={styles.brend}>Бренд:</Text>
               <Text style={styles.chiaro}> Chiaro</Text>
             </View>
             <View>
               <Image
-                style={{ width: 80, height: 30 }}
+                style={{width: 80, height: 30}}
                 source={require('../../../../assets/images/Adius.png')}
               />
             </View>
           </View>
           <View style={styles.border}></View>
-          <View style={{ flex: 1, paddingHorizontal: 15 }}>
-            <Text style={{ fontSize: 17, color: '#3F3535', fontWeight: '700' }}>
+          <View style={{flex: 1, paddingHorizontal: 15}}>
+            <Text style={{fontSize: 17, color: '#3F3535', fontWeight: '700'}}>
               C этим товаром ищут
             </Text>
 
             <FlatList
-              style={{ marginTop: 20 }}
+              style={{marginTop: 20}}
               showsVerticalScrollIndicator={false}
               data={products}
-              renderItem={({ item }) => <AllProductItemCard {...item} />}
+              renderItem={({item}) => <AllProductItemCard {...item} />}
               numColumns={2}
             />
           </View>
           <View style={styles.button}>
             <DefaultButton
               title={'Уведомить о наличии'}
-              ButtonStyle={{ backgroundColor: '#84A9C0' }}
-              TextStyle={{ color: 'white' }}
+              ButtonStyle={{backgroundColor: '#84A9C0'}}
+              TextStyle={{color: 'white'}}
             />
             <DefaultButton
               title={'Связаться с продавцом'}
-              ButtonStyle={{ borderWidth: 1, borderColor: '#84A9C0' }}
-              TextStyle={{ color: '#84A9C0' }}
+              ButtonStyle={{borderWidth: 1, borderColor: '#84A9C0'}}
+              TextStyle={{color: '#84A9C0'}}
             />
           </View>
         </View>

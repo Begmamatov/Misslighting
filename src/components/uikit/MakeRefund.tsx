@@ -3,7 +3,7 @@ import React from 'react';
 import {COLORS} from '../../constants/colors';
 import {StrokeIcon} from '../../assets/icons/icons';
 import DefaultButton from './DefaultButton';
-const data = [1, 2, 3, 4, 5];
+
 const MakeRefund = () => {
   return (
     <View style={styles.container}>

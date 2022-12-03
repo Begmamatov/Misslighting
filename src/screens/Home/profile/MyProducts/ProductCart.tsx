@@ -7,6 +7,7 @@ type typesProps = {
   photo?: string;
   shopName?: string;
   price?: number;
+  item?: any;
 };
 const ProductCart = (props: typesProps) => {
   const navigation = useNavigation();
@@ -23,11 +24,11 @@ const ProductCart = (props: typesProps) => {
       </View>
       <View style={styles.itemHeader2}>
         <View>
-          <Text style={styles.itemTextBold}>{props.name}</Text>
-          <Text style={styles.itemText}>{props.shopName}</Text>
+          <Text style={styles.itemTextBold}>{props.item.name}</Text>
+          <Text style={styles.itemText}>{props.item.shopName}</Text>
         </View>
         <View>
-          <Text>{props.price}</Text>
+          <Text>{props.item.price}</Text>
         </View>
       </View>
 
@@ -107,9 +108,18 @@ const styles = StyleSheet.create({
   itemProduct: {
     marginTop: 20,
     marginHorizontal: 20,
-    backgroundColor: '#fff',
+
     borderRadius: 10,
     paddingHorizontal: 16,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    backgroundColor: 'white',
   },
   itemHeader: {
     display: 'flex',

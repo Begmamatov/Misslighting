@@ -3,9 +3,10 @@ import React, {useEffect, useState} from 'react';
 import ProductCart from '../ProductCart';
 import {OrderItemResponse} from '@api/types';
 import requests from '@api/requests';
-const data = [1, 2, 3];
+import {COLORS} from '@constants/colors';
+
 const ActiveList = () => {
-  const [orders, setOrders] = useState<OrderItemResponse[]>([]);
+  const [orders, setOrders] = useState<any>();
 
   const getOrders = async () => {
     try {
@@ -21,10 +22,10 @@ const ActiveList = () => {
   }, []);
 
   return (
-    <View>
+    <View style={{flex: 1, backgroundColor: COLORS.white}}>
       <FlatList
         data={orders}
-        renderItem={props => <ProductCart {...props} />}
+        renderItem={props => <ProductCart item={props} />}
         showsVerticalScrollIndicator={false}
       />
     </View>
@@ -32,5 +33,3 @@ const ActiveList = () => {
 };
 
 export default ActiveList;
-
-const styles = StyleSheet.create({});

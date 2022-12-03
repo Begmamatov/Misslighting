@@ -1,8 +1,8 @@
-import { View, Text } from 'react-native';
+import {View, Text} from 'react-native';
 import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-import { ROUTES } from '../../../constants/routes';
+import {ROUTES} from '../../../constants/routes';
 import HomeScreen from '../home/HomeScreen';
 
 import CatalogScreen from '../catalog/CatalogScreen';
@@ -20,9 +20,9 @@ import {
   ProfileIconNotActive,
 } from '../../../assets/icons/icons';
 import ProfileScreen from '@home/profile/ProfileScreen';
-import { useSelector } from 'react-redux';
-import { favoriteArraySelector } from '@store/slices/favoriteSlice';
-import { cartTotalSelector } from '@store/slices/cartSlice';
+import {useSelector} from 'react-redux';
+import {favoriteArraySelector} from '@store/slices/favoriteSlice';
+import {cartTotalSelector} from '@store/slices/cartSlice';
 import FavoriteView from '@home/favorites/view';
 
 const Tab = createBottomTabNavigator();
@@ -46,8 +46,8 @@ export default function TabNavigation() {
       }}>
       <Tab.Screen
         options={{
-          tabBarIcon: ({ focused }) => (
-            <View style={{ alignItems: 'center' }}>
+          tabBarIcon: ({focused}) => (
+            <View style={{alignItems: 'center'}}>
               {focused ? <HomeIconActive /> : <HomeIconNotActive />}
               <Text
                 style={{
@@ -60,15 +60,15 @@ export default function TabNavigation() {
               </Text>
             </View>
           ),
-          tabBarLabelStyle: { fontSize: 14 },
+          tabBarLabelStyle: {fontSize: 14},
         }}
         name={ROUTES.HOME}
         component={HomeScreen}
       />
       <Tab.Screen
         options={{
-          tabBarIcon: ({ focused }) => (
-            <View style={{ alignItems: 'center' }}>
+          tabBarIcon: ({focused}) => (
+            <View style={{alignItems: 'center'}}>
               {focused ? <HeartIconActive /> : <HeartIconNotActive />}
               <Text
                 style={{
@@ -88,7 +88,7 @@ export default function TabNavigation() {
       />
       <Tab.Screen
         options={{
-          tabBarIcon: ({ focused }) => (
+          tabBarIcon: ({focused}) => (
             <View
               style={{
                 position: 'absolute',
@@ -110,8 +110,8 @@ export default function TabNavigation() {
       />
       <Tab.Screen
         options={{
-          tabBarIcon: ({ focused }) => (
-            <View style={{ alignItems: 'center' }}>
+          tabBarIcon: ({focused}) => (
+            <View style={{alignItems: 'center'}}>
               {focused ? <CartIconActive /> : <CartIconNotActive />}
               <Text
                 style={{
@@ -131,8 +131,8 @@ export default function TabNavigation() {
       />
       <Tab.Screen
         options={{
-          tabBarIcon: ({ focused }) => (
-            <View style={{ alignItems: 'center' }}>
+          tabBarIcon: ({focused}) => (
+            <View style={{alignItems: 'center'}}>
               {focused ? <ProfileIconActive /> : <ProfileIconNotActive />}
               <Text
                 style={{

@@ -13,19 +13,18 @@ type typeProps = {
 };
 const Characteristics = (props: typeProps) => {
   return (
-    <View style={styles.noActive}>
-      <FlatList
-        data={props.productProperties}
-        renderItem={({item}) => {
-          return (
-            <View style={styles.box}>
-              <Text style={styles.box_title}>{item.key_name}</Text>
-              <Text style={styles.box_value}>{item.value_name}</Text>
-            </View>
-          );
-        }}
-      />
-    </View>
+    <FlatList
+      data={props.productProperties}
+      renderItem={({item}) => {
+        return (
+          <View style={styles.box}>
+            <Text style={styles.box_title}>{item.key_name}</Text>
+            <Text style={styles.box_value}>{item.value_name}</Text>
+          </View>
+        );
+      }}
+      keyExtractor={item => item.id}
+    />
   );
 };
 

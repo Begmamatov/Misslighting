@@ -6,7 +6,7 @@ import {
   Image,
   Dimensions,
 } from 'react-native';
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 
 import ProductCatalog from './ProductCatalog';
 import ProductListPopular from './ProductListPopular';
@@ -17,9 +17,9 @@ import ProductListTopShop from './ProductListTopShop';
 import ShopListPopular from './ShopListPopular';
 import NewsList from './NewsList';
 import SearchNatlifHeader from '../../../components/uikit/Header/SearchNatlifHeader';
-import { COLORS } from '../../../constants/colors';
-import Carousel, { Pagination } from 'react-native-snap-carousel';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import {COLORS} from '../../../constants/colors';
+import Carousel, {Pagination} from 'react-native-snap-carousel';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import requests from '@api/requests';
 
 export default function HomeScreen() {
@@ -97,11 +97,11 @@ export default function HomeScreen() {
         <Carousel
           ref={isCorusel}
           data={CatalogArray2}
-          renderItem={({ item }) => {
+          renderItem={({item}) => {
             return (
-              <View style={{ width: '100%', height: 116 }}>
+              <View style={{width: '100%', height: 116}}>
                 <Image
-                  style={{ width: '100%', height: '100%' }}
+                  style={{width: '100%', height: '100%'}}
                   source={item.img_url}
                 />
               </View>
@@ -124,11 +124,11 @@ export default function HomeScreen() {
         <Carousel
           ref={isCorusel}
           data={CatalogArray}
-          renderItem={({ item }) => {
+          renderItem={({item}) => {
             return (
-              <View style={{ width: '100%', height: 245 }}>
+              <View style={{width: '100%', height: 245}}>
                 <Image
-                  style={{ width: '100%', height: '100%' }}
+                  style={{width: '100%', height: '100%'}}
                   source={item.img_url}
                 />
               </View>

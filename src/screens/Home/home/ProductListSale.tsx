@@ -1,10 +1,10 @@
-import { View, Text, FlatList, StyleSheet } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import {View, Text, FlatList, StyleSheet} from 'react-native';
+import React, {useEffect, useState} from 'react';
 
 import ProductItemCard from './ProductItemCard';
 import ProductsTitle from '../../../components/uikit/ProductsTitle';
-import { useNavigation } from '@react-navigation/native';
-import { ROUTES } from '../../../constants/routes';
+import {useNavigation} from '@react-navigation/native';
+import {ROUTES} from '../../../constants/routes';
 import requests from '@api/requests';
 
 type ProductListProps = {
@@ -13,7 +13,7 @@ type ProductListProps = {
 };
 
 export default function ProductListSale(props: ProductListProps) {
-  const [products, setProducts] = useState();
+  const [products, setProducts] = useState<any>();
 
   const getProducts = async () => {
     try {
@@ -28,7 +28,10 @@ export default function ProductListSale(props: ProductListProps) {
   }, []);
   const navigation = useNavigation();
   const onPress = () => {
-    navigation.navigate(ROUTES.ALLPRODUCTS as never, { products, props } as never);
+    navigation.navigate(
+      ROUTES.ALLPRODUCTS as never,
+      {products, props} as never,
+    );
   };
   return (
     <View>
@@ -37,19 +40,18 @@ export default function ProductListSale(props: ProductListProps) {
         horizontal
         showsHorizontalScrollIndicator={false}
         data={products}
-        renderItem={({ item }) => (
+        renderItem={({item}) => (
           <ProductItemCard showDiscount={true} {...item} />
         )}
         keyExtractor={item => item.id}
         style={styles.container}
         contentContainerStyle={styles.contentContainerStyle}
-        keyExtractor={item => item.id}
       />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { marginBottom: 15 },
-  contentContainerStyle: { paddingHorizontal: 10 },
+  container: {marginBottom: 15},
+  contentContainerStyle: {paddingHorizontal: 10},
 });
