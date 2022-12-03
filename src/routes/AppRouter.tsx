@@ -1,20 +1,20 @@
-import { View } from 'react-native';
+import {View} from 'react-native';
 import React from 'react';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ROUTES } from '@constants/routes';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {ROUTES} from '@constants/routes';
 
 import TabNavigation from '@home/bottomTab/TabNavigation';
-import { useAppSelector } from '@store/hooks';
-import { selectUser } from '@store/slices/userSlice';
+import {useAppSelector} from '@store/hooks';
+import {selectUser} from '@store/slices/userSlice';
 import AuthStack from '@auth/index';
 import AllProducts from '@home/home/allProducts/view';
 import SortView from '@components/uikit/Sort/SortView';
 import FilterScren from '@components/template/FilterScreen';
 import Subcategory from '@home/catalog/subCatalog/Subcategory';
 import Reviews from '@home/modulus/components/reviews';
-import { CheckoutScreen } from '@home/cart/checkout';
+import {CheckoutScreen} from '@home/cart/checkout';
 import ProfileScreen from '@home/profile/ProfileScreen';
 import MyProduct from '@home/profile/MyProducts/MyProduct';
 import Message from '@home/profile/Message/Message';
@@ -30,13 +30,15 @@ import Notification from '@home/profile/Notification/Notification';
 import Search from '@components/uikit/search';
 import CatalogProductsScreen from '@home/catalog/catalogProducts/CatalogProductsScreen';
 import PdoductDetails from '@home/modulus/product-details/PdoductDetails';
+import OrderView from '@home/order/OrderView';
+import MakeRefund from '@components/uikit/MakeRefund';
 let Stack = createNativeStackNavigator();
 
 export default function AppRouter() {
   const insets = useSafeAreaInsets();
   const user = useAppSelector(selectUser);
   return (
-    <View style={{ flex: 1, marginTop: insets.top }}>
+    <View style={{flex: 1, marginTop: insets.top}}>
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
@@ -53,7 +55,10 @@ export default function AppRouter() {
               <Stack.Screen name={ROUTES.SORTVIEW} component={SortView} />
               <Stack.Screen name={ROUTES.FILTERVIEW} component={FilterScren} />
               <Stack.Screen name={ROUTES.SUBCATEGORY} component={Subcategory} />
-              <Stack.Screen name={ROUTES.CATALOG_PRODUCTS} component={CatalogProductsScreen} />
+              <Stack.Screen
+                name={ROUTES.CATALOG_PRODUCTS}
+                component={CatalogProductsScreen}
+              />
               <Stack.Screen name={ROUTES.REVIEWS} component={Reviews} />
               <Stack.Screen
                 name={ROUTES.PRODUCTDETAILS}
@@ -92,6 +97,8 @@ export default function AppRouter() {
                 component={PersonalDataChange}
               />
               <Stack.Screen name={ROUTES.SEARCH} component={Search} />
+              <Stack.Screen name={ROUTES.ORDERVIEW} component={OrderView} />
+              <Stack.Screen name={ROUTES.MAKEREFUND} component={MakeRefund} />
             </>
           )}
         </Stack.Navigator>
@@ -99,4 +106,3 @@ export default function AppRouter() {
     </View>
   );
 }
-

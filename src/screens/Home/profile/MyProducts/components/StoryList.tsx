@@ -1,11 +1,12 @@
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import ProductCart from '../ProductCart';
-import {OrderItemResponse} from '@api/types';
+
 import requests from '@api/requests';
+import {COLORS} from '@constants/colors';
 
 const StoryList = () => {
-  const [orders, setOrders] = useState<OrderItemResponse[]>([]);
+  const [orders, setOrders] = useState<any>();
 
   const getOrders = async () => {
     try {
@@ -20,10 +21,10 @@ const StoryList = () => {
     getOrders();
   }, []);
   return (
-    <View>
+    <View style={{flex: 1, backgroundColor: COLORS.white}}>
       <FlatList
         data={orders}
-        renderItem={props => <ProductCart {...props} />}
+        renderItem={props => <ProductCart item={props} />}
       />
     </View>
   );

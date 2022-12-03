@@ -13,13 +13,13 @@ type Props = {
 
 const FilterModal = (props: Props) => {
   return (
-    <View style={[styles.box, {borderWidth: props.activeBorder ? 1 : 0}]}>
-      <View style={styles.box_active}>
+    <View style={[styles.box, {borderBottomWidth: props.activeBorder ? 1 : 0}]}>
+      <TouchableOpacity onPress={props.onPress} style={styles.box_active}>
         <Text style={styles.active_title}>{props.title}</Text>
-        <TouchableOpacity style={styles.icon_box} onPress={props.onPress}>
+        <View style={styles.icon_box}>
           <NewTopArrowIcon rotateValue={props.active ? '0deg' : '180deg'} />
-        </TouchableOpacity>
-      </View>
+        </View>
+      </TouchableOpacity>
       <View>{props.children}</View>
     </View>
   );

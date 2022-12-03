@@ -15,7 +15,7 @@ export default function SortAndFilter(props: PropsSnadAndFilter) {
       <TouchableOpacity
         style={styles.populer}
         onPress={() => {
-          navigation.navigate(ROUTES.SORTVIEW as never);
+          navigation.navigate(ROUTES.SORTVIEW as never, props as never);
         }}>
         <Text style={styles.title}>Популярные</Text>
         <BottomArrow fill={COLORS.textColorBlue} />
