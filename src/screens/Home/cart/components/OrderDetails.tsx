@@ -17,16 +17,16 @@ const OrderDetails = ({total}: {total: {total: number; count: number}}) => {
       <Text style={styles.headerTxt}>{STRINGS.ru.orderDetails}</Text>
       <View style={styles.box}>
         <View style={styles.row}>
-          <Text>
-            {STRINGS.ru.items} ({total?.count}){' '}
+          <Text style={{color: '#757575'}}>
+            {STRINGS.ru.items} ({total?.count})
           </Text>
           <Text style={styles.price}>{total.total} сум</Text>
         </View>
         <View style={styles.row}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Text>{STRINGS.ru.Delivery}</Text>
+            <Text style={{color: '#757575'}}>{STRINGS.ru.Delivery}</Text>
           </View>
-          <Text>-50 сум</Text>
+          <Text style={{color: COLORS.defaultBlack}}>-50 сум</Text>
         </View>
         <View style={styles.rowFooter}>
           <Text style={styles.footerTxt}>{STRINGS.ru.totalPrice}</Text>
@@ -101,6 +101,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     letterSpacing: 0.5,
-    color: COLORS.red,
+    color: COLORS.defaultBlack,
   },
 });

@@ -6,6 +6,7 @@ import {COLORS} from '../../../../constants/colors';
 import DefaultButton from '../../../../components/uikit/DefaultButton';
 import {
   FaceBookIconProduct,
+  NewTopArrowIcon2,
   TelegramIcon,
   TelegramIconProduct,
   WhatsapIconProduct,
@@ -29,10 +30,16 @@ const TechnicalSupport = () => {
           Тема
         </Text>
         <View style={styles.box1}>
-          <Text style={{fontWeight: '500', fontSize: 15, lineHeight: 20}}>
+          <Text
+            style={{
+              fontWeight: '500',
+              fontSize: 15,
+              lineHeight: 20,
+              color: COLORS.defaultBlack,
+            }}>
             Другое
           </Text>
-          <Text>X</Text>
+          <NewTopArrowIcon2 />
         </View>
         <Text
           style={{
@@ -63,6 +70,7 @@ const TechnicalSupport = () => {
             fontWeight: '700',
             lineHeight: 40,
             textAlign: 'center',
+            color: COLORS.defaultBlack,
           }}>
           Вы также можете написать нам:
         </Text>

@@ -22,7 +22,6 @@ const Search = () => {
         renderItem={({item}) => {
           return <AllProductItemCard {...item} />;
         }}
-        style={styles.container2}
         contentContainerStyle={styles.contentContainerStyle}
       />
     </View>

@@ -67,7 +67,6 @@ const AllProducts = () => {
             />
           )}
           numColumns={2}
-          style={styles.container2}
           contentContainerStyle={styles.contentContainerStyle}
         />
       </View>
@@ -90,6 +89,11 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     flexDirection: 'row',
   },
-  container2: {marginBottom: 15},
-  contentContainerStyle: {paddingHorizontal: 10},
+  container2: {marginBottom: 0},
+
+  contentContainerStyle: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });

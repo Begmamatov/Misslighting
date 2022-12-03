@@ -1,5 +1,6 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
+import {COLORS} from '@constants/colors';
 
 const NotificationCart = () => {
   return (
@@ -15,7 +16,13 @@ const NotificationCart = () => {
       </Text>
       <View style={styles.box}>
         <View style={styles.cart}>
-          <Text style={{lineHeight: 40, fontSize: 17, fontWeight: '700'}}>
+          <Text
+            style={{
+              lineHeight: 40,
+              fontSize: 17,
+              fontWeight: '700',
+              color: COLORS.black,
+            }}>
             Заказ 118:
           </Text>
           <Text
@@ -61,7 +68,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     shadowOffset: {width: -1, height: 4},
     shadowColor: '#171717',
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.2,
     shadowRadius: 3,
     width: '100%',
     marginTop: 12,

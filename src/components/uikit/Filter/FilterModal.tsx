@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 40,
     fontWeight: '500',
+    color: COLORS.black,
   },
   icon_box: {
     width: 40,

@@ -10,6 +10,7 @@ import React, {useState} from 'react';
 import GoBackHeader from '../../../../components/uikit/Header/GoBackHeader';
 import AllProductTitle from '@components/uikit/AllProductTitle';
 import {COLORS} from '@constants/colors';
+import DefaultButton from '@components/uikit/DefaultButton';
 
 const Setting = () => {
   const [isEnabled, setIsEnabled] = useState(false);
@@ -46,11 +47,19 @@ const Setting = () => {
           />
         </View>
       </View>
-      <TouchableOpacity style={styles.saveBtn}>
-        <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 16}}>
-          Сохранить
-        </Text>
-      </TouchableOpacity>
+      <View
+        style={{
+          paddingHorizontal: 48,
+          position: 'absolute',
+          bottom: 66,
+          width: '100%',
+        }}>
+        <DefaultButton
+          title="Сохранить"
+          ButtonStyle={{backgroundColor: '#84A9C0'}}
+          TextStyle={{color: COLORS.white}}
+        />
+      </View>
     </SafeAreaView>
   );
 };

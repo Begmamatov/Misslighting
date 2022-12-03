@@ -240,7 +240,13 @@ const PdoductDetails = () => {
           <TouchableOpacity
             onPress={() => navigation.navigate(ROUTES.REVIEWS as never)}
             style={styles.box5}>
-            <Text style={{fontSize: 17, fontWeight: '700', lineHeight: 40}}>
+            <Text
+              style={{
+                fontSize: 17,
+                fontWeight: '700',
+                lineHeight: 40,
+                color: '#3F3535',
+              }}>
               Оценка и отзывы
             </Text>
             <Rating
@@ -278,6 +284,7 @@ const PdoductDetails = () => {
               data={products}
               renderItem={({item}) => <AllProductItemCard {...item} />}
               numColumns={2}
+              contentContainerStyle={styles.contentContainerStyle}
             />
           </View>
           <View style={styles.button}>

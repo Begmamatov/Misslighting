@@ -1,15 +1,23 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import GoBackHeader from '../../../../components/uikit/Header/GoBackHeader';
+import {COLORS} from '@constants/colors';
 
 const Message = () => {
   return (
-    <View>
+    <View style={{flex: 1, backgroundColor: COLORS.white}}>
       <GoBackHeader />
       <View style={styles.header}>
         <Text style={styles.HeaderText}>Сообщения</Text>
       </View>
-      <View>
+      <View
+        style={{
+          shadowOffset: {width: -1, height: 4},
+          shadowColor: '#403f3f',
+          shadowOpacity: 0.1,
+          shadowRadius: 3,
+          marginTop: 20,
+        }}>
         <TouchableOpacity style={styles.messageCard}>
           <Text style={styles.messageDate}>10.14.2022</Text>
           <Text style={styles.messageTitle}>
@@ -26,7 +34,7 @@ export default Message;
 const styles = StyleSheet.create({
   header: {
     paddingHorizontal: 20,
-    paddingVertical: 20,
+    marginTop: 10,
   },
   HeaderText: {
     fontSize: 25,
@@ -50,5 +58,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 15,
     marginBottom: 10,
+    color: COLORS.defaultBlack,
   },
 });
