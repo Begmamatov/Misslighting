@@ -38,7 +38,7 @@ export default function AppRouter() {
   const insets = useSafeAreaInsets();
   const user = useAppSelector(selectUser);
   return (
-    <View style={{flex: 1, marginTop: insets.top}}>
+    <View style={{flex: 1, marginTop: insets.top + 15}}>
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{

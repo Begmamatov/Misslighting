@@ -1,6 +1,6 @@
-import { View, Text, StyleSheet, ScrollView, FlatList } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { COLORS } from '../../../constants/colors';
+import {View, Text, StyleSheet, ScrollView, FlatList} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {COLORS} from '../../../constants/colors';
 import SearchNatlifHeader from '../../../components/uikit/Header/SearchNatlifHeader';
 import CatalogListItem from './CatalogListItem';
 import requests from '@api/requests';
@@ -31,18 +31,17 @@ export default function CatalogScreen() {
       ) : (
         <FlatList
           ListHeaderComponent={
-            <View style={{
-              width: '100%',
-              backgroundColor: COLORS.tabBgColor,
-            }} >
+            <View
+              style={{
+                width: '100%',
+                backgroundColor: COLORS.tabBgColor,
+              }}>
               <SearchNatlifHeader />
             </View>
           }
           stickyHeaderIndices={[0]}
           data={categories}
-          renderItem={(props) => (
-            <CatalogListItem {...props} />
-          )}
+          renderItem={props => <CatalogListItem {...props} />}
           keyExtractor={(item: any) => item.id}
           numColumns={3}
           columnWrapperStyle={styles.columnWrapperStyle}
@@ -60,7 +59,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   columnWrapperStyle: {
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
     marginBottom: 15,
   },
 });

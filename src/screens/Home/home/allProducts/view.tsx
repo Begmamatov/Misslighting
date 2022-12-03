@@ -78,7 +78,7 @@ export default AllProducts;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.tabBgColor,
     width: '100%',
     height: '100%',
   },
