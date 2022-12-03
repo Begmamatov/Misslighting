@@ -12,5 +12,5 @@ export const styles = StyleSheet.create({
     marginHorizontal: 15,
   },
   container2: {marginBottom: 15},
-  contentContainerStyle: {paddingHorizontal: 10},
+  contentContainerStyle: {flexDirection: 'column', alignItems: 'center'},
 });

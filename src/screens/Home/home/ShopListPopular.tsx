@@ -1,10 +1,10 @@
-import { View, Text, StyleSheet, FlatList } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import {View, Text, StyleSheet, FlatList} from 'react-native';
+import React, {useEffect, useState} from 'react';
 
 import ShopAndNewsItem from './ShopAndNewsItem';
 import ProductsTitle from '../../../components/uikit/ProductsTitle';
-import { useNavigation } from '@react-navigation/native';
-import { ROUTES } from '../../../constants/routes';
+import {useNavigation} from '@react-navigation/native';
+import {ROUTES} from '../../../constants/routes';
 import requests from '@api/requests';
 
 type ProductListProps = {
@@ -28,7 +28,10 @@ export default function ShopListPopular(props: ProductListProps) {
   const navigation = useNavigation();
 
   const onPress = () => {
-    navigation.navigate(ROUTES.ALLPRODUCTS as never, { products, props } as never);
+    navigation.navigate(
+      ROUTES.ALLPRODUCTS as never,
+      {products, props} as never,
+    );
   };
 
   return (
@@ -38,7 +41,7 @@ export default function ShopListPopular(props: ProductListProps) {
         horizontal
         showsHorizontalScrollIndicator={false}
         data={products}
-        renderItem={({ item }) => (
+        renderItem={({item}) => (
           <ShopAndNewsItem
             itemInfo="Ваш Проводник Света"
             buttonTitle="Посмотреть"
@@ -54,6 +57,6 @@ export default function ShopListPopular(props: ProductListProps) {
 }
 
 const styles = StyleSheet.create({
-  container: { marginBottom: 15 },
-  contentContainerStyle: { paddingHorizontal: 10 },
+  container: {marginBottom: 15},
+  contentContainerStyle: {paddingHorizontal: 10},
 });

@@ -155,7 +155,13 @@ const CheckoutView = () => {
         })}
       </View>
       <View style={styles.adButton}>
-        <Text style={{fontWeight: '600', fontSize: 16, lineHeight: 40}}>
+        <Text
+          style={{
+            fontWeight: '600',
+            fontSize: 16,
+            lineHeight: 40,
+            color: '#757575',
+          }}>
           Пункт самовывоза
         </Text>
         <DefaultButton
