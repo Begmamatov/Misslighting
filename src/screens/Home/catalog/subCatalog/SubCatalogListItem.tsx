@@ -43,7 +43,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     flexDirection: 'column',
     marginRight: 20,
-    borderWidth: 1,
   },
   image: {
     width: '100%',
