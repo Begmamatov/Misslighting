@@ -6,21 +6,22 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   TouchableWithoutFeedback,
+  Dimensions,
 } from 'react-native';
-import React, { useState } from 'react';
-import { COLORS } from '../../../../constants/colors';
+import React, {useState} from 'react';
+import {COLORS} from '../../../../constants/colors';
 import {
   BasketIcon,
   HeartIconNotActive,
   HeartIconRed,
 } from '../../../../assets/icons/icons';
-import requests, { assetUrl } from '@api/requests';
-import { useAppSelector } from '@store/hooks';
-import { cartSelector, loadCart } from '@store/slices/cartSlice';
-import { useDispatch } from 'react-redux';
-import { favoriteSelector, loadFavorite } from '@store/slices/favoriteSlice';
-import { toggleLoading } from '@store/slices/appSettings';
-import { STRINGS } from '@locales/strings';
+import requests, {assetUrl} from '@api/requests';
+import {useAppSelector} from '@store/hooks';
+import {cartSelector, loadCart} from '@store/slices/cartSlice';
+import {useDispatch} from 'react-redux';
+import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
+import {toggleLoading} from '@store/slices/appSettings';
+import {STRINGS} from '@locales/strings';
 type ProductItemCardProps = {
   showNewProduct?: boolean;
   showDiscount?: boolean;
@@ -89,7 +90,7 @@ export default function AllProductItemCard(props: ProductItemCardProps) {
   };
   return (
     <View style={styles.cartItem}>
-      <Image style={styles.image} source={{ uri: assetUrl + props.photo }} />
+      <Image style={styles.image} source={{uri: assetUrl + props.photo}} />
       {props.showDiscount && (
         <View style={styles.sileBox}>
           <Text style={styles.sileText}>10%</Text>
@@ -110,14 +111,18 @@ export default function AllProductItemCard(props: ProductItemCardProps) {
       </TouchableOpacity>
 
       <View style={styles.cartItemInfo}>
-        <Text style={styles.typeText}>Люстры</Text>
-        <Text style={styles.nameText}>{props.name}</Text>
-        <Text style={styles.priceTextSile}>{props.price_usd} UZS</Text>
-        <Text style={styles.priceText}>{props.price}UZS</Text>
+        <View style={{height: 120}}>
+          <Text style={styles.typeText}>Люстры</Text>
+          <Text style={styles.nameText}>{props.name}</Text>
+          {props.price_usd && (
+            <Text style={styles.priceTextSile}>{props.price_usd} UZS</Text>
+          )}
+          <Text style={styles.priceText}>{props.price}UZS</Text>
+        </View>
         <TouchableOpacity
           style={[
             styles.button,
-            { backgroundColor: isInCart ? '#84A9C0' : '#FFFFFF' },
+            {backgroundColor: isInCart ? '#84A9C0' : '#FFFFFF'},
           ]}
           onPress={onCartPress}>
           {animate ? (
@@ -145,11 +150,12 @@ export default function AllProductItemCard(props: ProductItemCardProps) {
 
 const styles = StyleSheet.create({
   cartItem: {
-    width: 162,
+    // width: 162,
     height: 330,
+    width: Dimensions.get('screen').width / 2 - 20,
     backgroundColor: '#fff',
     borderRadius: 15,
-    marginHorizontal: 10,
+    marginRight: 10,
     marginBottom: 20,
     flexDirection: 'column',
   },
@@ -170,7 +176,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   image: {
-    width: '100%',
+    width: Dimensions.get('screen').width / 2 - 20,
     height: 156,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
