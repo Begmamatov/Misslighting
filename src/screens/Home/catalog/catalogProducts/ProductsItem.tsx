@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity, ListRenderItemInfo, ActivityIndicator, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ListRenderItemInfo, ActivityIndicator, TouchableWithoutFeedback, Alert } from 'react-native';
 import React, { ReactElement, useState } from 'react';
 import { COLORS } from '../../../../constants/colors';
 import requests, { appendUrl, assetUrl } from '@api/requests';
@@ -70,13 +70,14 @@ const ProductsItem = ({
                     amount: 1,
                     product_id: id,
                 });
-
+                if (res.status.toString() === '422') {
+                    Alert.alert('Кол-во товара на складе меньше чем вы указали');
+                }
                 let cartRes = await requests.products.getCarts();
                 dispatch(loadCart(cartRes.data.data));
                 setAnimate(false);
             } catch (error) {
-                console.log("erorrs++++", JSON.stringify(error, null, 4));
-                alert(JSON.stringify(error, null, 4));
+                Alert.alert('Кол-во товара на складе меньше чем вы указали');
             } finally {
                 setAnimate(false);
             }
@@ -143,7 +144,7 @@ const ProductsItem = ({
                     {animate ? (
                         <ActivityIndicator
                             size="small"
-                            color={'#84A9C0'}
+                            color={isInCart ? '#fff' : '#84A9C0'}
                             animating={animate}
                         />
                     ) : (

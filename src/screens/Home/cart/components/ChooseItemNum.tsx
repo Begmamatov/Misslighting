@@ -1,21 +1,18 @@
-import requests, {appendUrl} from '@api/requests';
-import {CartItemResponse} from '@api/types';
+import requests, { appendUrl } from '@api/requests';
+import { CartItemResponse } from '@api/types';
 import {
   CrashIcon,
-  HeartIcon,
   HeartIconBorder,
   HeartIconRed,
   MinusIcon,
   PlusCounterIcon,
 } from '@icons/icons';
 
-import {COLORS, GRADIENT_COLORS} from '@constants/colors';
-import {STRINGS} from '@locales/strings';
-import {useAppSelector} from '@store/hooks';
-import {toggleLoading} from '@store/slices/appSettings';
-import {loadCart} from '@store/slices/cartSlice';
-import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
-import React, {useState} from 'react';
+import { COLORS } from '@constants/colors';
+import { useAppSelector } from '@store/hooks';
+import { loadCart } from '@store/slices/cartSlice';
+import { favoriteSelector, loadFavorite } from '@store/slices/favoriteSlice';
+import React, { useState } from 'react';
 import {
   Image,
   LayoutAnimation,
@@ -24,8 +21,8 @@ import {
   View,
   Text,
 } from 'react-native';
-// import LinearGradient from 'react-native-linear-gradient';
-import {useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
+import useLoading from '@store/Loader/useLoading';
 
 export let imageURL =
   'https://static.theblacktux.com/products/suits/gray-suit/1_2018_0326_TBT_Spring-Ecomm_Shot03_-31_w1_1812x1875.jpg?width=1024';
@@ -35,17 +32,18 @@ export let ProductsData = {
   price: '1400  ₽',
 };
 
-export default function ChooseItemNum({data}: {data: CartItemResponse}) {
+export default function ChooseItemNum({ data }: { data: CartItemResponse }) {
   const [shouldShow, setShouldShow] = useState(true);
   const dispatch = useDispatch();
 
   let id = data.product.id;
   const fav = useAppSelector(favoriteSelector);
   let isFav = !!fav[id];
+  const loading = useLoading();
 
   const onAddItem = async () => {
     try {
-      dispatch(toggleLoading(true));
+      loading?.onRun();
       let res = await requests.products.increaseItem({
         amount: 1,
         product_id: id,
@@ -55,13 +53,13 @@ export default function ChooseItemNum({data}: {data: CartItemResponse}) {
     } catch (error) {
       console.log(error);
     } finally {
-      dispatch(toggleLoading(false));
+      loading?.onClose();
     }
   };
 
   const onDecreaseItem = async () => {
     try {
-      dispatch(toggleLoading(true));
+      loading?.onRun();
       let res = await requests.products.decreaseItem({
         product_id: id,
       });
@@ -70,13 +68,13 @@ export default function ChooseItemNum({data}: {data: CartItemResponse}) {
     } catch (error) {
       console.log(error);
     } finally {
-      dispatch(toggleLoading(false));
+      loading?.onClose();
     }
   };
 
   const onRemoveItem = async () => {
     try {
-      dispatch(toggleLoading(true));
+      loading?.onRun();
       let res = await requests.products.removeItem({
         product_id: id,
       });
@@ -85,14 +83,14 @@ export default function ChooseItemNum({data}: {data: CartItemResponse}) {
     } catch (error) {
       console.log(error);
     } finally {
-      dispatch(toggleLoading(false));
+      loading?.onClose();
       LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
     }
   };
 
   const onAddFavorite = async () => {
     try {
-      dispatch(toggleLoading(true));
+      loading?.onRun();
       let res = await requests.favorites.addFavorite({
         product_id: id,
       });
@@ -101,7 +99,7 @@ export default function ChooseItemNum({data}: {data: CartItemResponse}) {
     } catch (error) {
       console.log(error);
     } finally {
-      dispatch(toggleLoading(false));
+      loading?.onClose();
     }
   };
 
@@ -110,7 +108,7 @@ export default function ChooseItemNum({data}: {data: CartItemResponse}) {
       <View>
         <Image
           style={styles.leftImage}
-          source={{uri: appendUrl(data.product.photo)}}
+          source={{ uri: appendUrl(data.product.photo) }}
         />
       </View>
       <View style={styles.textBox}>
@@ -126,7 +124,7 @@ export default function ChooseItemNum({data}: {data: CartItemResponse}) {
             </View>
           </TouchableOpacity>
           <View style={styles.topBottom}>
-            <Text style={{color: '#717171B2'}}>{data?.amount} шт</Text>
+            <Text style={{ color: '#717171B2' }}>{data?.amount} шт</Text>
           </View>
           <TouchableOpacity onPress={onAddItem} style={styles.plus}>
             <View style={styles.plus}>
@@ -138,7 +136,7 @@ export default function ChooseItemNum({data}: {data: CartItemResponse}) {
       <View style={styles.iconBox}>
         <TouchableOpacity
           onPress={onAddFavorite}
-          hitSlop={{left: 10, right: 10, top: 10, bottom: 10}}>
+          hitSlop={{ left: 10, right: 10, top: 10, bottom: 10 }}>
           {isFav ? (
             <HeartIconRed fill={COLORS.red} />
           ) : (
@@ -147,7 +145,7 @@ export default function ChooseItemNum({data}: {data: CartItemResponse}) {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={onRemoveItem}
-          hitSlop={{left: 10, right: 10, top: 10, bottom: 10}}>
+          hitSlop={{ left: 10, right: 10, top: 10, bottom: 10 }}>
           <CrashIcon fill={COLORS.gray} />
         </TouchableOpacity>
       </View>

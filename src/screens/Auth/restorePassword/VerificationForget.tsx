@@ -21,9 +21,9 @@ export default function VerificationForget(props: any) {
   return (
     <SingUpTemplate>
       <SectionTitle title="Введите код" marginBottom={36} />
-      <Text style={{ marginBottom: 25 }}>
+      <Text style={{ marginBottom: 25, color: COLORS.labelText }}>
         Мы отправили код на{' '}
-        <Text style={{ fontWeight: '600' }}>{state.phone}</Text>
+        <Text style={{ fontWeight: '700', color: COLORS.labelText }}>{state.phone}</Text>
       </Text>
       <TouchableOpacity onPress={onChangePhoneNumber}>
         <Text style={{ color: '#84A9C0', marginBottom: 25 }}>Изменить номер</Text>
@@ -37,9 +37,11 @@ export default function VerificationForget(props: any) {
         onChangeText={onStateChange('code')}
         value={state.code}
       />
-      <Text style={{ color: '#84A9C0', marginBottom: 25 }}>
-        Отправить повторно через {timeLeft}
-      </Text>
+      {timeLeft > 0 ? (
+        <Text style={{ color: '#84A9C0', marginBottom: 25 }}>
+          Отправить повторно через {timeLeft}
+        </Text>
+      ) : null}
       <DefaultButton
         title="Переотправить"
         disabled={timeLeft !== 0}
@@ -47,6 +49,7 @@ export default function VerificationForget(props: any) {
         ButtonStyle={{
           backgroundColor: timeLeft !== 0 ? COLORS.noActiveButtonBgColor2 : COLORS.activeButtonBgColor,
           width: '100%',
+          marginTop: 10,
         }}
         TextStyle={{ color: timeLeft !== 0 ? COLORS.labelText : COLORS.white }}
       />

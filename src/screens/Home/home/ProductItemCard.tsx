@@ -6,24 +6,25 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   BasketIcon,
   HeartIconBorder,
   HeartIconNotActive,
   HeartIconRed,
 } from '../../../assets/icons/icons';
-import {COLORS} from '../../../constants/colors';
-import {useNavigation} from '@react-navigation/native';
-import {ROUTES} from '../../../constants/routes';
-import requests, {assetUrl} from '@api/requests';
-import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
-import {toggleLoading} from '@store/slices/appSettings';
-import {useAppSelector} from '@store/hooks';
-import {cartSelector, loadCart} from '@store/slices/cartSlice';
-import {useDispatch} from 'react-redux';
-import {STRINGS} from '@locales/strings';
+import { COLORS } from '../../../constants/colors';
+import { useNavigation } from '@react-navigation/native';
+import { ROUTES } from '../../../constants/routes';
+import requests, { assetUrl } from '@api/requests';
+import { favoriteSelector, loadFavorite } from '@store/slices/favoriteSlice';
+import { toggleLoading } from '@store/slices/appSettings';
+import { useAppSelector } from '@store/hooks';
+import { cartSelector, loadCart } from '@store/slices/cartSlice';
+import { useDispatch } from 'react-redux';
+import { STRINGS } from '@locales/strings';
 
 export type ProductItemCardProps = {
   name?: string;
@@ -31,19 +32,27 @@ export type ProductItemCardProps = {
   showNewProduct?: boolean;
   showDiscount?: boolean;
   showDiscountAdd?: boolean;
-  price?: number;
+  price: number;
   price_usd?: number;
   id: number;
+  discount: number;
+  brand?: string;
+  shop?: string;
+  category: {
+    name?: string;
+  }
+  isFavorite?: boolean;
+  getProducts?: () => void;
 };
 
 export default function ProductItemCard(props: ProductItemCardProps) {
   const navigation = useNavigation();
-  const [colorActive, setColarActive] = useState(false);
   const cart = useAppSelector(cartSelector);
   let isInCart = !!cart[props.id];
   const dispatch = useDispatch();
   const fav = useAppSelector(favoriteSelector);
   let isFav = !!fav[props.id];
+  const discountPrice = (props.price * (100 - props.discount)) / 100;
 
   const onAddFavorite = async () => {
     try {
@@ -64,9 +73,11 @@ export default function ProductItemCard(props: ProductItemCardProps) {
     if (isInCart) {
       try {
         setAnimate(true);
+        let clear = await requests.products.removeItem({
+          product_id: props.id,
+        });
         let cartGet = await requests.products.getCarts();
         dispatch(loadCart(cartGet.data.data));
-        setColarActive(true);
         setAnimate(false);
       } catch (error) {
         console.log(error);
@@ -79,17 +90,16 @@ export default function ProductItemCard(props: ProductItemCardProps) {
           amount: 1,
           product_id: props.id,
         });
-
+        if (res.status.toString() === '422') {
+          Alert.alert('Кол-во товара на складе меньше чем вы указали');
+        }
         let cartRes = await requests.products.getCarts();
         dispatch(loadCart(cartRes.data.data));
-        setColarActive(true);
         setAnimate(false);
       } catch (error) {
-        console.log('erorrs++++', JSON.stringify(error, null, 4));
-        alert(JSON.stringify(error, null, 4));
+        Alert.alert('Кол-во товара на складе меньше чем вы указали');
       } finally {
         setAnimate(false);
-        setColarActive(true);
       }
     }
   };
@@ -97,14 +107,14 @@ export default function ProductItemCard(props: ProductItemCardProps) {
     <TouchableWithoutFeedback
       onPress={() =>
         //@ts-ignore
-        navigation.navigate(ROUTES.PRODUCTDETAILS, {props})
+        navigation.navigate(ROUTES.PRODUCTDETAILS, { props })
       }>
       <View style={styles.cartItem}>
-        <Image style={styles.image} source={{uri: assetUrl + props.photo}} />
+        <Image style={styles.image} source={{ uri: assetUrl + props.photo }} />
 
-        {props.showDiscount && (
+        {props.discount && (
           <View style={styles.sileBox}>
-            <Text style={styles.sileText}>10%</Text>
+            <Text style={styles.sileText}>{props.discount} %</Text>
           </View>
         )}
         {props.showNewProduct && (
@@ -123,21 +133,26 @@ export default function ProductItemCard(props: ProductItemCardProps) {
         </TouchableOpacity>
 
         <View style={styles.cartItemInfo}>
-          <Text style={styles.typeText}>Люстры</Text>
-          <Text style={styles.nameText}>{props.name}</Text>
-          <Text style={styles.priceTextSile}>{props.price_usd}UZS</Text>
-          <Text style={styles.priceText}>{props.price} UZS</Text>
-
+          <Text style={styles.typeText}>{props.category.name || ""}</Text>
+          <Text style={styles.nameText}>{props.name || ""}</Text>
+          {
+            props.discount ? (
+              <Text style={styles.priceTextSile}>{props.discount ? props.price : discountPrice} UZS</Text>
+            ) : null
+          }
+          <Text style={styles.priceText}>{props.discount ? discountPrice : props.price}UZS</Text>
+        </View>
+        <View style={{ paddingHorizontal: 10 }}>
           <TouchableOpacity
             style={[
               styles.button,
-              {backgroundColor: isInCart ? '#84A9C0' : '#FFFFFF'},
+              { backgroundColor: isInCart ? '#84A9C0' : '#FFFFFF' },
             ]}
             onPress={onCartPress}>
             {animate ? (
               <ActivityIndicator
                 size="small"
-                color={'#84A9C0'}
+                color={isInCart ? '#fff' : '#84A9C0'}
                 animating={animate}
               />
             ) : (
@@ -198,6 +213,7 @@ const styles = StyleSheet.create({
     right: 10,
   },
   cartItemInfo: {
+    height: 100,
     paddingHorizontal: 10,
   },
   typeText: {
@@ -266,6 +282,3 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
 });
-function dispatch(arg0: any) {
-  throw new Error('Function not implemented.');
-}

@@ -1,21 +1,31 @@
 import {
-  LayoutAnimation,
   Platform,
   StyleSheet,
-  Switch,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
-import {COLORS} from '@constants/colors';
-import DefaultInput from '@components/uikit/TextInput';
-import {NewTopArrowIcon2} from '@icons/icons';
-import {STRINGS} from '@locales/strings';
+import React, { useState } from 'react';
+import { COLORS } from '@constants/colors';
+import { NewTopArrowIcon2 } from '@icons/icons';
+import SelectDropdown from 'react-native-select-dropdown'
 
 type typeProps = {
-  onStateChange?: (val: string) => void;
+  onStateChange: (val: string) => void;
 };
+
+// Тип оплаты
+const dataOrderType = [
+  {
+    id: 1,
+    title: 'Самовывоз',
+    value: 'pickup',
+  },
+  {
+    id: 2,
+    title: 'Доставка курьером',
+    value: 'delivery',
+  },
+];
 
 const PickupPoints = (props: typeProps) => {
   return (
@@ -29,10 +39,33 @@ const PickupPoints = (props: typeProps) => {
         }}>
         Тип оплаты
       </Text>
-      <View style={styles.many}>
-        <Text style={{color: ' #000000'}}>Наличные</Text>
-        <NewTopArrowIcon2 />
-      </View>
+      <SelectDropdown
+        data={dataOrderType}
+        onSelect={(selectedItem: any) => {
+          props.onStateChange(selectedItem.id);
+        }}
+        buttonTextAfterSelection={(selectedItem: any, index: any) => {
+          return selectedItem.title;
+        }}
+        rowTextForSelection={(item: any, index: any) => {
+          return item.title;
+        }}
+        buttonStyle={styles.dropdown2BtnStyle}
+        buttonTextStyle={{
+          color: '#3F3535',
+          fontSize: 16,
+        }}
+        renderDropdownIcon={() => {
+          return <NewTopArrowIcon2 />;
+        }}
+        dropdownIconPosition="right"
+        rowTextStyle={{
+          color: '#3F3535',
+          fontSize: 16,
+        }}
+        defaultButtonText='Выберите тип оплаты'
+        defaultValueByIndex={0}
+      />
     </View>
   );
 };
@@ -281,4 +314,13 @@ export const styles = StyleSheet.create({
     marginBottom: 15,
     justifyContent: 'space-between',
   },
+  dropdown2BtnStyle: {
+    width: '100%',
+    height: 50,
+    borderRadius: 45,
+    paddingHorizontal: 20,
+    backgroundColor: '#FAFAFA',
+    marginTop: 15,
+    marginBottom: 15,
+  }
 });

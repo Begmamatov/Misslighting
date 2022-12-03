@@ -11,15 +11,15 @@ import {
   NotificationIcon,
   SearchIcon,
 } from '../../../assets/icons/icons';
-import {COLORS} from '../../../constants/colors';
-import {STRINGS} from '@locales/strings';
-import {useNavigation} from '@react-navigation/native';
-import {ROUTES} from '@constants/routes';
+import { COLORS } from '../../../constants/colors';
+import { STRINGS } from '@locales/strings';
+import { useNavigation } from '@react-navigation/native';
+import { ROUTES } from '@constants/routes';
 interface SearchProps {
   autoFocus?: boolean;
   onChange?: (val: string) => void;
 }
-export default function SearchNatlifHeader({autoFocus, onChange}: SearchProps) {
+export default function SearchNatlifHeader({ autoFocus, onChange }: SearchProps) {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
@@ -33,7 +33,7 @@ export default function SearchNatlifHeader({autoFocus, onChange}: SearchProps) {
           onChangeText={onChange}
           onPressIn={() => navigation.navigate(ROUTES.SEARCH as never)}
         />
-        <SearchIcon fill={'#84A9C0'} style={{marginRight: 10}} />
+        <SearchIcon fill={'#84A9C0'} style={{ marginRight: 10 }} />
       </View>
       <View style={styles.NotificationBox}>
         <TouchableOpacity

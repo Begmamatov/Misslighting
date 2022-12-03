@@ -6,6 +6,7 @@ import ProductsTitle from '../../../components/uikit/ProductsTitle';
 import { useNavigation } from '@react-navigation/native';
 import { ROUTES } from '../../../constants/routes';
 import requests from '@api/requests';
+import useLoading from '@store/Loader/useLoading';
 
 type ProductListProps = {
   title: string;
@@ -14,13 +15,17 @@ type ProductListProps = {
 
 export default function ProductListTopShop(props: ProductListProps) {
   const [products, setProducts] = useState<any>();
+  const loading = useLoading();
 
   const getProducts = async () => {
     try {
+      loading?.onRun();
       let res = await requests.sort.getCheap();
       setProducts(res.data.data);
     } catch (error) {
       console.log('product lest', error);
+    } finally {
+      loading?.onClose();
     }
   };
   useEffect(() => {

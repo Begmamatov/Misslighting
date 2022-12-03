@@ -4,11 +4,13 @@ import React from 'react';
 type AllTitleType = {
   title?: string;
   color?: boolean;
+  marginTop?: number;
+  marginBottom?: number;
 };
 
 export default function AllProductTitle(props: AllTitleType) {
   return (
-    <View style={styles.title_container}>
+    <View style={[styles.title_container, { marginBottom: props.marginBottom, marginTop: props.marginTop }]}>
       {props ? (
         <Text
           style={[styles.title, { color: props.color ? '#3F3535' : '#FF9500' }]}>
