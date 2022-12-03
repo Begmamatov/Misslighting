@@ -1,7 +1,7 @@
-import {View, StyleSheet, Image, ScrollView} from 'react-native';
+import { View, StyleSheet, Image, ScrollView, Dimensions } from 'react-native';
 import React from 'react';
 import KeyboardAvoidingView from '../uikit/KeyboardAvoidingView';
-import {COLORS} from '../../constants/colors';
+import { COLORS } from '../../constants/colors';
 
 type Props = {
   children: React.ReactNode;

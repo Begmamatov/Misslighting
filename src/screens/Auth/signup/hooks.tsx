@@ -66,7 +66,7 @@ const useRegisterHook = () => {
                 });
             } catch (error) {
                 let err = error as AxiosError<RegisterResponseErrors>;
-                Alert.alert(JSON.stringify(err) as any);
+                Alert.alert("Этот номер уже зарегистрирован.");
                 if (axios.isAxiosError(err)) {
                     // Access to config, request, and response
                     // err.response?.data.errors[0].phone;

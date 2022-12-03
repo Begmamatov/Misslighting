@@ -17,6 +17,7 @@ export default function GoBackHeader(props: Props) {
       style={{
         backgroundColor: 'transparent',
         paddingHorizontal: 15,
+        paddingVertical: 10
       }}>
       <TouchableOpacity
         onPress={() => navigation.goBack()}

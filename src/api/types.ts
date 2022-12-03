@@ -255,4 +255,5 @@ export interface OrderSend {
   lastName: string;
   email: string;
   phone: string;
+  phone2: string;
 }

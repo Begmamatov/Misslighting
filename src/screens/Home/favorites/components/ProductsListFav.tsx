@@ -1,8 +1,8 @@
 import requests from '@api/requests';
-import { ProductItemResponse } from '@api/types';
 import { COLORS } from '@constants/colors';
 import AllProductItemCard from '@home/home/allProducts/AllProductItemCard';
 import { STRINGS } from '@locales/strings';
+import useLoading from '@store/Loader/useLoading';
 import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 
@@ -13,18 +13,24 @@ const ProductsListFav = ({
   title = STRINGS.ru.popularProducts,
 }: PropularProductsProps) => {
   const [products, setProducts] = useState();
+  const loading = useLoading();
 
   const getProducts = async () => {
     try {
+      loading?.onRun();
       let res = await requests.sort.getPopular();
       setProducts(res.data.data);
     } catch (error) {
       console.log('product lest', error);
+    } finally {
+      loading?.onClose();
     }
   };
   useEffect(() => {
+    loading?.onRun();
     getProducts();
-  }, []);
+    loading?.onClose();
+  }, [products]);
   return (
     <View style={styles.container}>
       <FlatList

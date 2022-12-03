@@ -1,44 +1,13 @@
 import { View, StyleSheet, ScrollView } from 'react-native';
 import React, { useState } from 'react';
-import SingUpTemplate from '../../../components/template/SingUpTemplate';
-import SectionTitle from '../../../components/uikit/SectionTitle';
 import DefaultButton from '../../../components/uikit/DefaultButton';
 import { COLORS } from '../../../constants/colors';
 import DefaultInput from '../../../components/uikit/TextInput';
 import CheckBox from '../../../components/uikit/CheckBox';
 import { useNavigation } from '@react-navigation/native';
-import { ROUTES } from '../../../constants/routes';
-import DatePicker from 'react-native-date-picker';
-import moment from 'moment';
 import useRegisterHook from './hooks';
 
-// export interface RegisterStateLegal {
-//   account: string;
-//   inn: string;
-//   bank: string;
-//   address_legal: string;
-//   oked: string;
-//   okohx: string;
-//   mfo: string;
-//   name: string;
-//   phone: string;
-//   type: string;
-// }
-
 export default function SignUpLegal() {
-  let navigation = useNavigation();
-  // const [state, setState] = useState<RegisterStateLegal>({
-  //   account: '',
-  //   inn: '',
-  //   bank: '',
-  //   address_legal: '',
-  //   oked: '',
-  //   okohx: '',
-  //   mfo: '',
-  //   name: '',
-  //   phone: '',
-  //   type: 'yur',
-  // });
 
   let {
     loading,

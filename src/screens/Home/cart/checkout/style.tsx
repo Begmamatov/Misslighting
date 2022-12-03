@@ -1,10 +1,11 @@
-import {COLORS} from '@constants/colors';
-import {Platform, StyleSheet} from 'react-native';
+import { COLORS } from '@constants/colors';
+import { Platform, StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.white,
+    paddingBottom: 30,
   },
 
   backHeader: {
@@ -176,6 +177,7 @@ export const styles = StyleSheet.create({
 
   recipientContainer: {
     marginHorizontal: 20,
+    paddingBottom: 20,
   },
 
   recipHeaderTxt: {
