@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
+import { COLORS } from '@constants/colors'
 
 type Props = {
     title: string
@@ -31,5 +32,6 @@ const styles = StyleSheet.create({
         lineHeight: 48,
         fontWeight: 'bold',
         marginBottom: 28,
+        color: COLORS.labelText,
     },
 })

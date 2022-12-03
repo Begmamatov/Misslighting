@@ -1,4 +1,4 @@
-import requests, {appendUrl} from '@api/requests';
+import requests, { appendUrl } from '@api/requests';
 import {
   DeliveryMethodResponse,
   OrderSend,
@@ -9,13 +9,13 @@ import DefaultButton from '@components/uikit/DefaultButton';
 import GoBackHeader from '@components/uikit/Header/GoBackHeader';
 
 import DefaultInput from '@components/uikit/TextInput';
-import {COLORS} from '@constants/colors';
+import { COLORS } from '@constants/colors';
 import DefaultHeader from '@home/favorites/components/DefaultHeader';
-import {NewTopArrowIcon, NewTopArrowIcon2} from '@icons/icons';
-import {STRINGS} from '@locales/strings';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import {loadCart} from '@store/slices/cartSlice';
-import React, {useEffect, useState} from 'react';
+import { NewTopArrowIcon, NewTopArrowIcon2 } from '@icons/icons';
+import { STRINGS } from '@locales/strings';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { loadCart } from '@store/slices/cartSlice';
+import React, { useEffect, useState } from 'react';
 import {
   Image,
   LayoutAnimation,
@@ -26,12 +26,12 @@ import {
   View,
   Text,
 } from 'react-native';
-import {Snackbar} from 'react-native-paper';
-import {useDispatch} from 'react-redux';
+import { Snackbar } from 'react-native-paper';
+import { useDispatch } from 'react-redux';
 import CourierDelivery from '../components/CourierDelivery';
 import PickupPoints from '../components/PickupPoints';
 
-import {styles} from './style';
+import { styles } from './style';
 
 const CheckoutView = () => {
   const route = useRoute();
@@ -55,6 +55,7 @@ const CheckoutView = () => {
     payment_id: 37,
     phone: '',
     receiver: 0,
+    phone2: '',
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -81,7 +82,7 @@ const CheckoutView = () => {
   }, []);
 
   let onStateChange = (key: string) => (value: string) => {
-    setState({...state, [key]: value});
+    setState({ ...state, [key]: value });
   };
 
   const sendOrder = async () => {
@@ -102,23 +103,6 @@ const CheckoutView = () => {
     }
   };
 
-  const massive = [
-    {
-      date: '2022-09-28 09:00:08',
-      description: 'С 9 ноября, от  1.000.000 сум',
-      id: 1,
-      name: 'Пункты выдачи',
-      photo: '/assets_files/images/no-photo.png',
-    },
-    {
-      date: '2022-09-28 09:00:08',
-      description: 'С 9 ноября, от  1.000.000 сум',
-      id: 2,
-      name: 'Доставка курьером',
-      photo: '/assets_files/images/no-photo.png',
-    },
-  ];
-
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <GoBackHeader />
@@ -126,14 +110,14 @@ const CheckoutView = () => {
       <View style={styles.deliveryContainer}>
         <Text style={styles.headerTxt}>{STRINGS.ru.deliveryChoose}</Text>
 
-        {massive?.map((item, i) => {
+        {delivery?.map((item, i) => {
           return (
-            <>
+            <View key={i}>
               <TouchableOpacity
                 style={activeIndex == i ? styles.activeBox : styles.box}
                 onPress={() => {
                   setIsActive(i),
-                    setState({...state, delivery_id: item.id}),
+                    setState({ ...state, delivery_id: item.id }),
                     setAcrive(a => !a);
                 }}>
                 <View
@@ -147,10 +131,12 @@ const CheckoutView = () => {
                 </View>
                 <View style={styles.textBox}>
                   <Text style={styles.text}>{item?.name}</Text>
-                  <Text style={styles.comment}>{item?.description}</Text>
+                  {item?.description ? (
+                    <Text style={styles.comment}>{item?.description}</Text>
+                  ) : null}
                 </View>
               </TouchableOpacity>
-            </>
+            </View>
           );
         })}
       </View>
@@ -171,7 +157,7 @@ const CheckoutView = () => {
             marginTop: 8,
             marginBotton: 0,
           }}
-          TextStyle={{color: 'white'}}
+          TextStyle={{ color: 'white' }}
         />
       </View>
       <View style={styles.pickupContainer}>
@@ -185,11 +171,11 @@ const CheckoutView = () => {
               flexDirection: 'row',
               flexWrap: 'wrap',
             }}>
-            {item?.map((e: any) => {
+            {item?.map((e: any, index: number) => {
               return (
-                <View style={styles.boxNum}>
+                <View style={styles.boxNum} key={index}>
                   <Image
-                    source={{uri: appendUrl(e.product.photo)}}
+                    source={{ uri: appendUrl(e.product.photo) }}
                     style={styles.boxImage}
                   />
                   {e.amount ? (
@@ -211,82 +197,94 @@ const CheckoutView = () => {
           <View style={styles.switch}>
             <Text style={styles.notMe}>{STRINGS.ru.itsNotMe}</Text>
             <Switch
-              hitSlop={{top: 10, left: 10, right: 10, bottom: 10}}
-              trackColor={{false: '#767577', true: '#767577'}}
-              thumbColor={isEnabled ? COLORS.white : COLORS.white}
+              hitSlop={{ top: 10, left: 10, right: 10, bottom: 10 }}
+              trackColor={{ false: COLORS.noActiveButtonBgColor2, true: COLORS.activeButtonBgColor }}
+              thumbColor={COLORS.white}
               ios_backgroundColor="#3e3e3e"
               onValueChange={toggleSwitch}
               value={isEnabled}
             />
           </View>
-          {active ? <CourierDelivery /> : <PickupPoints />}
+          {activeIndex == 0 ? <CourierDelivery onStateChange={onStateChange} /> : <PickupPoints onStateChange={onStateChange} />}
           <DefaultInput
-            label="Бонусами"
+            label="Comment"
             backgroundColor={'#FAFAFA'}
             placeholderColor={COLORS.labelText}
             marginBottom={0}
-            onChangeText={onStateChange('receiver')}
+            onChangeText={onStateChange('comment')}
+            value={state.comment}
           />
-          <DefaultInput
-            label="Наименование учреждения"
-            backgroundColor={'#FAFAFA'}
-            placeholderColor={COLORS.labelText}
-            marginBottom={0}
-            onChangeText={onStateChange('address')}
-            value={state.address}
-          />
-          <DefaultInput
-            label="Имя"
-            backgroundColor={'#FAFAFA'}
-            placeholderColor={COLORS.labelText}
-            marginBottom={0}
-            onChangeText={onStateChange('name')}
-            value={state.name}
-          />
-          <DefaultInput
-            label="Фамилия"
-            backgroundColor={'#FAFAFA'}
-            placeholderColor={COLORS.labelText}
-            marginBottom={0}
-            onChangeText={onStateChange('lastName')}
-            value={state.lastName}
-          />
-          <DefaultInput
-            label="Email"
-            backgroundColor={'#FAFAFA'}
-            placeholderColor={COLORS.labelText}
-            marginBottom={0}
-            onChangeText={onStateChange('email')}
-            value={state.email}
-          />
-          <DefaultInput
-            label="Номер телефона"
-            backgroundColor={'#FAFAFA'}
-            placeholderColor={COLORS.labelText}
-            marginBottom={0}
-            onChangeText={onStateChange('phone')}
-            value={state.phone}
-          />
-          <TouchableOpacity
-            onPress={() => {
-              LayoutAnimation.configureNext(
-                LayoutAnimation.Presets.easeInEaseOut,
-              );
-              setShouldShow(!shouldShow);
-            }}>
-            <Text style={styles.underline}>
-              + Дополнительный номер телефона
-            </Text>
-          </TouchableOpacity>
-          {!shouldShow ? (
-            <DefaultInput
-              label="Comment"
-              backgroundColor={'#FAFAFA'}
-              placeholderColor={COLORS.labelText}
-              marginBottom={0}
-              onChangeText={onStateChange('Comment')}
-              value={state.comment}
-            />
+          {isEnabled ? (
+            <View>
+              <DefaultInput
+                label="Бонусами"
+                backgroundColor={'#FAFAFA'}
+                placeholderColor={COLORS.labelText}
+                marginBottom={0}
+                onChangeText={onStateChange('receiver')}
+              />
+              <DefaultInput
+                label="Наименование учреждения"
+                backgroundColor={'#FAFAFA'}
+                placeholderColor={COLORS.labelText}
+                marginBottom={0}
+                onChangeText={onStateChange('address')}
+                value={state.address}
+              />
+              <DefaultInput
+                label="Имя"
+                backgroundColor={'#FAFAFA'}
+                placeholderColor={COLORS.labelText}
+                marginBottom={0}
+                onChangeText={onStateChange('name')}
+                value={state.name}
+              />
+              <DefaultInput
+                label="Фамилия"
+                backgroundColor={'#FAFAFA'}
+                placeholderColor={COLORS.labelText}
+                marginBottom={0}
+                onChangeText={onStateChange('lastName')}
+                value={state.lastName}
+              />
+              <DefaultInput
+                label="Email"
+                backgroundColor={'#FAFAFA'}
+                placeholderColor={COLORS.labelText}
+                marginBottom={0}
+                onChangeText={onStateChange('email')}
+                value={state.email}
+              />
+              <DefaultInput
+                label="Номер телефона"
+                backgroundColor={'#FAFAFA'}
+                placeholderColor={COLORS.labelText}
+                marginBottom={0}
+                onChangeText={onStateChange('phone')}
+                value={state.phone}
+              />
+              <TouchableOpacity
+                onPress={() => {
+                  LayoutAnimation.configureNext(
+                    LayoutAnimation.Presets.easeInEaseOut,
+                  );
+                  setShouldShow(!shouldShow);
+                }}>
+                <Text style={styles.underline}>
+                  + Дополнительный номер телефона
+                </Text>
+              </TouchableOpacity>
+              {!shouldShow ? (
+                <DefaultInput
+                  label="Дополнительный номер телефона"
+                  backgroundColor={'#FAFAFA'}
+                  placeholderColor={COLORS.labelText}
+                  marginBottom={0}
+                  onChangeText={onStateChange('phone2')}
+                  value={state.phone2}
+                />
+              ) : null}
+            </View>
           ) : null}
         </View>
 
@@ -295,10 +293,10 @@ const CheckoutView = () => {
           onPress={sendOrder}
           ButtonStyle={{
             backgroundColor: '#84A9C0',
-            marginTop: 57,
+            marginTop: 20,
             marginBotton: 30,
           }}
-          TextStyle={{color: COLORS.white}}
+          TextStyle={{ color: COLORS.white }}
         />
       </View>
       <Snackbar

@@ -120,7 +120,7 @@ export default function TabNavigation() {
                   fontWeight: '400',
                   marginTop: 5,
                 }}>
-                Каталог
+                Корзина
               </Text>
             </View>
           ),

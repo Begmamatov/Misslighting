@@ -5,23 +5,28 @@ import ProductItemCard from './ProductItemCard';
 import ProductsTitle from '../../../components/uikit/ProductsTitle';
 import { ROUTES } from '../../../constants/routes';
 import { useNavigation } from '@react-navigation/native';
-import { NewsItemResponse } from '@api/types';
 import requests from '@api/requests';
+import useLoading from '@store/Loader/useLoading';
 
 type ProductListProps = {
   title: string;
-
   showNewProduct?: boolean;
   showDiscount?: boolean;
 };
 
 export default function ProductListNew(props: ProductListProps) {
   const [products, setProducts] = useState<any>();
+  const loading = useLoading();
   let effect = async () => {
     try {
+      loading?.onRun();
       let res = await requests.sort.getNewAdded();
       setProducts(res.data.data);
-    } catch (error) { }
+    } catch (error) {
+      console.log('product lest', error);
+    } finally {
+      loading?.onClose();
+    }
   };
   useEffect(() => {
     effect();

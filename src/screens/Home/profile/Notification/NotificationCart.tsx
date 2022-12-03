@@ -1,6 +1,6 @@
-import {StyleSheet, Text, View} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
-import {COLORS} from '@constants/colors';
+import { COLORS } from '@constants/colors';
 
 const NotificationCart = () => {
   return (
@@ -66,10 +66,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    shadowOffset: {width: -1, height: 4},
+    shadowOffset: { width: -1, height: 4 },
     shadowColor: '#171717',
     shadowOpacity: 0.2,
     shadowRadius: 3,
+    elevation: 5,
     width: '100%',
     marginTop: 12,
     paddingVertical: 18,
