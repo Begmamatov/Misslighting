@@ -1,13 +1,14 @@
-// import Slider from '@react-native-community/slider';
-import React, {useState} from 'react';
+import requests from '@api/requests';
+import Slider from '@react-native-community/slider';
+import React, {useEffect, useState} from 'react';
 import {
+  FlatList,
   SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
-  View,
-  Image,
   TouchableOpacity,
+  View,
 } from 'react-native';
 import {COLORS} from '../../constants/colors';
 import AllProductTitle from '../uikit/AllProductTitle';
@@ -46,6 +47,24 @@ const FilterScren = () => {
   const onPress7 = () => {
     setActive({...active, modal7: !active.modal7});
   };
+
+  const [colorData, setColorData] = useState<any>();
+  const [colorActive, setColorActive] = useState();
+  const ColorHandler = async () => {
+    try {
+      let res = await requests.products.colorItem();
+      setColorData(res.data.data);
+    } catch (error) {
+      console.log('================FilterScren====================');
+      console.log(error);
+      console.log('=================FilterScren===================');
+    }
+  };
+  useEffect(() => {
+    ColorHandler();
+  }, []);
+  const [activeModal, setActiveModal] = useState(true);
+  const [activeModal2, setActiveModal2] = useState(true);
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.white}}>
@@ -90,13 +109,13 @@ const FilterScren = () => {
                   </View>
                 </View>
                 <View style={{width: '100%', marginTop: 30}}>
-                  {/* <Slider
-                    style={{width: '100%', borderWidth: 1}}
+                  <Slider
+                    style={{width: '100%'}}
                     minimumValue={1}
                     maximumValue={2}
                     minimumTrackTintColor="#84A9C0"
                     maximumTrackTintColor="#000000"
-                  /> */}
+                  />
                 </View>
               </View>
             )}
@@ -109,57 +128,76 @@ const FilterScren = () => {
             activeBorder={true}>
             {active.modal3 && (
               <View style={styles.box_noactive}>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <View
-                    style={{
-                      width: 22,
-                      height: 22,
-                      borderColor: '#84A9C0',
-                      borderWidth: 1,
-                      borderStyle: 'solid',
-                      borderRadius: 5,
-                      flexDirection: 'column',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}>
-                    <View
-                      style={{
-                        backgroundColor: '#84A9C0',
-                        width: 18,
-                        height: 18,
-                        borderRadius: 5,
-                      }}></View>
-                  </View>
-                  <Text style={{marginLeft: 13}}>Нео-классика</Text>
-                </View>
-                <View
+                <TouchableOpacity
+                  onPress={() => setActiveModal(a => !a)}
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',
                     marginTop: 25,
                   }}>
                   <View
-                    style={{
-                      width: 22,
-                      height: 22,
-                      borderColor: '#84A9C0',
-                      borderWidth: 1,
-                      borderStyle: 'solid',
-                      borderRadius: 5,
-                      flexDirection: 'column',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}>
-                    <View
-                      style={{
-                        backgroundColor: '#84A9C0',
-                        width: 18,
-                        height: 18,
+                    style={[
+                      {
+                        borderColor: activeModal ? '#84A9C0' : '',
+                        borderWidth: activeModal ? 1 : 1,
+                      },
+                      {
+                        width: 22,
+                        height: 22,
+                        borderStyle: 'solid',
                         borderRadius: 5,
-                      }}></View>
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      },
+                    ]}>
+                    <View
+                      style={[
+                        {backgroundColor: activeModal ? '#84A9C0' : '#FFFFFF'},
+                        {
+                          width: 18,
+                          height: 18,
+                          borderRadius: 5,
+                        },
+                      ]}></View>
+                  </View>
+                  <Text style={{marginLeft: 13}}>Нео-классика</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => setActiveModal(a => !a)}
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginTop: 25,
+                  }}>
+                  <View
+                    style={[
+                      {
+                        borderColor: activeModal ? '' : '#84A9C0',
+                        borderWidth: activeModal ? 1 : 1,
+                      },
+                      {
+                        width: 22,
+                        height: 22,
+                        borderStyle: 'solid',
+                        borderRadius: 5,
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      },
+                    ]}>
+                    <View
+                      style={[
+                        {backgroundColor: activeModal ? '#FFFFFF' : '#84A9C0'},
+                        {
+                          width: 18,
+                          height: 18,
+                          borderRadius: 5,
+                        },
+                      ]}></View>
                   </View>
                   <Text style={{marginLeft: 13}}>Минимализм</Text>
-                </View>
+                </TouchableOpacity>
               </View>
             )}
           </FilterModal>
@@ -172,57 +210,76 @@ const FilterScren = () => {
             activeBorder={true}>
             {active.modal4 && (
               <View style={styles.box_noactive}>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <View
-                    style={{
-                      width: 22,
-                      height: 22,
-                      borderColor: '#84A9C0',
-                      borderWidth: 1,
-                      borderStyle: 'solid',
-                      borderRadius: 5,
-                      flexDirection: 'column',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}>
-                    <View
-                      style={{
-                        backgroundColor: '#84A9C0',
-                        width: 18,
-                        height: 18,
-                        borderRadius: 5,
-                      }}></View>
-                  </View>
-                  <Text style={{marginLeft: 13}}>1</Text>
-                </View>
-                <View
+                <TouchableOpacity
+                  onPress={() => setActiveModal2(a => !a)}
                   style={{
                     flexDirection: 'row',
                     alignItems: 'center',
                     marginTop: 25,
                   }}>
                   <View
-                    style={{
-                      width: 22,
-                      height: 22,
-                      borderColor: '#84A9C0',
-                      borderWidth: 1,
-                      borderStyle: 'solid',
-                      borderRadius: 5,
-                      flexDirection: 'column',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}>
-                    <View
-                      style={{
-                        backgroundColor: '#84A9C0',
-                        width: 18,
-                        height: 18,
+                    style={[
+                      {
+                        borderColor: activeModal2 ? '#84A9C0' : '',
+                        borderWidth: activeModal2 ? 1 : 1,
+                      },
+                      {
+                        width: 22,
+                        height: 22,
+                        borderStyle: 'solid',
                         borderRadius: 5,
-                      }}></View>
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      },
+                    ]}>
+                    <View
+                      style={[
+                        {backgroundColor: activeModal2 ? '#84A9C0' : '#FFFFFF'},
+                        {
+                          width: 18,
+                          height: 18,
+                          borderRadius: 5,
+                        },
+                      ]}></View>
+                  </View>
+                  <Text style={{marginLeft: 13}}>1</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => setActiveModal2(a => !a)}
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginTop: 25,
+                  }}>
+                  <View
+                    style={[
+                      {
+                        borderColor: activeModal2 ? '' : '#84A9C0',
+                        borderWidth: activeModal2 ? 1 : 1,
+                      },
+                      {
+                        width: 22,
+                        height: 22,
+                        borderStyle: 'solid',
+                        borderRadius: 5,
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      },
+                    ]}>
+                    <View
+                      style={[
+                        {backgroundColor: activeModal2 ? '#FFFFFF' : '#84A9C0'},
+                        {
+                          width: 18,
+                          height: 18,
+                          borderRadius: 5,
+                        },
+                      ]}></View>
                   </View>
                   <Text style={{marginLeft: 13}}>2</Text>
-                </View>
+                </TouchableOpacity>
               </View>
             )}
           </FilterModal>
@@ -233,7 +290,38 @@ const FilterScren = () => {
             active={active.modal5}
             onPress={onPress5}
             activeBorder={true}>
-            {active.modal5 && <View style={styles.box_noactive}></View>}
+            {active.modal5 && (
+              <View style={styles.box_noactive}>
+                <FlatList
+                  style={{marginTop: 18}}
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  data={colorData}
+                  renderItem={({item}) => (
+                    <TouchableOpacity
+                      onPress={() => setColorActive(item.id)}
+                      style={[
+                        styles.active,
+                        {
+                          backgroundColor:
+                            colorActive === item.id ? '#84A9C0' : '#FFFFFF',
+                        },
+                      ]}>
+                      <Text
+                        style={[
+                          styles.active_title,
+                          {
+                            color:
+                              colorActive === item.id ? '#ffffff' : '#84A9C0',
+                          },
+                        ]}>
+                        {item.name}
+                      </Text>
+                    </TouchableOpacity>
+                  )}
+                />
+              </View>
+            )}
           </FilterModal>
           {/* 6 */}
           <FilterModal
@@ -291,9 +379,22 @@ const styles = StyleSheet.create({
     width: '100%',
     zIndex: 4,
   },
+  active: {
+    width: 92,
+    height: 33,
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: '#84A9C0',
+    borderStyle: 'solid',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 5,
+    paddingHorizontal: 4,
+  },
   active_title: {
     fontSize: 16,
-    lineHeight: 40,
+    // lineHeight: 40,
     fontWeight: '500',
   },
   box_noactive: {

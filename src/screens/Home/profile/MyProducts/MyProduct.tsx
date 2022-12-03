@@ -9,18 +9,17 @@ import React, {useEffect, useState} from 'react';
 import GoBackHeader from '../../../../components/uikit/Header/GoBackHeader';
 import {useNavigation} from '@react-navigation/native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {COLORS} from '../../../../constants/colors';
+
 import ActiveList from './components/ActiveList';
 import StoryList from './components/StoryList';
-import {OrderItemResponse} from '@api/types';
-import requests from '@api/requests';
+
 const Tab = createMaterialTopTabNavigator();
 
 const MyProduct = () => {
   const width = Dimensions.get('window').width / 2;
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, backgroundColor: '#FFFFFF'}}>
       <GoBackHeader />
       <View style={styles.header}>
         <Text style={styles.HeaderText}>Мои заказы</Text>
