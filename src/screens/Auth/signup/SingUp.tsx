@@ -15,9 +15,10 @@ type Props = {
   state: any;
   descriptors: any;
   position: any;
+  setHeight: any;
 };
 
-function MyTabBar({ state, descriptors, navigation, position }: Props) {
+function MyTabBar({ state, descriptors, navigation, position, setHeight }: Props) {
   return (
     <View style={{ flexDirection: 'row', ...styles.buttonsBox }}>
       {state.routes.map((route: { key: string | number; name: any; }, index: any) => {
@@ -31,12 +32,18 @@ function MyTabBar({ state, descriptors, navigation, position }: Props) {
 
         const isFocused = state.index === index;
 
+        console.log('====================================');
+        console.log('=+++++++++++++=', route.name);
+        console.log('====================================');
+
         const onPress = () => {
           const event = navigation.emit({
             type: 'tabPress',
             target: route.key,
             canPreventDefault: true,
           });
+
+          setHeight(route.name === 'signupphysical' ? 600 : 1300);
 
           if (!isFocused && !event.defaultPrevented) {
             // The `merge: true` option makes sure that the params inside the tab screen are preserved
@@ -50,12 +57,6 @@ function MyTabBar({ state, descriptors, navigation, position }: Props) {
             target: route.key,
           });
         };
-
-        const inputRange = state.routes.map((_: any, i: any) => i);
-        const opacity = position.interpolate({
-          inputRange,
-          outputRange: inputRange.map((i: any) => (i === index ? 1 : 0)),
-        });
 
         return (
           <TouchableOpacity
@@ -92,12 +93,15 @@ function MyTabBar({ state, descriptors, navigation, position }: Props) {
 
 
 export default function SingUpScreen() {
+
+  const [height, setHeight] = React.useState(600);
+
   return (
     <SingUpTemplate>
       <SectionTitle title="Регистрация" marginBottom={36} />
-      <View style={{ width: '100%', height: Dimensions.get('screen').height - 200 }}>
+      <View style={{ width: '100%', height: height }}>
         <Tab.Navigator
-          tabBar={props => <MyTabBar {...props} />}
+          tabBar={(props) => <MyTabBar {...props} setHeight={setHeight} />}
         >
           <Tab.Screen name={ROUTES.SIGNUPPHYSCIAL} component={SignUpPhysical} options={{
             tabBarLabel: 'Физическое лицо',

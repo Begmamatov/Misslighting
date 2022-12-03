@@ -5,6 +5,7 @@ import ProductItemCard from './ProductItemCard';
 import {useNavigation} from '@react-navigation/native';
 import {ROUTES} from '../../../constants/routes';
 import requests from '@api/requests';
+import useLoading from '@store/Loader/useLoading';
 
 type Props = {
   title: string;
@@ -13,13 +14,17 @@ type Props = {
 export default function ProductList(props: Props) {
   const navigation = useNavigation();
   const [products, setProducts] = useState<any>();
+  const loading = useLoading();
 
   const getProducts = async () => {
     try {
+      loading?.onRun()
       let res = await requests.sort.getPopular();
       setProducts(res.data.data);
     } catch (error) {
       console.log('product lest', error);
+    } finally {
+      loading?.onClose()
     }
   };
   useEffect(() => {

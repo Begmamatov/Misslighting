@@ -1,10 +1,24 @@
 import requests from '@api/requests';
-import {loadCart} from '@store/slices/cartSlice';
-import {useEffect} from 'react';
-import {useDispatch} from 'react-redux';
+import useLoading from '@store/Loader/useLoading';
+import { loadCart } from '@store/slices/cartSlice';
+import { useDispatch } from 'react-redux';
 
 export const useCartScreenHooks = () => {
   const dispatch = useDispatch();
+  const loading = useLoading();
+
+  const getCart = async () => {
+    try {
+      loading?.onRun();
+      const response = await requests.products.getCarts();
+      dispatch(loadCart(response.data.data));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      loading?.onClose();
+    }
+  };
+
   const onClearCart = async () => {
     try {
       let res = await requests.products.clearCart();
@@ -16,5 +30,5 @@ export const useCartScreenHooks = () => {
     }
   };
 
-  return {onClearCart};
+  return { onClearCart, getCart };
 };

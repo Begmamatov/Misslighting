@@ -7,61 +7,89 @@ import {
   ActivityIndicator,
   TouchableWithoutFeedback,
   Dimensions,
+  Alert,
 } from 'react-native';
-import React, {useState} from 'react';
-import {COLORS} from '../../../../constants/colors';
+import React, { useState } from 'react';
+import { COLORS } from '../../../../constants/colors';
 import {
   BasketIcon,
   HeartIconNotActive,
   HeartIconRed,
 } from '../../../../assets/icons/icons';
-import requests, {assetUrl} from '@api/requests';
-import {useAppSelector} from '@store/hooks';
-import {cartSelector, loadCart} from '@store/slices/cartSlice';
-import {useDispatch} from 'react-redux';
-import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
-import {toggleLoading} from '@store/slices/appSettings';
-import {STRINGS} from '@locales/strings';
+import requests, { assetUrl } from '@api/requests';
+import { useAppSelector } from '@store/hooks';
+import { cartSelector, loadCart } from '@store/slices/cartSlice';
+import { useDispatch } from 'react-redux';
+import { favoriteSelector, loadFavorite } from '@store/slices/favoriteSlice';
+import { toggleLoading } from '@store/slices/appSettings';
+import { STRINGS } from '@locales/strings';
+import useLoading from '@store/Loader/useLoading';
 type ProductItemCardProps = {
   showNewProduct?: boolean;
   showDiscount?: boolean;
   showDiscountAdd?: boolean;
-  imgRequire?: any;
-  name?: string;
+  price: number;
   price_usd?: number;
-  price?: number;
-  photo?: string;
   id: number;
+  discount: number;
+  brand?: string;
+  shop?: string;
+  category: {
+    name?: string;
+  },
+  name: string;
+  photo: string;
+  isFavorite?: boolean;
+  getProducts?: () => void;
 };
-export default function AllProductItemCard(props: ProductItemCardProps) {
+
+const AllProductItemCard = (props: ProductItemCardProps) => {
+
+  let {
+    photo,
+    brand,
+    shop,
+    category,
+    name,
+    price,
+    discount,
+    id,
+    isFavorite,
+    price_usd,
+    showDiscount,
+    showDiscountAdd,
+    showNewProduct,
+  } = props;
+
+  const [animate, setAnimate] = useState(false);
   const cart = useAppSelector(cartSelector);
-  let isInCart = !!cart[props.id];
+  let isInCart = !!cart[id];
   const dispatch = useDispatch();
   const fav = useAppSelector(favoriteSelector);
-  let isFav = !!fav[props.id];
+  let isFav = !!fav[id];
+  const discountPrice = (price * (100 - discount)) / 100;
 
   const onAddFavorite = async () => {
     try {
-      dispatch(toggleLoading(true));
       let res = await requests.favorites.addFavorite({
-        product_id: props.id,
+        product_id: id,
       });
       let r = await requests.favorites.getFavorites();
       dispatch(loadFavorite(r.data.data));
     } catch (error) {
       console.log(error);
-    } finally {
-      dispatch(toggleLoading(false));
     }
   };
-  const [animate, setAnimate] = useState(false);
+
   const onCartPress = async () => {
     if (isInCart) {
       try {
         setAnimate(true);
+        let clear = await requests.products.removeItem({
+          product_id: id,
+        });
         let cartGet = await requests.products.getCarts();
         dispatch(loadCart(cartGet.data.data));
-        setColarActive(true);
         setAnimate(false);
       } catch (error) {
         console.log(error);
@@ -72,63 +100,65 @@ export default function AllProductItemCard(props: ProductItemCardProps) {
         setAnimate(true);
         let res = await requests.products.addToCart({
           amount: 1,
-          product_id: props.id,
+          product_id: id,
         });
-
+        if (res.status.toString() === '422') {
+          Alert.alert('Кол-во товара на складе меньше чем вы указали');
+        }
         let cartRes = await requests.products.getCarts();
         dispatch(loadCart(cartRes.data.data));
-        setColarActive(true);
         setAnimate(false);
       } catch (error) {
-        console.log('erorrs++++', JSON.stringify(error, null, 4));
-        alert(JSON.stringify(error, null, 4));
+        Alert.alert('Кол-во товара на складе меньше чем вы указали');
       } finally {
         setAnimate(false);
-        setColarActive(true);
       }
     }
   };
+
   return (
     <View style={styles.cartItem}>
-      <Image style={styles.image} source={{uri: assetUrl + props.photo}} />
-      {props.showDiscount && (
+      <Image style={styles.image} source={{ uri: assetUrl + props.photo }} />
+      {props.showDiscount ? (
         <View style={styles.sileBox}>
-          <Text style={styles.sileText}>10%</Text>
+          <Text style={styles.sileText}>{discount} %</Text>
         </View>
-      )}
-      {props.showNewProduct && (
+      ) : null}
+      {showNewProduct ? (
         <View style={[styles.sileBox, styles.sileBoxBgColor]}>
           <Text style={[styles.sileText, styles.sileTextFS]}>Новый</Text>
         </View>
-      )}
-      {props.showDiscountAdd && (
+      ) : null}
+      {showDiscountAdd ? (
         <View style={[styles.sileBox, styles.sileBoxBgColor]}>
           <Text style={[styles.sileText, styles.sileTextFS]}>Под заказ</Text>
         </View>
-      )}
+      ) : null}
       <TouchableOpacity onPress={onAddFavorite} style={styles.heartIconBox}>
         {isFav ? <HeartIconRed fill={COLORS.red} /> : <HeartIconNotActive />}
       </TouchableOpacity>
 
       <View style={styles.cartItemInfo}>
-        <View style={{height: 120}}>
-          <Text style={styles.typeText}>Люстры</Text>
-          <Text style={styles.nameText}>{props.name}</Text>
-          {props.price_usd && (
-            <Text style={styles.priceTextSile}>{props.price_usd} UZS</Text>
-          )}
-          <Text style={styles.priceText}>{props.price}UZS</Text>
+        <View style={{ height: 120 }}>
+          <Text style={styles.typeText}>{category.name || ""}</Text>
+          <Text style={styles.nameText}>{name || ""}</Text>
+          {
+            discount ? (
+              <Text style={styles.priceTextSile}>{discount ? price : discountPrice} UZS</Text>
+            ) : null
+          }
+          <Text style={styles.priceText}>{discount ? discountPrice : price}UZS</Text>
         </View>
         <TouchableOpacity
           style={[
             styles.button,
-            {backgroundColor: isInCart ? '#84A9C0' : '#FFFFFF'},
+            { backgroundColor: isInCart ? '#84A9C0' : '#FFFFFF' },
           ]}
           onPress={onCartPress}>
           {animate ? (
             <ActivityIndicator
               size="small"
-              color={'#84A9C0'}
+              color={isInCart ? '#fff' : '#84A9C0'}
               animating={animate}
             />
           ) : (
@@ -147,6 +177,8 @@ export default function AllProductItemCard(props: ProductItemCardProps) {
     </View>
   );
 }
+
+export default AllProductItemCard;
 
 const styles = StyleSheet.create({
   cartItem: {
@@ -256,6 +288,3 @@ const styles = StyleSheet.create({
     right: 10,
   },
 });
-function setColarActive(arg0: boolean) {
-  throw new Error('Function not implemented.');
-}

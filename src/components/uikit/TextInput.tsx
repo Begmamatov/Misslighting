@@ -26,7 +26,7 @@ export default function DefaultInput(props: Props) {
         }
         style={[
           styles.input,
-          { backgroundColor: props.backgroundColor, color: props.color },
+          { backgroundColor: props.backgroundColor, color: props.color ? props.color : '#000' },
         ]}
         onChangeText={props.onChangeText}
         value={props.value}
