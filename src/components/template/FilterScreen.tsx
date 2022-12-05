@@ -1,4 +1,5 @@
 import requests from '@api/requests';
+import {NewTopArrowIcon2} from '@icons/icons';
 import Slider from '@react-native-community/slider';
 import React, {useEffect, useState} from 'react';
 import {
@@ -10,6 +11,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import SelectDropdown from 'react-native-select-dropdown';
 import {COLORS} from '../../constants/colors';
 import AllProductTitle from '../uikit/AllProductTitle';
 import DefaultButton from '../uikit/DefaultButton';
@@ -50,9 +52,12 @@ const FilterScren = () => {
 
   const [colorData, setColorData] = useState<any>();
   const [colorActive, setColorActive] = useState();
+  const [currency, setCurrency] = useState([]);
   const ColorHandler = async () => {
     try {
       let res = await requests.products.colorItem();
+      const currency = await requests.sort.getCurrency();
+      setCurrency(currency.data.data);
       setColorData(res.data.data);
     } catch (error) {
       console.log('================FilterScren====================');
@@ -80,10 +85,31 @@ const FilterScren = () => {
             activeBorder={true}>
             {active.modal1 && (
               <View style={[styles.box_noactive]}>
-                <View style={styles.value}>
-                  <Text style={styles.value_title}>Сум</Text>
-                  <Text>X</Text>
-                </View>
+                <SelectDropdown
+                  data={currency}
+                  onSelect={(selectedItem: any) => {}}
+                  buttonTextAfterSelection={(selectedItem: any, index: any) => {
+                    return selectedItem.name;
+                  }}
+                  rowTextForSelection={(item: any, index: any) => {
+                    return item.name;
+                  }}
+                  buttonStyle={styles.dropdown2BtnStyle}
+                  buttonTextStyle={{
+                    color: '#3F3535',
+                    fontSize: 16,
+                  }}
+                  renderDropdownIcon={() => {
+                    return <NewTopArrowIcon2 />;
+                  }}
+                  dropdownIconPosition="right"
+                  rowTextStyle={{
+                    color: '#3F3535',
+                    fontSize: 16,
+                  }}
+                  defaultButtonText="Выберите тип оплаты"
+                  defaultValueByIndex={0}
+                />
               </View>
             )}
           </FilterModal>
@@ -442,5 +468,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 28,
     paddingHorizontal: 15,
+  },
+  dropdown2BtnStyle: {
+    width: '100%',
+    height: 50,
+    borderRadius: 45,
+    paddingHorizontal: 20,
+    backgroundColor: '#FAFAFA',
+    marginTop: 15,
+    marginBottom: 15,
   },
 });

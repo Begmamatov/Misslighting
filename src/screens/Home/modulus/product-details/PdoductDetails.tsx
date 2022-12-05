@@ -98,7 +98,7 @@ const PdoductDetails = () => {
   useEffect(() => {
     getDetailId();
     getProducts();
-  }, []);
+  }, [id]);
   console.log('=================detailIdValue===================');
   console.log(JSON.stringify(detailIdValue, null, 2));
   console.log('=================detailIdValue===================');

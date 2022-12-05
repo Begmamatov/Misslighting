@@ -208,6 +208,7 @@ let requests = {
     getExpensive: () => axios.get(`${url}/product?sort=price_up`),
     getCheap: () => axios.get(`${url}/product?sort=price_down`),
     getPopular: () => axios.get(`${url}/product?sort=popular`),
+    getCurrency: () => axios.get(`${url}/category?type=currency`),
   },
 
   order: {
