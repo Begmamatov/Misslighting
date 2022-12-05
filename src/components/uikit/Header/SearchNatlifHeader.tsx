@@ -7,7 +7,6 @@ import {
 } from 'react-native';
 import React from 'react';
 import {
-  CameraIcon,
   NotificationIcon,
   SearchIcon,
 } from '../../../assets/icons/icons';
@@ -81,7 +80,7 @@ const styles = StyleSheet.create({
   NotificationBox: {
     width: 50,
     height: 50,
-    backgroundColor: COLORS.tabBgColor,
+    backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',
   },

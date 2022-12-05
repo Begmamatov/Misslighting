@@ -11,6 +11,9 @@ import SelectDropdown from 'react-native-select-dropdown'
 
 type typeProps = {
   onStateChange: (val: string) => void;
+  typePayment: {
+    [key: string]: any;
+  }
 };
 
 // Тип оплаты
@@ -28,6 +31,9 @@ const dataOrderType = [
 ];
 
 const PickupPoints = (props: typeProps) => {
+  console.log('====================================');
+  console.log('-------props', props.typePayment);
+  console.log('====================================');
   return (
     <View>
       <Text
@@ -40,15 +46,15 @@ const PickupPoints = (props: typeProps) => {
         Тип оплаты
       </Text>
       <SelectDropdown
-        data={dataOrderType}
+        data={props.typePayment ? [props.typePayment] : dataOrderType}
         onSelect={(selectedItem: any) => {
           props.onStateChange(selectedItem.id);
         }}
         buttonTextAfterSelection={(selectedItem: any, index: any) => {
-          return selectedItem.title;
+          return selectedItem.name;
         }}
         rowTextForSelection={(item: any, index: any) => {
-          return item.title;
+          return item.name;
         }}
         buttonStyle={styles.dropdown2BtnStyle}
         buttonTextStyle={{

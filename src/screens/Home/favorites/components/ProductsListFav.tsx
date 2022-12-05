@@ -27,10 +27,8 @@ const ProductsListFav = ({
     }
   };
   useEffect(() => {
-    loading?.onRun();
     getProducts();
-    loading?.onClose();
-  }, [products]);
+  }, []);
   return (
     <View style={styles.container}>
       <FlatList
