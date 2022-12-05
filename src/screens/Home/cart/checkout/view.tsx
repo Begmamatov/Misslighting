@@ -4,14 +4,12 @@ import {
   OrderSend,
   PaymentMethodResponse,
 } from '@api/types';
-import AllProductTitle from '@components/uikit/AllProductTitle';
 import DefaultButton from '@components/uikit/DefaultButton';
 import GoBackHeader from '@components/uikit/Header/GoBackHeader';
 
 import DefaultInput from '@components/uikit/TextInput';
 import { COLORS } from '@constants/colors';
 import DefaultHeader from '@home/favorites/components/DefaultHeader';
-import { NewTopArrowIcon, NewTopArrowIcon2 } from '@icons/icons';
 import { STRINGS } from '@locales/strings';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { loadCart } from '@store/slices/cartSlice';
@@ -21,7 +19,6 @@ import {
   LayoutAnimation,
   ScrollView,
   Switch,
-  TextInput,
   TouchableOpacity,
   View,
   Text,
@@ -205,7 +202,7 @@ const CheckoutView = () => {
               value={isEnabled}
             />
           </View>
-          {activeIndex == 0 ? <CourierDelivery onStateChange={onStateChange} /> : <PickupPoints onStateChange={onStateChange} />}
+          {activeIndex == 0 ? <CourierDelivery onStateChange={onStateChange} typePayment={payment as any} /> : <PickupPoints onStateChange={onStateChange} typePayment={payment as any} />}
           <DefaultInput
             label="Comment"
             backgroundColor={'#FAFAFA'}

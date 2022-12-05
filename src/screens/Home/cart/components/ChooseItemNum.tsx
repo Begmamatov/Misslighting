@@ -2,8 +2,8 @@ import requests, { appendUrl } from '@api/requests';
 import { CartItemResponse } from '@api/types';
 import {
   CrashIcon,
+  HeartIconActive,
   HeartIconBorder,
-  HeartIconRed,
   MinusIcon,
   PlusCounterIcon,
 } from '@icons/icons';
@@ -12,7 +12,7 @@ import { COLORS } from '@constants/colors';
 import { useAppSelector } from '@store/hooks';
 import { loadCart } from '@store/slices/cartSlice';
 import { favoriteSelector, loadFavorite } from '@store/slices/favoriteSlice';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Image,
   LayoutAnimation,
@@ -20,32 +20,43 @@ import {
   TouchableOpacity,
   View,
   Text,
+  TextInput,
+  Modal,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
-import useLoading from '@store/Loader/useLoading';
+import { ActivityIndicator } from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
+import { ROUTES } from '@constants/routes';
 
-export let imageURL =
-  'https://static.theblacktux.com/products/suits/gray-suit/1_2018_0326_TBT_Spring-Ecomm_Shot03_-31_w1_1812x1875.jpg?width=1024';
 
 export let ProductsData = {
   name: 'Элегантный Костюм с брюками ZARA стиль',
   price: '1400  ₽',
 };
 
-export default function ChooseItemNum({ data }: { data: CartItemResponse }) {
-  const [shouldShow, setShouldShow] = useState(true);
+export default function ChooseItemNum({ data }: { data: any }) {
+
+  const [shouldShow, setShouldShow] = useState(false);
+  const [loading, setLoading] = useState({
+    loadingMinus: false,
+    loadingPlus: false,
+    loading: false,
+  });
   const dispatch = useDispatch();
 
   let id = data.product.id;
   const fav = useAppSelector(favoriteSelector);
   let isFav = !!fav[id];
-  const loading = useLoading();
+  const discountPrice = (data.price * (100 - data.discount)) / 100;
+  const navigation: any = useNavigation();
 
-  const onAddItem = async () => {
+  const onAddItem = async (addOne?: boolean) => {
     try {
-      loading?.onRun();
+      setLoading({ ...loading, loadingPlus: true });
       let res = await requests.products.increaseItem({
-        amount: 1,
+        amount: addOne ? 1 : (value ? Number(value) : 1),
         product_id: id,
       });
       let cartRes = await requests.products.getCarts();
@@ -53,28 +64,30 @@ export default function ChooseItemNum({ data }: { data: CartItemResponse }) {
     } catch (error) {
       console.log(error);
     } finally {
-      loading?.onClose();
+      setLoading({ ...loading, loadingPlus: false });
     }
   };
 
   const onDecreaseItem = async () => {
-    try {
-      loading?.onRun();
-      let res = await requests.products.decreaseItem({
-        product_id: id,
-      });
-      let cartRes = await requests.products.getCarts();
-      dispatch(loadCart(cartRes.data.data));
-    } catch (error) {
-      console.log(error);
-    } finally {
-      loading?.onClose();
+    if (data.amount !== 1) {
+      try {
+        setLoading({ ...loading, loadingMinus: true });
+        let res = await requests.products.decreaseItem({
+          product_id: id,
+        });
+        let cartRes = await requests.products.getCarts();
+        dispatch(loadCart(cartRes.data.data));
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading({ ...loading, loadingMinus: false });
+      }
     }
   };
 
   const onRemoveItem = async () => {
     try {
-      loading?.onRun();
+      setLoading({ ...loading, loading: true });
       let res = await requests.products.removeItem({
         product_id: id,
       });
@@ -83,14 +96,14 @@ export default function ChooseItemNum({ data }: { data: CartItemResponse }) {
     } catch (error) {
       console.log(error);
     } finally {
-      loading?.onClose();
+      setLoading({ ...loading, loading: false });
       LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
     }
   };
 
   const onAddFavorite = async () => {
     try {
-      loading?.onRun();
+      setLoading({ ...loading, loading: true });
       let res = await requests.favorites.addFavorite({
         product_id: id,
       });
@@ -99,57 +112,127 @@ export default function ChooseItemNum({ data }: { data: CartItemResponse }) {
     } catch (error) {
       console.log(error);
     } finally {
-      loading?.onClose();
+      setLoading({ ...loading, loading: false });
     }
   };
 
+  const [value, onChangeText] = React.useState('1');
+  useEffect(() => {
+    onChangeText(data.amount.toString());
+  }, [data.amount]);
+
   return (
-    <View style={styles.container}>
-      <View>
-        <Image
-          style={styles.leftImage}
-          source={{ uri: appendUrl(data.product.photo) }}
-        />
-      </View>
-      <View style={styles.textBox}>
-        <Text style={styles.headerTxt}>{data?.product?.name}</Text>
-        <View style={styles.rowTxt}>
-          <Text style={styles.lineThrough}>{data?.product?.price_usd} сум</Text>
-          <Text style={styles.blueTxt}>{data?.product?.price} сум</Text>
+    <TouchableWithoutFeedback
+      onPress={() => {
+        Keyboard.dismiss();
+        navigation.navigate(ROUTES.PRODUCTDETAILS, { props: data.product })
+      }}
+    >
+      <View style={styles.container}>
+        <View>
+          <Image
+            style={styles.leftImage}
+            source={{ uri: appendUrl(data.product.photo) }}
+          />
         </View>
-        <View style={styles.counter}>
-          <TouchableOpacity onPress={onDecreaseItem} style={styles.minus}>
-            <View style={styles.minus}>
-              <MinusIcon fill={COLORS.white} />
-            </View>
-          </TouchableOpacity>
-          <View style={styles.topBottom}>
-            <Text style={{ color: '#717171B2' }}>{data?.amount} шт</Text>
+        <View style={styles.textBox}>
+          <Text style={styles.headerTxt}>{data?.product?.name}</Text>
+          <View style={styles.rowTxt}>
+            {data.discount ? (
+              <Text style={styles.lineThrough}>{data.discount ? data.price : discountPrice} сум</Text>
+            ) : null}
+            <Text style={styles.blueTxt}>{data.discount ? discountPrice : data.price} сум</Text>
           </View>
-          <TouchableOpacity onPress={onAddItem} style={styles.plus}>
-            <View style={styles.plus}>
-              <PlusCounterIcon fill={COLORS.white} />
+          <View style={styles.counter}>
+            <TouchableOpacity onPress={onDecreaseItem} style={styles.minus}>
+              <View style={styles.minus}>
+                {loading.loadingMinus ? (
+                  <ActivityIndicator size={10} color={COLORS.white} />
+                ) : (
+                  <MinusIcon fill={COLORS.white} />
+                )}
+              </View>
+            </TouchableOpacity>
+            <View style={styles.topBottom}>
+              <TextInput style={styles.input} value={value} onChangeText={onChangeText} onFocus={() => setShouldShow(true)} />
+              <Text style={{ color: '#717171B2' }}> шт</Text>
             </View>
+            <TouchableOpacity onPress={() => onAddItem(true)} style={styles.plus}>
+              <View style={styles.plus}>
+                {loading.loadingPlus ? (
+                  <ActivityIndicator size={10} color={COLORS.white} />
+                ) : (
+                  <PlusCounterIcon fill={COLORS.white} />
+                )}
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.iconBox}>
+          <TouchableOpacity
+            onPress={onAddFavorite}
+            hitSlop={{ left: 10, right: 10, top: 10, bottom: 10 }}>
+            {isFav ? (
+              <HeartIconActive />
+            ) : (
+              <HeartIconBorder fill={COLORS.red} stroke={COLORS.red} />
+            )}
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={onRemoveItem}
+            hitSlop={{ left: 10, right: 10, top: 10, bottom: 10 }}>
+            <CrashIcon fill={COLORS.gray} />
           </TouchableOpacity>
         </View>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={shouldShow}
+          onRequestClose={() => {
+            setShouldShow(false);
+          }}
+        >
+          <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ backgroundColor: 'white', width: '80%', height: 200, borderRadius: 10, justifyContent: 'center', alignItems: 'center' }}>
+              <View style={{ flexDirection: 'row' }}>
+                <TouchableOpacity onPress={onDecreaseItem} style={styles.minus}>
+                  <View style={styles.minus}>
+                    {loading.loadingMinus ? (
+                      <ActivityIndicator size={10} color={COLORS.white} />
+                    ) : (
+                      <MinusIcon fill={COLORS.white} />
+                    )}
+                  </View>
+                </TouchableOpacity>
+                <View style={[styles.topBottom, { paddingHorizontal: 5 }]}>
+                  <TextInput style={{ color: '#717171B2', width: 40, paddingHorizontal: 5 }} value={value} onChangeText={onChangeText} />
+                  <Text style={{ color: '#717171B2' }}> шт</Text>
+                </View>
+                <TouchableOpacity onPress={() => onAddItem(true)} style={styles.plus}>
+                  <View style={styles.plus}>
+                    {loading.loadingPlus ? (
+                      <ActivityIndicator size={10} color={COLORS.white} />
+                    ) : (
+                      <PlusCounterIcon fill={COLORS.white} />
+                    )}
+                  </View>
+                </TouchableOpacity>
+              </View>
+              <TouchableOpacity onPress={() => {
+                setShouldShow(false), onAddItem();
+              }} style={{ backgroundColor: COLORS.activeButtonBgColor, marginTop: 20, width: '80%', height: 40, borderRadius: 10, justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={{ color: 'white', fontSize: 16 }}>Подтверждение</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => {
+                setShouldShow(false);
+              }} style={{ marginTop: 20, width: '80%', height: 40, borderRadius: 10, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: COLORS.activeButtonBgColor }}>
+                <Text style={{ color: COLORS.activeButtonBgColor, fontSize: 16 }}>Отмена</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
       </View>
-      <View style={styles.iconBox}>
-        <TouchableOpacity
-          onPress={onAddFavorite}
-          hitSlop={{ left: 10, right: 10, top: 10, bottom: 10 }}>
-          {isFav ? (
-            <HeartIconRed fill={COLORS.red} />
-          ) : (
-            <HeartIconBorder fill={COLORS.red} stroke={COLORS.red} />
-          )}
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={onRemoveItem}
-          hitSlop={{ left: 10, right: 10, top: 10, bottom: 10 }}>
-          <CrashIcon fill={COLORS.gray} />
-        </TouchableOpacity>
-      </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -169,7 +252,9 @@ const styles = StyleSheet.create({
     paddingVertical: 11,
     paddingHorizontal: 11,
   },
-
+  input: {
+    color: '#717171B2',
+  },
   leftImage: {
     width: 101,
     height: 102,
@@ -215,7 +300,7 @@ const styles = StyleSheet.create({
   counter: {
     // alignItems: "center",
     flexDirection: 'row',
-    width: 150,
+    minWidth: 150,
   },
 
   iconBox: {
@@ -243,12 +328,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#84A9C0',
   },
   topBottom: {
-    // height: "100%",
-    width: 50,
+    height: "100%",
+    minWidth: 50,
     borderColor: COLORS.whiteGray,
     borderTopWidth: 1,
     borderBottomWidth: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    flexDirection: 'row',
   },
 });

@@ -97,6 +97,7 @@ export interface ProductItemResponse {
 }
 
 export interface CartItemResponse {
+  discount: number;
   amount: number;
   price: number;
   product: ProductItemResponse;
