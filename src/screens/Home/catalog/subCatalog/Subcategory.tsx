@@ -1,8 +1,8 @@
-import {FlatList, StyleSheet, View} from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import React from 'react';
 import GoBackHeader from '../../../../components/uikit/Header/GoBackHeader';
-import {useRoute} from '@react-navigation/native';
-import {COLORS} from '../../../../constants/colors';
+import { useRoute } from '@react-navigation/native';
+import { COLORS } from '../../../../constants/colors';
 import requests from '@api/requests';
 import AllProductTitle from '@components/uikit/AllProductTitle';
 import SubCatalogListItem from './SubCatalogListItem';

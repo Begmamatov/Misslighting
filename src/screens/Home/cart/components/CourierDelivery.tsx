@@ -11,6 +11,9 @@ import SelectDropdown from 'react-native-select-dropdown'
 
 type typeProps = {
   onStateChange: (val: string) => void;
+  typePayment: {
+    [key: string]: any;
+  }
 };
 
 // Тариф доставки
@@ -53,6 +56,9 @@ const dataOrderType = [
 
 
 const CourierDelivery = (props: typeProps) => {
+  console.log('====================================');
+  console.log('-------props', props.typePayment);
+  console.log('====================================');
   return (
     <>
       <View>
@@ -142,15 +148,15 @@ const CourierDelivery = (props: typeProps) => {
           Тип оплаты
         </Text>
         <SelectDropdown
-          data={dataOrderType}
+          data={props.typePayment ? props.typePayment : dataOrderType as any}
           onSelect={(selectedItem: any) => {
             props.onStateChange(selectedItem.id);
           }}
           buttonTextAfterSelection={(selectedItem: any, index: any) => {
-            return selectedItem.title;
+            return selectedItem.name;
           }}
           rowTextForSelection={(item: any, index: any) => {
-            return item.title;
+            return item.name;
           }}
           buttonStyle={styles.dropdown2BtnStyle}
           buttonTextStyle={{
@@ -166,7 +172,7 @@ const CourierDelivery = (props: typeProps) => {
             fontSize: 16,
           }}
           defaultButtonText='Выберите тип оплаты'
-          defaultValueByIndex={0}
+          defaultValueByIndex={props.typePayment[0].id as any}
         />
       </View>
     </>

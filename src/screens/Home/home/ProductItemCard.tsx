@@ -11,9 +11,8 @@ import {
 import React, { useState } from 'react';
 import {
   BasketIcon,
-  HeartIconBorder,
+  HeartIconActive,
   HeartIconNotActive,
-  HeartIconRed,
 } from '../../../assets/icons/icons';
 import { COLORS } from '../../../constants/colors';
 import { useNavigation } from '@react-navigation/native';
@@ -129,7 +128,7 @@ export default function ProductItemCard(props: ProductItemCardProps) {
         )}
 
         <TouchableOpacity onPress={onAddFavorite} style={styles.heartIconBox}>
-          {isFav ? <HeartIconRed fill={COLORS.red} /> : <HeartIconNotActive />}
+          {isFav ? <HeartIconActive /> : <HeartIconNotActive />}
         </TouchableOpacity>
 
         <View style={styles.cartItemInfo}>
