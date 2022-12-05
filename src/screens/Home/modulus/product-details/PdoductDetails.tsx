@@ -19,10 +19,9 @@ import Characteristics from '../components/Characteristics';
 import AllProductItemCard from '../../home/allProducts/AllProductItemCard';
 import { ROUTES } from '../../../../constants/routes';
 import {
+  HeartIconActive,
   HeartIconNotActive,
-  HeartIconRed,
   LeftArrowIcon,
-  StrokeIcon,
 } from '../../../../assets/icons/icons';
 import requests, { assetUrl } from '@api/requests';
 import { useAppSelector } from '@store/hooks';
@@ -122,6 +121,7 @@ const PdoductDetails = () => {
             sliderWidth={width}
             itemWidth={width}
             onSnapToItem={index => setIndex(index)}
+            keyExtractor={(_, index) => index.toString()}
           />
           <Pagination
             dotsLength={
@@ -141,7 +141,7 @@ const PdoductDetails = () => {
 
             <TouchableOpacity onPress={onAddFavorite} style={styles.icons}>
               {isFav ? (
-                <HeartIconRed fill={COLORS.red} />
+                <HeartIconActive />
               ) : (
                 <HeartIconNotActive />
               )}

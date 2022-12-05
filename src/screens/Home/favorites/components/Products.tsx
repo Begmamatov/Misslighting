@@ -1,17 +1,15 @@
-import requests, {appendUrl} from '@api/requests';
-import {ProductItemResponse} from '@api/types';
-import DefaultButton from '@components/uikit/DefaultButton';
+import requests, { appendUrl } from '@api/requests';
+import { ProductItemResponse } from '@api/types';
 
-import {COLORS} from '@constants/colors';
-import {ROUTES} from '@constants/routes';
-import {BasketIcon, HeartIconBorder, HeartIconRed} from '@icons/icons';
-import {STRINGS} from '@locales/strings';
-import {useNavigation} from '@react-navigation/native';
-import {useAppSelector} from '@store/hooks';
-import {toggleLoading} from '@store/slices/appSettings';
-import {cartSelector, loadCart} from '@store/slices/cartSlice';
-import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
-import React, {useState} from 'react';
+import { COLORS } from '@constants/colors';
+import { ROUTES } from '@constants/routes';
+import { BasketIcon, CloseIcon } from '@icons/icons';
+import { useNavigation } from '@react-navigation/native';
+import { useAppSelector } from '@store/hooks';
+import { toggleLoading } from '@store/slices/appSettings';
+import { cartSelector, loadCart } from '@store/slices/cartSlice';
+import { favoriteSelector, loadFavorite } from '@store/slices/favoriteSlice';
+import React, { useState } from 'react';
 import {
   ActivityIndicator,
   Image,
@@ -22,10 +20,10 @@ import {
   View,
   Text,
 } from 'react-native';
-import {useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-const Products = ({item}: {item: ProductItemResponse}) => {
-  let {photo, name, price, discount, price_usd, id, isFavorite} = item;
+const Products = ({ item }: { item: ProductItemResponse }) => {
+  let { photo, name, price, discount, price_usd, id, isFavorite, category } = item;
 
   const dispatch = useDispatch();
   const cart = useAppSelector(cartSelector);
@@ -35,6 +33,8 @@ const Products = ({item}: {item: ProductItemResponse}) => {
 
   const navigation: any = useNavigation();
   const [animate, setAnimate] = useState(false);
+  const discountPrice = (price * (100 - discount)) / 100;
+
   const onCartPress = async () => {
     try {
       if (isInCart) {
@@ -97,10 +97,10 @@ const Products = ({item}: {item: ProductItemResponse}) => {
   return (
     <TouchableWithoutFeedback
       onPress={() => {
-        navigation.navigate(ROUTES.PRODUCTDETAILS, {item, id});
+        navigation.navigate(ROUTES.PRODUCTDETAILS, { props: item });
       }}>
       <View style={styles.container}>
-        <Image source={{uri: appendUrl(photo)}} style={styles.image} />
+        <Image source={{ uri: appendUrl(photo) }} style={styles.image} />
         <View style={styles.itemsContainer}>
           <View style={styles.nameContainer}>
             <Text
@@ -109,30 +109,30 @@ const Products = ({item}: {item: ProductItemResponse}) => {
                 fontSize: 13,
                 color: ' #C8C8C8',
               }}>
-              Люстры
+              {category.name}
             </Text>
             <Text style={styles.itemName}>{name ? name : ''}</Text>
-            <Text style={styles.oldPrice}>{price_usd} сум</Text>
-            <Text style={styles.price}>{price} сум</Text>
+            {discount ? (
+              <Text style={styles.oldPrice}>{discount ? price : discountPrice} сум</Text>
+            ) : null}
+            <Text style={styles.price}>{discount ? discountPrice : price} сум</Text>
           </View>
           <View style={styles.priceContainer}>
             <TouchableOpacity
               onPress={onAddFavorite}
-              hitSlop={{bottom: 10, top: 10, right: 10, left: 10}}>
-              <Text style={{fontWeight: '700', color: '#000000', fontSize: 16}}>
-                X
-              </Text>
+              hitSlop={{ bottom: 10, top: 10, right: 10, left: 10 }}>
+              <CloseIcon />
             </TouchableOpacity>
             <TouchableOpacity
               style={[
                 styles.button,
-                {backgroundColor: isInCart ? '#84A9C0' : '#FFFFFF'},
+                { backgroundColor: isInCart ? '#84A9C0' : '#FFFFFF' },
               ]}
               onPress={onCartPress}>
               {animate ? (
                 <ActivityIndicator
                   size="small"
-                  color={'red'}
+                  color={isInCart ? '#FFFFFF' : '#84A9C0'}
                   animating={animate}
                 />
               ) : (
