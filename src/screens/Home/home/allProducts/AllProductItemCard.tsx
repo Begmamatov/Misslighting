@@ -9,20 +9,20 @@ import {
   Dimensions,
   Alert,
 } from 'react-native';
-import React, { useState } from 'react';
-import { COLORS } from '../../../../constants/colors';
+import React, {useState} from 'react';
+import {COLORS} from '../../../../constants/colors';
 import {
   BasketIcon,
   HeartIconNotActive,
   HeartIconRed,
 } from '../../../../assets/icons/icons';
-import requests, { assetUrl } from '@api/requests';
-import { useAppSelector } from '@store/hooks';
-import { cartSelector, loadCart } from '@store/slices/cartSlice';
-import { useDispatch } from 'react-redux';
-import { favoriteSelector, loadFavorite } from '@store/slices/favoriteSlice';
-import { toggleLoading } from '@store/slices/appSettings';
-import { STRINGS } from '@locales/strings';
+import requests, {assetUrl} from '@api/requests';
+import {useAppSelector} from '@store/hooks';
+import {cartSelector, loadCart} from '@store/slices/cartSlice';
+import {useDispatch} from 'react-redux';
+import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
+import {toggleLoading} from '@store/slices/appSettings';
+import {STRINGS} from '@locales/strings';
 import useLoading from '@store/Loader/useLoading';
 type ProductItemCardProps = {
   showNewProduct?: boolean;
@@ -36,7 +36,7 @@ type ProductItemCardProps = {
   shop?: string;
   category: {
     name?: string;
-  },
+  };
   name: string;
   photo: string;
   isFavorite?: boolean;
@@ -44,7 +44,6 @@ type ProductItemCardProps = {
 };
 
 const AllProductItemCard = (props: ProductItemCardProps) => {
-
   let {
     photo,
     brand,
@@ -117,66 +116,109 @@ const AllProductItemCard = (props: ProductItemCardProps) => {
   };
 
   return (
-    <View style={styles.cartItem}>
-      <Image style={styles.image} source={{ uri: assetUrl + props.photo }} />
-      {props.showDiscount ? (
-        <View style={styles.sileBox}>
-          <Text style={styles.sileText}>{discount} %</Text>
-        </View>
-      ) : null}
-      {showNewProduct ? (
-        <View style={[styles.sileBox, styles.sileBoxBgColor]}>
-          <Text style={[styles.sileText, styles.sileTextFS]}>Новый</Text>
-        </View>
-      ) : null}
-      {showDiscountAdd ? (
-        <View style={[styles.sileBox, styles.sileBoxBgColor]}>
-          <Text style={[styles.sileText, styles.sileTextFS]}>Под заказ</Text>
-        </View>
-      ) : null}
-      <TouchableOpacity onPress={onAddFavorite} style={styles.heartIconBox}>
-        {isFav ? <HeartIconRed fill={COLORS.red} /> : <HeartIconNotActive />}
-      </TouchableOpacity>
-
-      <View style={styles.cartItemInfo}>
-        <View style={{ height: 120 }}>
-          <Text style={styles.typeText}>{category.name || ""}</Text>
-          <Text style={styles.nameText}>{name || ""}</Text>
-          {
-            discount ? (
-              <Text style={styles.priceTextSile}>{discount ? price : discountPrice} UZS</Text>
-            ) : null
-          }
-          <Text style={styles.priceText}>{discount ? discountPrice : price}UZS</Text>
-        </View>
-        <TouchableOpacity
-          style={[
-            styles.button,
-            { backgroundColor: isInCart ? '#84A9C0' : '#FFFFFF' },
-          ]}
-          onPress={onCartPress}>
-          {animate ? (
-            <ActivityIndicator
-              size="small"
-              color={isInCart ? '#fff' : '#84A9C0'}
-              animating={animate}
-            />
-          ) : (
-            <View style={styles.buttonContainer}>
-              <Text
-                style={[isInCart ? styles.cartText : styles.inactiveCartText]}>
-                {isInCart
-                  ? `${STRINGS.ru.addToCart}е`
-                  : `${STRINGS.ru.addToCart}у`}
-              </Text>
-              <BasketIcon fill={isInCart ? COLORS.white : '#84A9C0'} />
-            </View>
-          )}
+    <TouchableWithoutFeedback>
+      <View style={styles.cartItem}>
+        <Image style={styles.image} source={{uri: assetUrl + props.photo}} />
+        {props.showDiscount ? (
+          <View style={styles.sileBox}>
+            <Text style={styles.sileText}>{discount} %</Text>
+          </View>
+        ) : null}
+        {showNewProduct ? (
+          <View style={[styles.sileBox, styles.sileBoxBgColor]}>
+            <Text style={[styles.sileText, styles.sileTextFS]}>Новый</Text>
+          </View>
+        ) : null}
+        {showDiscountAdd ? (
+          <View style={[styles.sileBox, styles.sileBoxBgColor]}>
+            <Text style={[styles.sileText, styles.sileTextFS]}>Под заказ</Text>
+          </View>
+        ) : null}
+        <TouchableOpacity onPress={onAddFavorite} style={styles.heartIconBox}>
+          {isFav ? <HeartIconRed fill={COLORS.red} /> : <HeartIconNotActive />}
         </TouchableOpacity>
+
+        <View style={styles.cartItemInfo}>
+          <View style={{height: 120}}>
+            <Text style={styles.typeText}>{category.name || ''}</Text>
+            <Text style={styles.nameText}>{name || ''}</Text>
+            {discount ? (
+              <Text style={styles.priceTextSile}>
+                {discount ? price : discountPrice} UZS
+              </Text>
+            ) : null}
+            <Text style={styles.priceText}>
+              {discount ? discountPrice : price}UZS
+            </Text>
+          </View>
+          <TouchableOpacity
+            style={[
+              styles.button,
+              {backgroundColor: isInCart ? '#84A9C0' : '#FFFFFF'},
+            ]}
+            onPress={onCartPress}>
+            {animate ? (
+              <ActivityIndicator
+                size="small"
+                color={isInCart ? '#fff' : '#84A9C0'}
+                animating={animate}
+              />
+            ) : (
+              <View style={styles.buttonContainer}>
+                <Text
+                  style={[
+                    isInCart ? styles.cartText : styles.inactiveCartText,
+                  ]}>
+                  {isInCart
+                    ? `${STRINGS.ru.addToCart}е`
+                    : `${STRINGS.ru.addToCart}у`}
+                </Text>
+                <BasketIcon fill={isInCart ? COLORS.white : '#84A9C0'} />
+              </View>
+            )}
+          </TouchableOpacity>
+
+          <View style={styles.cartItemInfo}>
+            <View style={{height: 120}}>
+              <Text style={styles.typeText}>Люстры</Text>
+              <Text style={styles.nameText}>{props.name}</Text>
+              {props.price_usd && (
+                <Text style={styles.priceTextSile}>{props.price_usd} UZS</Text>
+              )}
+              <Text style={styles.priceText}>{props.price}UZS</Text>
+            </View>
+            <TouchableOpacity
+              style={[
+                styles.button,
+                {backgroundColor: isInCart ? '#84A9C0' : '#FFFFFF'},
+              ]}
+              onPress={onCartPress}>
+              {animate ? (
+                <ActivityIndicator
+                  size="small"
+                  color={'#84A9C0'}
+                  animating={animate}
+                />
+              ) : (
+                <View style={styles.buttonContainer}>
+                  <Text
+                    style={[
+                      isInCart ? styles.cartText : styles.inactiveCartText,
+                    ]}>
+                    {isInCart
+                      ? `${STRINGS.ru.addToCart}е`
+                      : `${STRINGS.ru.addToCart}у`}
+                  </Text>
+                  <BasketIcon fill={isInCart ? COLORS.white : '#84A9C0'} />
+                </View>
+              )}
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
-}
+};
 
 export default AllProductItemCard;
 

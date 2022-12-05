@@ -45,7 +45,7 @@ const Subcategory = () => {
               <AllProductTitle title={title} />
             </>
           }
-          data={[1, 2, 3, 4]}
+          data={details}
           renderItem={props => <SubCatalogListItem {...props} />}
           keyExtractor={(item: any) => item.id}
           numColumns={3}
