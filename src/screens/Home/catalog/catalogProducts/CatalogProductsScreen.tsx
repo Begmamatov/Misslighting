@@ -21,8 +21,12 @@ const CatalogProductsScreen = () => {
   let effect = async () => {
     try {
       setLoading(true);
-      let res = await requests.products.getProductsWithID(id);
-      setProducts(res.data.data);
+      let res = await requests.products.getProducts();
+      console.log('====================================');
+      console.log(res.data.data);
+      console.log('====================================');
+
+      setProducts(res.data.data as never);
     } catch (error) {
       console.log(error);
     } finally {
@@ -54,15 +58,15 @@ const CatalogProductsScreen = () => {
   };
 
   useEffect(() => {
-    if (type === 'brand') {
-      brandsEffect();
-    }
-    if (type === 'category') {
-      effect();
-    }
-    if (type === 'shop') {
-      shopEffect();
-    }
+    // if (type === 'brand') {
+    //   brandsEffect();
+    // }
+    // if (type === 'category') {
+    effect();
+    // }
+    // if (type === 'shop') {
+    //   shopEffect();
+    // }
   }, []);
 
   return (
