@@ -1,28 +1,26 @@
 import {
   FlatList,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 
-import {useNavigation} from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import GoBackHeader from '../../../components/uikit/Header/GoBackHeader';
-import {COLORS} from '../../../constants/colors';
+import { COLORS } from '../../../constants/colors';
 import ProductOrder from './components/ProductOrder';
 import DefaultButton from '../../../components/uikit/DefaultButton';
 import ItemView from './components/ItemView';
 import ItemCart from './components/ItemCart';
-import {ROUTES} from '../../../constants/routes';
 import DefaultInput from '@components/uikit/TextInput';
-import {STRINGS} from '@locales/strings';
-import {Rating} from 'react-native-ratings';
+import { STRINGS } from '@locales/strings';
+import { Rating } from 'react-native-ratings';
 import ReactNativeModal from 'react-native-modal';
 import requests from '@api/requests';
-import {SendReviewProps} from '@api/types';
+import { SendReviewProps } from '@api/types';
+import useLoading from '@store/Loader/useLoading';
 
 export type Order = {
   title?: string;
@@ -60,22 +58,27 @@ const data = [
   },
 ];
 
-const OrderView = (props: Order) => {
+const OrderView = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [rate, setRate] = useState(0);
+  const [detailIdValue, setDetailIdValue] = useState<any>([]);
   const navigation = useNavigation();
   const toggleModal = () => {
     setModalOpen(!modalOpen);
   };
-  let id = 38;
-  const [detailIdValue, setDetailIdValue] = useState<any>([]);
+  const route = useRoute<any>();
+  const id = route.params.id;
+  const loading = useLoading()
 
   const getDetailId = async () => {
     try {
+      loading?.onRun();
       let res = await requests.products.getProductDetailID(id);
       setDetailIdValue(res.data.data);
     } catch (error) {
       console.log(error);
+    } finally {
+      loading?.onClose();
     }
   };
   const [review, setReview] = useState<SendReviewProps>({
@@ -85,10 +88,11 @@ const OrderView = (props: Order) => {
   });
 
   let onStateChange = (key: string) => (value: string) => {
-    setReview(e => ({...e, [key]: value}));
+    setReview(e => ({ ...e, [key]: value }));
   };
   const onSendReview = async () => {
     try {
+      loading?.onRun();
       let res = await requests.products.sendReview({
         rate: review.rate,
         review: review.review,
@@ -96,16 +100,22 @@ const OrderView = (props: Order) => {
       });
 
       setTimeout(() => {
-        setReview({product_id: props.item.id, rate: 0, review: ''});
+        setReview({ product_id: id, rate: 0, review: '' });
         setModalOpen(false);
       }, 700);
     } catch (error) {
       console.log(error);
+    } finally {
+      loading?.onClose();
     }
   };
 
+  useEffect(() => {
+    getDetailId();
+  }, []);
+
   return (
-    <View style={{flex: 1, backgroundColor: COLORS.white}}>
+    <View style={{ flex: 1, backgroundColor: COLORS.white }}>
       <GoBackHeader />
       <Text
         style={{
@@ -126,7 +136,7 @@ const OrderView = (props: Order) => {
             backgroundColor: 'rgba(113, 113, 113, 0.1)',
           }}></View>
         <ProductOrder title="На сумму" productValue="7.200.000 сум" />
-        <View style={{paddingHorizontal: 15}}>
+        <View style={{ paddingHorizontal: 15 }}>
           <DefaultButton
             title="Завершен"
             ButtonStyle={{
@@ -141,13 +151,13 @@ const OrderView = (props: Order) => {
           <FlatList
             scrollEnabled={false}
             data={data}
-            renderItem={({item}) => (
+            renderItem={({ item }) => (
               <ItemView title={item.title} value={item.value} />
             )}
           />
         </View>
         <ItemCart />
-        <View style={{paddingHorizontal: 15, paddingBottom: 30}}>
+        <View style={{ paddingHorizontal: 15, paddingBottom: 30 }}>
           <DefaultButton
             title="Сделать возврат"
             ButtonStyle={{
@@ -155,13 +165,13 @@ const OrderView = (props: Order) => {
               marginTop: 53,
               marginBotton: 61,
             }}
-            TextStyle={{color: '#FFFFFF'}}
+            TextStyle={{ color: '#FFFFFF' }}
             onPress={toggleModal}
           />
         </View>
         <ReactNativeModal isVisible={modalOpen} onBackdropPress={toggleModal}>
           <View style={styles.modalView}>
-            <Text style={{fontSize: 16, fontWeight: '700', lineHeight: 18}}>
+            <Text style={{ fontSize: 16, fontWeight: '700', lineHeight: 18 }}>
               Оставьте отзыв
             </Text>
             <Rating
@@ -170,7 +180,7 @@ const OrderView = (props: Order) => {
               imageSize={32}
               onFinishRating={(e: number) => setRate(e)}
               startingValue={rate}
-              style={{marginVertical: 27}}
+              style={{ marginVertical: 27 }}
             />
             <DefaultInput
               onChangeText={onStateChange('review')}
@@ -180,8 +190,8 @@ const OrderView = (props: Order) => {
 
             <DefaultButton
               title={STRINGS.ru.sendReview}
-              ButtonStyle={{backgroundColor: '#84A9C0', marginTop: 30}}
-              TextStyle={{color: COLORS.white}}
+              ButtonStyle={{ backgroundColor: '#84A9C0', marginTop: 30 }}
+              TextStyle={{ color: COLORS.white }}
             />
           </View>
         </ReactNativeModal>

@@ -209,6 +209,7 @@ export const styles = StyleSheet.create({
 
   notMe: {
     fontSize: 14,
+    color: '#C8C8C8',
   },
 
   input: {

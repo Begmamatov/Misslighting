@@ -10,7 +10,7 @@ import { NewTopArrowIcon2 } from '@icons/icons';
 import SelectDropdown from 'react-native-select-dropdown'
 
 type typeProps = {
-  onStateChange: (val: string) => void;
+  onStateChange: any;
   typePayment: {
     [key: string]: any;
   }
@@ -31,9 +31,6 @@ const dataOrderType = [
 ];
 
 const PickupPoints = (props: typeProps) => {
-  console.log('====================================');
-  console.log('-------props', props.typePayment);
-  console.log('====================================');
   return (
     <View>
       <Text
@@ -48,7 +45,7 @@ const PickupPoints = (props: typeProps) => {
       <SelectDropdown
         data={props.typePayment ? [props.typePayment] : dataOrderType}
         onSelect={(selectedItem: any) => {
-          props.onStateChange(selectedItem.id);
+          props.onStateChange('payment_id')(selectedItem.id);
         }}
         buttonTextAfterSelection={(selectedItem: any, index: any) => {
           return selectedItem.name;
@@ -70,7 +67,6 @@ const PickupPoints = (props: typeProps) => {
           fontSize: 16,
         }}
         defaultButtonText='Выберите тип оплаты'
-        defaultValueByIndex={0}
       />
     </View>
   );
