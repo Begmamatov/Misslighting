@@ -16,13 +16,13 @@ export interface LoginResponse {
   id?: number;
   device_id?: string;
   token?: string;
-  name: string;
-  phone: string;
+  name?: string;
+  phone?: string;
   email?: any;
-  photo: string;
+  photo?: string;
   balance?: number;
   date?: string;
-  gender: string;
+  gender?: string;
   birthday?: string;
   addresses?: [];
   lastName?: string;
@@ -35,6 +35,7 @@ export interface LoginResponse {
   requisites?: string;
   certificateStateRegistration?: string;
   adres_0?: string;
+  type?: string;
 }
 
 export interface RegisterData {

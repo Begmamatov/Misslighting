@@ -103,6 +103,7 @@ let requests = {
     removeCard: (data: {card_id: number}) =>
       axios.post<{data: CardItem[]}>(`${url}/user/card-remove`, data),
     getUploadPhoto: () => axios.get<{data: string}>(`${url}/user/upload-photo`),
+    notificationAll: () => axios.get(`${url}/notification`),
   },
 
   categories: {
@@ -112,7 +113,7 @@ let requests = {
   },
 
   brands: {
-    getBrands: () => axios.get(`${url}/category?type=brand`),
+    getBrands: (id: number) => axios.get(`${url}/brand/by-category?id=${id}`),
     getAllBrands: () => axios.get(`${url}/brand`),
   },
 

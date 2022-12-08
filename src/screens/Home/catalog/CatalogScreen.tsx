@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.tabBgColor,
     paddingHorizontal: 15,
+    paddingVertical: 10,
   },
   columnWrapperStyle: {
     // justifyContent: 'space-between',
