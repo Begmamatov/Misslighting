@@ -36,7 +36,6 @@ const CheckoutView = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [activeIndex, setIsActive] = useState(0);
-  const [activeIndex2, setIsActive2] = useState(0);
   const [delivery, setDelivery] = useState<DeliveryMethodResponse[]>();
   const [payment, setPayment] = useState<PaymentMethodResponse[]>();
   const [isEnabled, setIsEnabled] = useState(false);
@@ -49,7 +48,7 @@ const CheckoutView = () => {
     email: '',
     lastName: '',
     name: '',
-    payment_id: 37,
+    payment_id: 4,
     phone: '',
     receiver: 0,
     phone2: '',
@@ -202,7 +201,12 @@ const CheckoutView = () => {
               value={isEnabled}
             />
           </View>
-          {activeIndex == 0 ? <CourierDelivery onStateChange={onStateChange} typePayment={payment as any} /> : <PickupPoints onStateChange={onStateChange} typePayment={payment as any} />}
+          {
+            activeIndex == 0 ?
+              <CourierDelivery onStateChange={onStateChange} typePayment={payment as any} />
+              :
+              <PickupPoints onStateChange={onStateChange} typePayment={payment as any} />
+          }
           <DefaultInput
             label="Comment"
             backgroundColor={'#FAFAFA'}

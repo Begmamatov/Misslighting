@@ -1,9 +1,9 @@
-import {FlatList, StyleSheet, Text, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import ProductCart from '../ProductCart';
 
 import requests from '@api/requests';
-import {COLORS} from '@constants/colors';
+import { COLORS } from '@constants/colors';
 
 const StoryList = () => {
   const [orders, setOrders] = useState<any>();
@@ -21,10 +21,12 @@ const StoryList = () => {
     getOrders();
   }, []);
   return (
-    <View style={{flex: 1, backgroundColor: COLORS.white}}>
+    <View style={{ flex: 1, backgroundColor: COLORS.white }}>
       <FlatList
         data={orders}
         renderItem={props => <ProductCart item={props} />}
+        showsVerticalScrollIndicator={false}
+        keyExtractor={(_, index) => index.toString()}
       />
     </View>
   );

@@ -16,12 +16,12 @@ import Subcategory from '@home/catalog/subCatalog/Subcategory';
 import Reviews from '@home/modulus/components/reviews';
 import { CheckoutScreen } from '@home/cart/checkout';
 import ProfileScreen from '@home/profile/ProfileScreen';
-import MyProduct from '@home/profile/MyProducts/MyProduct';
+import MyProduct from '@home/profile/MyOrders/MyOrders';
 import Message from '@home/profile/Message/Message';
 import Setting from '@home/profile/Setting/Setting';
 import Transactions from '@home/profile/Transactions/Transactions';
-import ActiveList from '@home/profile/MyProducts/components/ActiveList';
-import StoryList from '@home/profile/MyProducts/components/StoryList';
+import ActiveList from '@home/profile/MyOrders/components/ActiveList';
+import StoryList from '@home/profile/MyOrders/components/StoryList';
 import TechnicalSupport from '@home/profile/Technical_Support/TechnicalSupport';
 import BonusProgram from '@home/profile/BonusProgram/BonusProgram';
 import PersonalData from '@home/profile/PersonalData/PersonalData';
@@ -39,7 +39,7 @@ export default function AppRouter() {
   const insets = useSafeAreaInsets();
   const user = useAppSelector(selectUser);
   return (
-    <View style={{ flex: 1, marginTop: insets.top + 15, backgroundColor: COLORS.tabBgColor }}>
+    <View style={{ flex: 1, marginTop: insets.top, backgroundColor: COLORS.tabBgColor }}>
       <NavigationContainer>
         <Stack.Navigator
           screenOptions={{

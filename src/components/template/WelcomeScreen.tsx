@@ -1,4 +1,4 @@
-import {View, Text, ImageBackground, StyleSheet} from 'react-native';
+import { View, Text, ImageBackground, StyleSheet } from 'react-native';
 import React from 'react';
 
 type Props = {
@@ -48,5 +48,6 @@ const styles = StyleSheet.create({
     lineHeight: 48,
     fontWeight: 'bold',
     marginBottom: 28,
+    color: '#000'
   },
 });
