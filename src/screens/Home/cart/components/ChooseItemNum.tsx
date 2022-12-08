@@ -154,7 +154,7 @@ export default function ChooseItemNum({ data }: { data: any }) {
               </View>
             </TouchableOpacity>
             <View style={styles.topBottom}>
-              <TextInput style={styles.input} value={value} onChangeText={onChangeText} onFocus={() => setShouldShow(true)} />
+              <TextInput showSoftInputOnFocus={false} style={styles.input} value={value} onFocus={() => setShouldShow(true)} />
               <Text style={{ color: '#717171B2' }}> шт</Text>
             </View>
             <TouchableOpacity onPress={() => onAddItem(true)} style={styles.plus}>
@@ -185,12 +185,13 @@ export default function ChooseItemNum({ data }: { data: any }) {
           </TouchableOpacity>
         </View>
         <Modal
-          animationType="slide"
+          animationType="fade"
           transparent={true}
           visible={shouldShow}
           onRequestClose={() => {
             setShouldShow(false);
           }}
+          style={{ zIndex: 1000 }}
         >
           <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'center', alignItems: 'center' }}>
             <View style={{ backgroundColor: 'white', width: '80%', height: 200, borderRadius: 10, justifyContent: 'center', alignItems: 'center' }}>
@@ -205,7 +206,7 @@ export default function ChooseItemNum({ data }: { data: any }) {
                   </View>
                 </TouchableOpacity>
                 <View style={[styles.topBottom, { paddingHorizontal: 5 }]}>
-                  <TextInput style={{ color: '#717171B2', width: 40, paddingHorizontal: 5 }} value={value} onChangeText={onChangeText} />
+                  <TextInput style={{ color: '#717171B2', width: 40, height: 30, padding: 0, margin: 0, paddingHorizontal: 5 }} value={value} onChangeText={onChangeText} />
                   <Text style={{ color: '#717171B2' }}> шт</Text>
                 </View>
                 <TouchableOpacity onPress={() => onAddItem(true)} style={styles.plus}>
@@ -254,6 +255,11 @@ const styles = StyleSheet.create({
   },
   input: {
     color: '#717171B2',
+    height: 30,
+    minWidth: 20,
+    margin: 0,
+    padding: 0,
+    paddingHorizontal: 3,
   },
   leftImage: {
     width: 101,
@@ -301,6 +307,7 @@ const styles = StyleSheet.create({
     // alignItems: "center",
     flexDirection: 'row',
     minWidth: 150,
+    height: 30,
   },
 
   iconBox: {
@@ -336,5 +343,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
+    paddingHorizontal: 5,
   },
 });

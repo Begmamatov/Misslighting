@@ -32,10 +32,6 @@ function MyTabBar({ state, descriptors, navigation, position, setHeight }: Props
 
         const isFocused = state.index === index;
 
-        console.log('====================================');
-        console.log('=+++++++++++++=', route.name);
-        console.log('====================================');
-
         const onPress = () => {
           const event = navigation.emit({
             type: 'tabPress',
