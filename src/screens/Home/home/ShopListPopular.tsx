@@ -9,6 +9,7 @@ import requests from '@api/requests';
 
 type ProductListProps = {
   title: string;
+  filter?: boolean;
 };
 
 export default function ShopListPopular(props: ProductListProps) {

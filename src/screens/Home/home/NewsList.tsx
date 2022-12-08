@@ -1,15 +1,16 @@
-import { View, Text, StyleSheet, FlatList } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import {View, Text, StyleSheet, FlatList} from 'react-native';
+import React, {useEffect, useState} from 'react';
 
 import ShopAndNewsItem from './ShopAndNewsItem';
 import ProductsTitle from '../../../components/uikit/ProductsTitle';
-import { useNavigation } from '@react-navigation/native';
-import { ROUTES } from '../../../constants/routes';
+import {useNavigation} from '@react-navigation/native';
+import {ROUTES} from '../../../constants/routes';
 import requests from '@api/requests';
 import useLoading from '@store/Loader/useLoading';
 
 type ProductListProps = {
   title: string;
+  filter?: boolean;
 };
 
 export default function NewsList(props: ProductListProps) {
@@ -33,7 +34,10 @@ export default function NewsList(props: ProductListProps) {
   }, []);
   const navigation = useNavigation();
   const onPress = () => {
-    navigation.navigate(ROUTES.ALLPRODUCTS as never, { products, props } as never);
+    navigation.navigate(
+      ROUTES.ALLPRODUCTS as never,
+      {products, props} as never,
+    );
   };
 
   return (
@@ -43,7 +47,7 @@ export default function NewsList(props: ProductListProps) {
         horizontal
         showsHorizontalScrollIndicator={false}
         data={products}
-        renderItem={({ item }) => (
+        renderItem={({item}) => (
           <ShopAndNewsItem
             itemInfo="В текст представили портрет типичного покупателя"
             buttonTitle="Подробнее"
@@ -59,6 +63,6 @@ export default function NewsList(props: ProductListProps) {
 }
 
 const styles = StyleSheet.create({
-  container: { marginBottom: 15 },
-  contentContainerStyle: { paddingHorizontal: 10 },
+  container: {marginBottom: 15},
+  contentContainerStyle: {paddingHorizontal: 10},
 });

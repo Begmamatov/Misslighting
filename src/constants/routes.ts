@@ -10,7 +10,7 @@ export const ROUTES = {
   CART: 'cart',
   FAVORITES: 'favorites',
   FAVORITESSETTINGS: 'favoritessettings',
-  PROFILE: 'profile',
+  PROFILE: 'ProfileScreen',
   AUTH: 'auth',
   TABS: 'tabs',
   VERIFICATION: 'verification',

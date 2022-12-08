@@ -11,6 +11,7 @@ import {validatePhoneNumber} from '@constants/validation';
 import requests from '@api/requests';
 import {userLoggedIn} from '@store/slices/userSlice';
 import {COLORS} from '@constants/colors';
+import DefaultInputEye from '@components/uikit/DefaultInputEye';
 
 export default function Login(props: any) {
   let navigation = useNavigation();
@@ -55,10 +56,19 @@ export default function Login(props: any) {
         onChangeText={onStateChange('phone')}
         value={state.phone}
       />
-      <DefaultInput
+      {/* <DefaultInput
         placeholder="Ваш пароль"
         onChangeText={onStateChange('password')}
         value={state.password}
+      /> */}
+      <DefaultInputEye
+        placeholder="Ваш пароль"
+        onChange={onStateChange('password')}
+        backgroundColor={COLORS.white}
+        inputStyle={COLORS.white}
+        value={state.password}
+        color={COLORS.black}
+        placeholderColor={COLORS.gray}
       />
       <TouchableOpacity
         onPress={onPressForgotPassword}

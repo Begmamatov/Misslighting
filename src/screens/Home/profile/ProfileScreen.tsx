@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import ProductsTitle from '../../../components/uikit/ProductsTitle';
 import {
   NewAdminIcon,
@@ -21,21 +21,24 @@ import {
   NewSettingIcon,
   NewTranstionIcon,
 } from '../../../assets/icons/icons';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {ROUTES} from '../../../constants/routes';
 import {userLoggedOut} from '@store/slices/userSlice';
 import {useAppDispatch} from '@store/hooks';
 import SettingsItem from './Setting/SettingItem';
+import requests, {assetUrl} from '@api/requests';
+import {LoginResponse} from '@api/types';
 
 export default function ProfileScreen() {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
+  type ProfileData = Partial<LoginResponse>;
+  let [profileData, setProfileData] = useState<ProfileData>();
 
   let onLogOut = () => {
     Alert.alert('Вы точно хотите выйти из аккаунта ?', '', [
       {
         text: 'Cancel',
-        // onPress: () => console.log("Cancel Pressed"),
         style: 'cancel',
       },
       {
@@ -47,6 +50,20 @@ export default function ProfileScreen() {
       },
     ]);
   };
+  let fetchData = async () => {
+    try {
+      let res = await requests.profile.getProfile();
+      setProfileData(res.data.data);
+    } catch (error) {
+      console.log('====================================');
+      console.log(error);
+      console.log('====================================');
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <ScrollView style={style.container}>
@@ -54,14 +71,20 @@ export default function ProfileScreen() {
       <View style={style.ProfileInfo}>
         <Image
           style={style.ProfileImage}
-          source={require('../../../assets/images/profile.png')}
+          source={{uri: assetUrl + profileData?.photo}}
         />
         <View style={style.ProfileInfoTextBox}>
+          <Text style={style.ProfileInfoTextName}>{profileData?.name}</Text>
+
           <TouchableOpacity
-            onPress={() => navigation.navigate(ROUTES.PERSONALDATE as never)}>
-            <Text style={style.ProfileInfoTextName}>Рафаэль</Text>
+            onPress={() =>
+              navigation.navigate(
+                ROUTES.PERSONALDATE as never,
+                profileData as never,
+              )
+            }>
+            <Text style={style.ProfileInfoText}>Изменить личные данные</Text>
           </TouchableOpacity>
-          <Text style={style.ProfileInfoText}>Изменить личные данные</Text>
         </View>
       </View>
       <SettingsItem

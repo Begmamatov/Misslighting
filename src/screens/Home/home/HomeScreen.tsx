@@ -151,13 +151,25 @@ export default function HomeScreen() {
       </View>
       <View style={styles.container}>
         <SearchNatlifHeader />
-        <ProductListPopular title={'Популярные товары'} />
+        <ProductListPopular title={'Популярные товары'} filter={true} />
         <ProductCatalog />
-        <ProductListSale title={'Товары со скидкой'} showDiscount={true} />
-        <ProductListNew title={'Новые товары'} showNewProduct={true} />
-        <ProductListTopShop showDiscountAdd={true} title="Товары под заказ" />
-        <ShopListPopular title="Популярные магазины" />
-        <NewsList title="Новости" />
+        <ProductListSale
+          title={'Товары со скидкой'}
+          showDiscount={true}
+          filter={true}
+        />
+        <ProductListNew
+          title={'Новые товары'}
+          showNewProduct={true}
+          filter={true}
+        />
+        <ProductListTopShop
+          showDiscountAdd={true}
+          title="Товары под заказ"
+          filter={true}
+        />
+        <ShopListPopular title="Популярные магазины" filter={true} />
+        <NewsList title="Новости" filter={false} />
       </View>
     </ScrollView>
   );

@@ -8,9 +8,11 @@ import React, {useState} from 'react';
 import {ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {ROUTES} from '../../../constants/routes';
-import DatePicker from 'react-native-date-picker';
+
 import moment from 'moment';
 import useRegisterHook from './hooks';
+import {STRINGS} from '@locales/strings';
+import DefaultInputEye from '@components/uikit/DefaultInputEye';
 
 // export interface RegisterStatePyhsical {
 //   phone: string;
@@ -57,15 +59,16 @@ export default function SignUpPhysical() {
         onChangeText={onStateChange('name')}
         value={state.name}
       />
-      <DefaultInput
+
+      <DefaultInputEye
+        label="Ваш пароль"
         placeholder="Ваш пароль"
-        label="Введите пароль"
         backgroundColor={COLORS.noActiveButtonBgColor2}
-        placeholderColor={COLORS.labelText}
-        marginBottom={0}
-        onChangeText={onStateChange('password')}
-        value={state.password}
+        inputStyle={COLORS.noActiveButtonBgColor2}
+        color={COLORS.gray}
+        placeholderColor={COLORS.gray}
       />
+
       {/* <DefaultInput
         placeholder="Ваша фамилия"
         label="Фамилия"
