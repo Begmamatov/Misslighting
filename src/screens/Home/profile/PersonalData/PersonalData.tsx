@@ -1,12 +1,14 @@
 import {
+  ActivityIndicator,
   Image,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import GoBackHeader from '../../../../components/uikit/Header/GoBackHeader';
 import AllProductTitle from '../../../../components/uikit/AllProductTitle';
 import DefaultInput from '../../../../components/uikit/TextInput';
@@ -15,102 +17,197 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import {ROUTES} from '../../../../constants/routes';
 import {COLORS} from '../../../../constants/colors';
 import {LoginResponse} from '@api/types';
-import requests, {assetUrl} from '@api/requests';
+import requests, {appendUrl, assetUrl, formData} from '@api/requests';
+import {launchImageLibrary} from 'react-native-image-picker';
+import {assets} from 'react-native.config';
 
 type ProfileData = Partial<LoginResponse>;
+
 const PersonalData = () => {
   const {params}: any = useRoute();
+  const [url, setUrl] = useState<any>(assetUrl + params?.photo);
+  const [animate, setAnimate] = useState(false);
+  const navigation = useNavigation();
 
-  const navigation: any = useNavigation();
+  const [state, setState] = useState<ProfileData>({
+    gender: params?.gender ?? '',
+    name: params?.name ?? '',
+    phone: params?.phone ?? '',
+    birthday: params?.birthday ?? '',
+    last_address: params?.last_address ?? '',
+    inn: params?.inn ?? '',
+    // middleName: params?.middleName ?? '',
+    requisites: params?.requisites ?? '',
+    certificateStateRegistration: params?.certificateStateRegistration ?? '',
+    adres_0: params?.adres_0 ?? '',
+  });
 
-  let [profileData, setProfileData] = useState<ProfileData>();
+  let onStateChange = (key: string) => (value: string) => {
+    setState({...state, [key]: value});
+  };
 
-  let fetchData = async () => {
+  let onUpdateProfile = async () => {
     try {
-      let res = await requests.profile.getProfile();
-      setProfileData(res.data.data);
-    } catch (error) {}
+      setAnimate(true);
+      let res = await requests.profile.editProfile(state);
+      setAnimate(false);
+      navigation.goBack();
+    } catch (error) {
+      console.log(error);
+    }
   };
-  const onPress = () => {
-    navigation.navigate(ROUTES.PersonalDataChange, {profileData});
-  };
-  useEffect(() => {
-    fetchData();
-  }, []);
 
+  const changePhoto = async () => {
+    await launchImageLibrary({mediaType: 'photo'}, ({assets}) => {
+      if (assets) {
+        setUrl(assets[0].uri);
+        setState({
+          ...state,
+          photo: {
+            name: assets[0].fileName,
+            type: assets[0].type,
+            uri:
+              Platform.OS === 'ios'
+                ? assets[0].uri.replace('file://', '')
+                : assets[0].uri,
+          },
+        });
+      }
+    });
+  };
+
+  console.log('=================PersonalData===================');
+  console.log(
+    '++++++++++',
+    JSON.stringify(params, null, 2),
+    JSON.stringify(state, null, 2),
+  );
+  console.log('=================PersonalData===================');
   return (
     <View style={{marginBottom: 100, backgroundColor: COLORS.white}}>
       <GoBackHeader />
       <ScrollView>
         <AllProductTitle title="Личные данные" color={true} />
         <View style={style.ProfileInfo}>
-          {params ? (
-            <Image style={style.ProfileImage} source={{uri: params.uri}} />
-          ) : (
-            <Image
-              style={style.ProfileImage}
-              source={require('../../../../assets/images/profile.png')}
-            />
-          )}
+          <Image style={style.ProfileImage} source={{uri: url}} />
 
-          <View style={style.ProfileInfoTextBox}>
+          <TouchableOpacity
+            onPress={changePhoto}
+            style={style.ProfileInfoTextBox}>
             <Text style={style.ProfileInfoText}>Добавить</Text>
-          </View>
+          </TouchableOpacity>
         </View>
         <View style={{paddingHorizontal: 15}}>
+          {params?.type === 'yur' ? (
+            <DefaultInput
+              label="Наименование учреждения"
+              backgroundColor={COLORS.noActiveButtonBgColor2}
+            />
+          ) : null}
+          {params?.type === 'yur' ? (
+            <DefaultInput
+              value={state.inn}
+              onChangeText={onStateChange('inn')}
+              label="ИНН"
+              backgroundColor={COLORS.noActiveButtonBgColor2}
+              // placeholder={params.inn}
+            />
+          ) : null}
+          {params?.type === 'yur' ? (
+            <DefaultInput
+              value={state.certificateStateRegistration}
+              onChangeText={onStateChange('certificateStateRegistration')}
+              label="Свидетельство гос.регистрации"
+              backgroundColor={COLORS.noActiveButtonBgColor2}
+            />
+          ) : null}
+          {params?.type === 'yur' ? (
+            <DefaultInput
+              value={state.last_address}
+              onChangeText={onStateChange('last_address')}
+              label="Свидетельство НДС"
+              backgroundColor={COLORS.noActiveButtonBgColor2}
+            />
+          ) : null}
+          {params?.type === 'yur' ? (
+            <DefaultInput
+              value={state.requisites}
+              onChangeText={onStateChange('requisites')}
+              label="Реквизиты"
+              backgroundColor={COLORS.noActiveButtonBgColor2}
+            />
+          ) : null}
+
           <DefaultInput
             label="Номер телефона"
             backgroundColor={COLORS.noActiveButtonBgColor2}
-            placeholder={profileData?.phone}
+            // placeholder={params?.phone}
+            onChangeText={onStateChange('phone')}
+            value={state.phone}
+            defaultValue={state.phone}
           />
+
           <DefaultInput
             label="Имя"
             backgroundColor={COLORS.noActiveButtonBgColor2}
-            placeholder={profileData?.name}
+            // placeholder={params?.name}
+            onChangeText={onStateChange('name')}
+            value={state.name}
           />
-          <DefaultInput
+          {/* <DefaultInput
             label="Фамилия"
             backgroundColor={COLORS.noActiveButtonBgColor2}
-            placeholder={profileData?.lastName}
-          />
+            placeholder={params?.lastName}
+          /> */}
           <DefaultInput
             label="Отчество"
             backgroundColor={COLORS.noActiveButtonBgColor2}
-            placeholder={profileData?.middleName}
+            // placeholder={params?.middleName}
+            onChangeText={onStateChange('middleName')}
+            value={state.middleName}
           />
           <DefaultInput
             label="Дата рождения"
             backgroundColor={COLORS.noActiveButtonBgColor2}
-            placeholder={profileData?.date}
+            // placeholder={params?.birthday}
+            onChangeText={onStateChange('birthday')}
+            value={state.birthday}
           />
-          <DefaultInput
+          {/* <DefaultInput
             label="Страна"
             backgroundColor={COLORS.noActiveButtonBgColor2}
-            placeholder={profileData?.country}
-          />
+            placeholder={params?.country}
+          /> */}
           <DefaultInput
             label="Город"
             backgroundColor={COLORS.noActiveButtonBgColor2}
-            placeholder={profileData?.last_address}
+            // placeholder={params?.last_address}
+            // onChangeText={onStateChange('last_address')}
+            // value={state.last_address}
           />
           <Text>Адрес</Text>
           <DefaultInput
             label="Улица"
             backgroundColor={COLORS.noActiveButtonBgColor2}
-            // placeholder={profileData?.addresses}
+            // placeholder={params?.addresses}
           />
           <DefaultInput
             label="Дом"
             backgroundColor={COLORS.noActiveButtonBgColor2}
-            placeholder={profileData?.house}
+            // placeholder={params?.house}
           />
           <View>
-            <DefaultButton
-              onPress={onPress}
-              title="Изменить"
-              ButtonStyle={{backgroundColor: '#84A9C0'}}
-              TextStyle={{color: '#FFFFFF'}}
-            />
+            <TouchableOpacity style={style.button} onPress={onUpdateProfile}>
+              {animate ? (
+                <ActivityIndicator
+                  size="small"
+                  color={COLORS.white}
+                  animating={animate}
+                />
+              ) : (
+                <Text style={{color: COLORS.white}}> Изменить</Text>
+              )}
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
@@ -203,5 +300,15 @@ const style = StyleSheet.create({
     fontWeight: 'bold',
     marginLeft: 10,
     color: '#000',
+  },
+
+  button: {
+    width: '100%',
+    height: 55,
+    backgroundColor: COLORS.activeButtonBgColor,
+    borderRadius: 45,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 25,
   },
 });

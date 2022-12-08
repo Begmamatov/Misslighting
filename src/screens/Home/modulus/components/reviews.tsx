@@ -6,12 +6,29 @@ import {
   Text,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import GoBackHeader from '../../../../components/uikit/Header/GoBackHeader';
 import {COLORS} from '../../../../constants/colors';
-import {StrokeIcon} from '../../../../assets/icons/icons';
-const dada = [1, 2, 3, 4];
+import requests, {assetUrl} from '@api/requests';
+import {useRoute} from '@react-navigation/native';
+import {Rating} from 'react-native-ratings';
+import ReviewCart from './ReviewCart';
+
 const Reviews = () => {
+  const {params}: any = useRoute();
+  const [reviewsList, setReviewsList] = useState();
+  const getReviews = async () => {
+    try {
+      let res = await requests.products.getReviews(params?.id);
+      setReviewsList(res.data.data);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  console.log('Reviews', JSON.stringify(reviewsList, null, 2));
+  useEffect(() => {
+    getReviews();
+  }, []);
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.white}}>
       <GoBackHeader />
@@ -21,13 +38,13 @@ const Reviews = () => {
           <View style={styles.box_content}>
             <View style={styles.img_container}>
               <Image
-                style={{width: '100%', height: '100%'}}
-                source={require('../../../../assets/images/1212.png')}
+                style={{width: '100%', height: '100%', borderRadius: 15}}
+                source={{uri: assetUrl + params.photo}}
               />
             </View>
             <View style={styles.img_doc}>
               <Text style={{fontSize: 17, fontWeight: '600', lineHeight: 40}}>
-                A55 MORENA
+                {params.name}
               </Text>
               <View
                 style={{
@@ -35,68 +52,27 @@ const Reviews = () => {
                   alignItems: 'center',
                   marginRight: 11,
                 }}>
-                <Text style={{marginLeft: 48, marginRight: 10}}>4</Text>
-                <StrokeIcon />
+                <Text style={{marginLeft: 48, marginRight: 10}}>
+                  {params.rating}
+                </Text>
+                <Rating
+                  type="custom"
+                  ratingCount={1}
+                  imageSize={18}
+                  ratingColor="#edcf21"
+                  ratingBackgroundColor="#FFFFFF"
+                  readonly={true}
+                  startingValue={params?.rating}
+                />
               </View>
             </View>
           </View>
           <FlatList
             showsVerticalScrollIndicator={false}
-            data={dada}
-            style={{height: '72%'}}
-            keyExtractor={(_, index: any) => index.toString()}
-            renderItem={({item}) => (
-              <View style={styles.box}>
-                <View style={styles.top_img}>
-                  <View style={styles.userImage}>
-                    <Image
-                      source={require('../../../../assets/images/Ellipse87.png')}
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        borderRadius: 50,
-                      }}
-                    />
-                  </View>
-                  <View style={styles.userInfo}>
-                    <Text
-                      style={{
-                        fontSize: 17,
-                        fontWeight: '600',
-                        lineHeight: 40,
-                        marginTop: 9,
-                      }}>
-                      Рафаэль
-                    </Text>
-                    <StrokeIcon />
-                  </View>
-                  <View>
-                    <Text
-                      style={{
-                        fontSize: 14,
-                        fontWeight: '400',
-                        lineHeight: 20,
-                        color: '#C8C8C8',
-                      }}>
-                      10.14.2022. 17:00
-                    </Text>
-                  </View>
-                </View>
-                <View style={styles.bottom_doc}>
-                  <Text
-                    style={{
-                      color: '#C8C8C8',
-                      fontWeight: '500',
-                      fontSize: 15,
-                      lineHeight: 20,
-                    }}>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam
-                  </Text>
-                </View>
-              </View>
-            )}
+            data={reviewsList}
+            style={{height: '72%', paddingHorizontal: 1}}
+            keyExtractor={(index: any) => index.id}
+            renderItem={({item}) => <ReviewCart item={item} />}
           />
         </View>
       </View>
@@ -158,6 +134,7 @@ const styles = StyleSheet.create({
   },
   img_doc: {
     flexDirection: 'row',
+    width: '65%',
     alignItems: 'center',
     justifyContent: 'space-around',
   },

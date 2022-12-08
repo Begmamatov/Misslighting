@@ -1,15 +1,15 @@
-import requests, { appendUrl } from '@api/requests';
-import { ProductItemResponse } from '@api/types';
+import requests, {appendUrl} from '@api/requests';
+import {ProductItemResponse} from '@api/types';
 
-import { COLORS } from '@constants/colors';
-import { ROUTES } from '@constants/routes';
-import { BasketIcon, CloseIcon } from '@icons/icons';
-import { useNavigation } from '@react-navigation/native';
-import { useAppSelector } from '@store/hooks';
-import { toggleLoading } from '@store/slices/appSettings';
-import { cartSelector, loadCart } from '@store/slices/cartSlice';
-import { favoriteSelector, loadFavorite } from '@store/slices/favoriteSlice';
-import React, { useState } from 'react';
+import {COLORS} from '@constants/colors';
+import {ROUTES} from '@constants/routes';
+import {BasketIcon, CloseIcon} from '@icons/icons';
+import {useNavigation} from '@react-navigation/native';
+import {useAppSelector} from '@store/hooks';
+import {toggleLoading} from '@store/slices/appSettings';
+import {cartSelector, loadCart} from '@store/slices/cartSlice';
+import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
+import React, {useState} from 'react';
 import {
   ActivityIndicator,
   Image,
@@ -20,10 +20,11 @@ import {
   View,
   Text,
 } from 'react-native';
-import { useDispatch } from 'react-redux';
+import {useDispatch} from 'react-redux';
 
-const Products = ({ item }: { item: ProductItemResponse }) => {
-  let { photo, name, price, discount, price_usd, id, isFavorite, category } = item;
+const Products = ({item}: {item: ProductItemResponse}) => {
+  let {photo, name, price, discount, price_usd, id, isFavorite, category} =
+    item;
 
   const dispatch = useDispatch();
   const cart = useAppSelector(cartSelector);
@@ -97,10 +98,10 @@ const Products = ({ item }: { item: ProductItemResponse }) => {
   return (
     <TouchableWithoutFeedback
       onPress={() => {
-        navigation.navigate(ROUTES.PRODUCTDETAILS, { props: item });
+        navigation.navigate(ROUTES.PRODUCTDETAILS, {props: item});
       }}>
       <View style={styles.container}>
-        <Image source={{ uri: appendUrl(photo) }} style={styles.image} />
+        <Image source={{uri: appendUrl(photo)}} style={styles.image} />
         <View style={styles.itemsContainer}>
           <View style={styles.nameContainer}>
             <Text
@@ -113,20 +114,24 @@ const Products = ({ item }: { item: ProductItemResponse }) => {
             </Text>
             <Text style={styles.itemName}>{name ? name : ''}</Text>
             {discount ? (
-              <Text style={styles.oldPrice}>{discount ? price : discountPrice} сум</Text>
+              <Text style={styles.oldPrice}>
+                {discount ? price : discountPrice} сум
+              </Text>
             ) : null}
-            <Text style={styles.price}>{discount ? discountPrice : price} сум</Text>
+            <Text style={styles.price}>
+              {discount ? discountPrice : price} сум
+            </Text>
           </View>
           <View style={styles.priceContainer}>
             <TouchableOpacity
               onPress={onAddFavorite}
-              hitSlop={{ bottom: 10, top: 10, right: 10, left: 10 }}>
+              hitSlop={{bottom: 10, top: 10, right: 10, left: 10}}>
               <CloseIcon />
             </TouchableOpacity>
             <TouchableOpacity
               style={[
                 styles.button,
-                { backgroundColor: isInCart ? '#84A9C0' : '#FFFFFF' },
+                {backgroundColor: isInCart ? '#84A9C0' : '#FFFFFF'},
               ]}
               onPress={onCartPress}>
               {animate ? (
@@ -154,7 +159,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 10,
     flexDirection: 'row',
-    marginVertical: 9,
+    marginVertical: 20,
     backgroundColor: '#FFFFFF',
     shadowOpacity: 0.05,
     shadowRadius: 5,
@@ -176,6 +181,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginVertical: 10,
 
     // paddingHorizontal: 5,
   },

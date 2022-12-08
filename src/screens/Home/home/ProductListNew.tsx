@@ -1,10 +1,10 @@
-import { View, Text, FlatList, StyleSheet } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import {View, Text, FlatList, StyleSheet} from 'react-native';
+import React, {useEffect, useState} from 'react';
 
 import ProductItemCard from './ProductItemCard';
 import ProductsTitle from '../../../components/uikit/ProductsTitle';
-import { ROUTES } from '../../../constants/routes';
-import { useNavigation } from '@react-navigation/native';
+import {ROUTES} from '../../../constants/routes';
+import {useNavigation} from '@react-navigation/native';
 import requests from '@api/requests';
 import useLoading from '@store/Loader/useLoading';
 
@@ -12,6 +12,7 @@ type ProductListProps = {
   title: string;
   showNewProduct?: boolean;
   showDiscount?: boolean;
+  filter?: boolean;
 };
 
 export default function ProductListNew(props: ProductListProps) {
@@ -33,7 +34,10 @@ export default function ProductListNew(props: ProductListProps) {
   }, []);
   const navigation = useNavigation();
   const onPress = () => {
-    navigation.navigate(ROUTES.ALLPRODUCTS as never, { products, props } as never);
+    navigation.navigate(
+      ROUTES.ALLPRODUCTS as never,
+      {products, props} as never,
+    );
   };
   return (
     <View>
@@ -42,7 +46,7 @@ export default function ProductListNew(props: ProductListProps) {
         horizontal
         showsHorizontalScrollIndicator={false}
         data={products}
-        renderItem={({ item }) => (
+        renderItem={({item}) => (
           <ProductItemCard showNewProduct={true} {...item} />
         )}
         keyExtractor={item => item.id}
@@ -54,6 +58,6 @@ export default function ProductListNew(props: ProductListProps) {
 }
 
 const styles = StyleSheet.create({
-  container: { marginBottom: 15 },
-  contentContainerStyle: { paddingHorizontal: 10 },
+  container: {marginBottom: 15},
+  contentContainerStyle: {paddingHorizontal: 10},
 });

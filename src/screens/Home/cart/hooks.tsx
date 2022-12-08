@@ -1,7 +1,7 @@
 import requests from '@api/requests';
 import useLoading from '@store/Loader/useLoading';
-import { loadCart } from '@store/slices/cartSlice';
-import { useDispatch } from 'react-redux';
+import {loadCart} from '@store/slices/cartSlice';
+import {useDispatch} from 'react-redux';
 
 export const useCartScreenHooks = () => {
   const dispatch = useDispatch();
@@ -30,5 +30,5 @@ export const useCartScreenHooks = () => {
     }
   };
 
-  return { onClearCart, getCart };
+  return {onClearCart, getCart};
 };

@@ -17,7 +17,7 @@ import {useRoute} from '@react-navigation/native';
 import requests from '@api/requests';
 
 const AllProducts = () => {
-  const route: any = useRoute();
+  const {params, name, key}: any = useRoute();
   const [valueActiveHandler, setValueActiveHandler] = useState('');
   const [newTovarvalue, setNewTovarvalue] = useState<any>();
   const [popularTovarvalue, setPopularTovarvalue] = useState<any>();
@@ -45,24 +45,26 @@ const AllProducts = () => {
     populyarneTovar();
     newTovarHandler();
   }, []);
+  console.log(JSON.stringify(params.props, null, 2));
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
         <View style={{marginBottom: 10}}>
           <GoBackHeader />
-          <AllProductTitle title={route.params.props.title} />
-          <SortAndFilter />
+          <AllProductTitle title={params.props.title} />
+          {params.props.filter ? <SortAndFilter /> : null}
         </View>
 
         <FlatList
           showsVerticalScrollIndicator={false}
-          data={route.params.products}
+          data={params.products}
           renderItem={({item}) => (
             <AllProductItemCard
-              imgRequire={route.params.props.imgRequire}
-              showDiscount={route.params.props.showDiscount}
-              showNewProduct={route.params.props.showNewProduct}
-              showDiscountAdd={route.params.props.showDiscountAdd}
+              imgRequire={params.props.imgRequire}
+              showDiscount={params.props.showDiscount}
+              showNewProduct={params.props.showNewProduct}
+              showDiscountAdd={params.props.showDiscountAdd}
               {...item}
             />
           )}
