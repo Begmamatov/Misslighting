@@ -45,6 +45,11 @@ export type ProductItemCardProps = {
 };
 
 export default function ProductItemCard(props: ProductItemCardProps) {
+
+  console.log('====================================');
+  console.log("-------------", props);
+  console.log('====================================');
+
   const navigation = useNavigation();
   const cart = useAppSelector(cartSelector);
   let isInCart = !!cart[props.id];
@@ -132,8 +137,8 @@ export default function ProductItemCard(props: ProductItemCardProps) {
         </TouchableOpacity>
 
         <View style={styles.cartItemInfo}>
-          <Text style={styles.typeText}>{props.category.name || ""}</Text>
-          <Text style={styles.nameText}>{props.name || ""}</Text>
+          <Text style={styles.typeText}>{props?.category?.name || ""}</Text>
+          <Text style={styles.nameText}>{props?.name || ""}</Text>
           {
             props.discount ? (
               <Text style={styles.priceTextSile}>{props.discount ? props.price : discountPrice} UZS</Text>

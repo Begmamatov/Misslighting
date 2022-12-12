@@ -6,16 +6,16 @@ import {
   Text,
   View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import GoBackHeader from '../../../../components/uikit/Header/GoBackHeader';
-import {COLORS} from '../../../../constants/colors';
-import requests, {assetUrl} from '@api/requests';
-import {useRoute} from '@react-navigation/native';
-import {Rating} from 'react-native-ratings';
+import React, { useEffect, useState } from 'react';
+import requests, { assetUrl } from '@api/requests';
+import { useRoute } from '@react-navigation/native';
+import { Rating } from 'react-native-ratings';
 import ReviewCart from './ReviewCart';
+import GoBackHeader from '@components/uikit/Header/GoBackHeader';
+import { COLORS } from '@constants/colors';
 
 const Reviews = () => {
-  const {params}: any = useRoute();
+  const { params }: any = useRoute();
   const [reviewsList, setReviewsList] = useState();
   const getReviews = async () => {
     try {
@@ -30,7 +30,7 @@ const Reviews = () => {
     getReviews();
   }, []);
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: COLORS.white}}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
       <GoBackHeader />
       <View style={styles.container}>
         <Text style={styles.title}>Оценка и отзывы</Text>
@@ -38,12 +38,12 @@ const Reviews = () => {
           <View style={styles.box_content}>
             <View style={styles.img_container}>
               <Image
-                style={{width: '100%', height: '100%', borderRadius: 15}}
-                source={{uri: assetUrl + params.photo}}
+                style={{ width: '100%', height: '100%', borderRadius: 15 }}
+                source={{ uri: assetUrl + params.photo }}
               />
             </View>
             <View style={styles.img_doc}>
-              <Text style={{fontSize: 17, fontWeight: '600', lineHeight: 40}}>
+              <Text style={{ fontSize: 17, fontWeight: '600', lineHeight: 40 }}>
                 {params.name}
               </Text>
               <View
@@ -52,7 +52,7 @@ const Reviews = () => {
                   alignItems: 'center',
                   marginRight: 11,
                 }}>
-                <Text style={{marginLeft: 48, marginRight: 10}}>
+                <Text style={{ marginLeft: 48, marginRight: 10 }}>
                   {params.rating}
                 </Text>
                 <Rating
@@ -70,9 +70,9 @@ const Reviews = () => {
           <FlatList
             showsVerticalScrollIndicator={false}
             data={reviewsList}
-            style={{height: '72%', paddingHorizontal: 1}}
+            style={{ height: '72%', paddingHorizontal: 1 }}
             keyExtractor={(index: any) => index.id}
-            renderItem={({item}) => <ReviewCart item={item} />}
+            renderItem={({ item }) => <ReviewCart item={item} />}
           />
         </View>
       </View>
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    shadowOffset: {width: -1, height: 4},
+    shadowOffset: { width: -1, height: 4 },
     shadowColor: '#171717',
     shadowOpacity: 0.1,
     shadowRadius: 3,
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
   },
   box: {
     backgroundColor: '#fff',
-    shadowOffset: {width: -1, height: 4},
+    shadowOffset: { width: -1, height: 4 },
     shadowColor: '#171717',
     shadowOpacity: 0.1,
     shadowRadius: 3,
