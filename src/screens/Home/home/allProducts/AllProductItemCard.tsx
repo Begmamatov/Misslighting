@@ -9,19 +9,19 @@ import {
   Dimensions,
   Alert,
 } from 'react-native';
-import React, {useState} from 'react';
-import {COLORS} from '../../../../constants/colors';
+import React, { useState } from 'react';
+import { COLORS } from '../../../../constants/colors';
 import {
   BasketIcon,
   HeartIconActive,
   HeartIconNotActive,
 } from '../../../../assets/icons/icons';
-import requests, {assetUrl} from '@api/requests';
-import {useAppSelector} from '@store/hooks';
-import {cartSelector, loadCart} from '@store/slices/cartSlice';
-import {useDispatch} from 'react-redux';
-import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
-import {STRINGS} from '@locales/strings';
+import requests, { assetUrl } from '@api/requests';
+import { useAppSelector } from '@store/hooks';
+import { cartSelector, loadCart } from '@store/slices/cartSlice';
+import { useDispatch } from 'react-redux';
+import { favoriteSelector, loadFavorite } from '@store/slices/favoriteSlice';
+import { STRINGS } from '@locales/strings';
 
 type ProductItemCardProps = {
   showNewProduct?: boolean;
@@ -117,7 +117,7 @@ const AllProductItemCard = (props: ProductItemCardProps) => {
   return (
     <TouchableWithoutFeedback>
       <View style={styles.cartItem}>
-        <Image style={styles.image} source={{uri: assetUrl + props.photo}} />
+        <Image style={styles.image} source={{ uri: assetUrl + props.photo }} />
         {props.showDiscount ? (
           <View style={styles.sileBox}>
             <Text style={styles.sileText}>{discount} %</Text>
@@ -138,8 +138,8 @@ const AllProductItemCard = (props: ProductItemCardProps) => {
         </TouchableOpacity>
 
         <View style={styles.cartItemInfo}>
-          <View style={{height: 120}}>
-            <Text style={styles.typeText}>{category.name || ''}</Text>
+          <View style={{ height: 120 }}>
+            <Text style={styles.typeText}>{category?.name || ''}</Text>
             <Text style={styles.nameText}>{name || ''}</Text>
             {discount ? (
               <Text style={styles.priceTextSile}>
@@ -153,7 +153,7 @@ const AllProductItemCard = (props: ProductItemCardProps) => {
           <TouchableOpacity
             style={[
               styles.button,
-              {backgroundColor: isInCart ? '#84A9C0' : '#FFFFFF'},
+              { backgroundColor: isInCart ? '#84A9C0' : '#FFFFFF' },
             ]}
             onPress={onCartPress}>
             {animate ? (
