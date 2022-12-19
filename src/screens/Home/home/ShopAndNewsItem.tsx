@@ -1,24 +1,30 @@
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
 import React from 'react';
-import { HeartIconActive, HeartIconNotActive, HeartIconRed } from '../../../assets/icons/icons';
-import { COLORS } from '../../../constants/colors';
-import requests, { assetUrl } from '@api/requests';
-import { useNavigation } from '@react-navigation/native';
-import { useAppSelector } from '@store/hooks';
-import { cartSelector } from '@store/slices/cartSlice';
-import { useDispatch } from 'react-redux';
-import { favoriteSelector, loadFavorite } from '@store/slices/favoriteSlice';
-import { toggleLoading } from '@store/slices/appSettings';
+import {
+  HeartIconActive,
+  HeartIconNotActive,
+  HeartIconRed,
+} from '../../../assets/icons/icons';
+import {COLORS} from '../../../constants/colors';
+import requests, {assetUrl} from '@api/requests';
+import {useNavigation} from '@react-navigation/native';
+import {useAppSelector} from '@store/hooks';
+import {cartSelector} from '@store/slices/cartSlice';
+import {useDispatch} from 'react-redux';
+import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
+import {toggleLoading} from '@store/slices/appSettings';
 
 type Props = {
   photo: string;
   itemInfo: string;
   buttonTitle: string;
   id: number;
+  item?: any;
 };
 
 export default function ShopAndNewsItem(props: Props) {
   const navigation = useNavigation();
+  // const {} = props.item;
 
   const cart = useAppSelector(cartSelector);
   let isInCart = !!cart[props.id];
@@ -42,7 +48,7 @@ export default function ShopAndNewsItem(props: Props) {
   };
   return (
     <View style={styles.cartItem}>
-      <Image style={styles.image} source={{ uri: assetUrl + props.photo }} />
+      <Image style={styles.image} source={{uri: assetUrl + props.photo}} />
       <TouchableOpacity onPress={onAddFavorite} style={styles.heartIconBox}>
         {isFav ? <HeartIconActive /> : <HeartIconNotActive />}
       </TouchableOpacity>

@@ -9,19 +9,19 @@ import {
   Dimensions,
   Alert,
 } from 'react-native';
-import React, { useState } from 'react';
-import { COLORS } from '../../../../constants/colors';
+import React, {useState} from 'react';
+import {COLORS} from '../../../../constants/colors';
 import {
   BasketIcon,
   HeartIconActive,
   HeartIconNotActive,
 } from '../../../../assets/icons/icons';
-import requests, { assetUrl } from '@api/requests';
-import { useAppSelector } from '@store/hooks';
-import { cartSelector, loadCart } from '@store/slices/cartSlice';
-import { useDispatch } from 'react-redux';
-import { favoriteSelector, loadFavorite } from '@store/slices/favoriteSlice';
-import { STRINGS } from '@locales/strings';
+import requests, {assetUrl} from '@api/requests';
+import {useAppSelector} from '@store/hooks';
+import {cartSelector, loadCart} from '@store/slices/cartSlice';
+import {useDispatch} from 'react-redux';
+import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
+import {STRINGS} from '@locales/strings';
 
 type ProductItemCardProps = {
   showNewProduct?: boolean;
@@ -39,6 +39,7 @@ type ProductItemCardProps = {
   name: string;
   photo: string;
   isFavorite?: boolean;
+  modalSort?: any;
   getProducts?: () => void;
 };
 
@@ -117,8 +118,8 @@ const AllProductItemCard = (props: ProductItemCardProps) => {
   return (
     <TouchableWithoutFeedback>
       <View style={styles.cartItem}>
-        <Image style={styles.image} source={{ uri: assetUrl + props.photo }} />
-        {props.showDiscount ? (
+        <Image style={styles.image} source={{uri: assetUrl + props.photo}} />
+        {discount ? (
           <View style={styles.sileBox}>
             <Text style={styles.sileText}>{discount} %</Text>
           </View>
@@ -138,7 +139,7 @@ const AllProductItemCard = (props: ProductItemCardProps) => {
         </TouchableOpacity>
 
         <View style={styles.cartItemInfo}>
-          <View style={{ height: 120 }}>
+          <View style={{height: 120}}>
             <Text style={styles.typeText}>{category?.name || ''}</Text>
             <Text style={styles.nameText}>{name || ''}</Text>
             {discount ? (
@@ -153,7 +154,7 @@ const AllProductItemCard = (props: ProductItemCardProps) => {
           <TouchableOpacity
             style={[
               styles.button,
-              { backgroundColor: isInCart ? '#84A9C0' : '#FFFFFF' },
+              {backgroundColor: isInCart ? '#84A9C0' : '#FFFFFF'},
             ]}
             onPress={onCartPress}>
             {animate ? (
@@ -186,14 +187,13 @@ export default AllProductItemCard;
 
 const styles = StyleSheet.create({
   cartItem: {
-    // width: 162,
     height: 330,
     width: Dimensions.get('screen').width / 2 - 20,
     backgroundColor: '#fff',
     borderRadius: 15,
-    marginRight: 10,
     marginBottom: 20,
     flexDirection: 'column',
+    marginRight: 20,
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -216,7 +216,6 @@ const styles = StyleSheet.create({
     height: 156,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
-    marginBottom: 10,
   },
   cartItemInfo: {
     paddingHorizontal: 10,

@@ -1,13 +1,12 @@
 import {
+  Alert,
   FlatList,
+  Modal,
   SafeAreaView,
-  ScrollView,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
-
 import AllProductItemCard from './AllProductItemCard';
 import GoBackHeader from '../../../../components/uikit/Header/GoBackHeader';
 import AllProductTitle from '../../../../components/uikit/AllProductTitle';
@@ -15,37 +14,80 @@ import SortAndFilter from '../../../../components/uikit/SortAndFilter';
 import {COLORS} from '../../../../constants/colors';
 import {useRoute} from '@react-navigation/native';
 import requests from '@api/requests';
-
+import {ProductItemResponse} from '@api/types';
+import SortView from '@components/uikit/Sort/SortView';
+import FilterScren from '@components/template/FilterScreen';
 const AllProducts = () => {
-  const {params, name, key}: any = useRoute();
-  const [valueActiveHandler, setValueActiveHandler] = useState('');
-  const [newTovarvalue, setNewTovarvalue] = useState<any>();
-  const [popularTovarvalue, setPopularTovarvalue] = useState<any>();
-  const populyarneTovar = async () => {
+  const {params, name, key, id, type}: any = useRoute();
+  const [products, setProducts] = useState<ProductItemResponse[]>();
+
+  let getRecently = async () => {
     try {
-      let res = await requests.sort.getPopular();
-      setPopularTovarvalue(res.data.data);
+      let res = await requests.sort.getRecently();
+      setProducts(res.data.data);
     } catch (error) {
-      console.log('====================================');
       console.log(error);
-      console.log('====================================');
     }
   };
-  const newTovarHandler = async () => {
+  let getNewAdded = async () => {
     try {
       let res = await requests.sort.getNewAdded();
-      setNewTovarvalue(res.data.data);
+      setProducts(res.data.data);
     } catch (error) {
-      console.log('====================================');
       console.log(error);
-      console.log('====================================');
     }
   };
+  let getExpensive = async () => {
+    try {
+      let res = await requests.sort.getExpensive();
+      setProducts(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  let getCheap = async () => {
+    try {
+      let res = await requests.sort.getCheap();
+      setProducts(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  let getPopular = async () => {
+    try {
+      let res = await requests.sort.getPopular();
+      setProducts(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  let getCurrency = async () => {
+    try {
+      let res = await requests.sort.getCurrency();
+      setProducts(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalFilter, setModalFilter] = useState('');
+  const [modalSort, setModalSort] = useState('');
+
   useEffect(() => {
-    populyarneTovar();
-    newTovarHandler();
+    if (modalSort === 'Новые') {
+      getNewAdded();
+    }
+
+    if (modalSort === 'Товары со скидкой') {
+      getCheap();
+    }
+    if (modalSort === 'Популярные') {
+      getPopular();
+    }
+    if (modalSort === 'Товары под заказ') {
+      getRecently();
+    }
   }, []);
-  console.log(JSON.stringify(params.props, null, 2));
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -53,18 +95,25 @@ const AllProducts = () => {
         <View style={{marginBottom: 10}}>
           <GoBackHeader />
           <AllProductTitle title={params.props.title} />
-          {params.props.filter ? <SortAndFilter /> : null}
+          {params.props.filter ? (
+            <SortAndFilter
+              setModalVisible={setModalVisible}
+              setModalFilter={setModalFilter}
+              setModalSort={modalSort}
+            />
+          ) : null}
         </View>
 
         <FlatList
           showsVerticalScrollIndicator={false}
-          data={params.products}
+          data={products ? products : params.products}
           renderItem={({item}) => (
             <AllProductItemCard
               imgRequire={params.props.imgRequire}
               showDiscount={params.props.showDiscount}
               showNewProduct={params.props.showNewProduct}
               showDiscountAdd={params.props.showDiscountAdd}
+              modalSort={modalSort}
               {...item}
             />
           )}
@@ -72,6 +121,23 @@ const AllProducts = () => {
           contentContainerStyle={styles.contentContainerStyle}
         />
       </View>
+      <Modal
+        animationType="slide"
+        transparent={false}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}>
+        {modalFilter === 'Популярные' ? (
+          <SortView
+            setModalVisible={setModalVisible}
+            setModalSort={setModalSort}
+          />
+        ) : (
+          <FilterScren setModalVisible={setModalVisible} />
+        )}
+      </Modal>
     </SafeAreaView>
   );
 };
@@ -83,6 +149,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.tabBgColor,
     width: '100%',
     height: '100%',
+    position: 'relative',
   },
   render_container: {
     position: 'relative',
@@ -95,7 +162,75 @@ const styles = StyleSheet.create({
 
   contentContainerStyle: {
     flexDirection: 'column',
+    paddingHorizontal: 10,
+  },
+  view: {
+    justifyContent: 'flex-end',
+    margin: 0,
+  },
+
+  modal: {
+    padding: 20,
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
+    backgroundColor: COLORS.white,
+  },
+
+  modalText: {
+    fontSize: 16,
+    marginVertical: 15,
+    color: COLORS.defaultBlack,
+  },
+
+  empty: {
+    flex: 1,
+    backgroundColor: COLORS.white,
+  },
+
+  emptyBox: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+
+  emptyText: {
+    fontSize: 22,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: '#F194FF',
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });

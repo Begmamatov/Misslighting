@@ -76,13 +76,6 @@ const PersonalData = () => {
     });
   };
 
-  console.log('=================PersonalData===================');
-  console.log(
-    '++++++++++',
-    JSON.stringify(params, null, 2),
-    JSON.stringify(state, null, 2),
-  );
-  console.log('=================PersonalData===================');
   return (
     <View style={{marginBottom: 100, backgroundColor: COLORS.white}}>
       <GoBackHeader />

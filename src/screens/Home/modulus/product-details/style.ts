@@ -184,7 +184,6 @@ export const styles = StyleSheet.create({
   },
   contentContainerStyle: {
     flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
+    paddingHorizontal: 10,
   },
 });

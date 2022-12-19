@@ -10,8 +10,6 @@ import useLoading from '@store/Loader/useLoading';
 
 type ProductListProps = {
   title: string;
-  showNewProduct?: boolean;
-  showDiscount?: boolean;
   filter?: boolean;
 };
 
@@ -46,9 +44,7 @@ export default function ProductListNew(props: ProductListProps) {
         horizontal
         showsHorizontalScrollIndicator={false}
         data={products}
-        renderItem={({item}) => (
-          <ProductItemCard showNewProduct={true} {...item} />
-        )}
+        renderItem={({item}) => <ProductItemCard {...item} />}
         keyExtractor={item => item.id}
         style={styles.container}
         contentContainerStyle={styles.contentContainerStyle}

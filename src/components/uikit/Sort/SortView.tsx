@@ -6,17 +6,17 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import GoBackHeader from '../Header/GoBackHeader';
+import React, {useState} from 'react';
+
 import AllProductTitle from '../AllProductTitle';
 import {COLORS} from '../../../constants/colors';
 import DefaultButton from '../DefaultButton';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import requests from '@api/requests';
-import {ROUTES} from '@constants/routes';
+import {useRoute} from '@react-navigation/native';
 
 type PropsSort = {
   item?: string;
+  setModalVisible?: any;
+  setModalSort?: any;
 };
 
 const title = 'Сортировать';
@@ -29,22 +29,27 @@ const data = [
     id: 1,
     name: 'Новые',
   },
+
+  {
+    id: 2,
+    name: 'Товары под заказ',
+  },
+  {
+    id: 3,
+    name: 'Товары со скидкой',
+  },
 ];
 const SortView = (props: PropsSort) => {
   const routes = useRoute();
 
   const [active, setActive] = useState('');
 
-  const adValueHandler = () => {
-    if (active === 'Популярные') {
-    }
-
-    if (active === 'Новые') {
-    }
+  const sortAddHandler = () => {
+    props.setModalVisible(false);
+    props.setModalSort(active);
   };
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.white}}>
-      <GoBackHeader />
       <AllProductTitle title={title} />
       <View style={styles.content}>
         <FlatList
@@ -66,7 +71,6 @@ const SortView = (props: PropsSort) => {
               </View>
             </TouchableOpacity>
           )}
-          keyExtractor={item => item.id}
         />
       </View>
       <View
@@ -80,7 +84,7 @@ const SortView = (props: PropsSort) => {
           title={'Применить'}
           ButtonStyle={{backgroundColor: '#84A9C0'}}
           TextStyle={{color: COLORS.white}}
-          onPress={adValueHandler}
+          onPress={sortAddHandler}
         />
       </View>
     </SafeAreaView>
@@ -95,6 +99,8 @@ const styles = StyleSheet.create({
     marginLeft: 15,
     marginRight: 15,
     flexDirection: 'column',
+
+    flex: 1,
   },
   box: {
     flexDirection: 'row',

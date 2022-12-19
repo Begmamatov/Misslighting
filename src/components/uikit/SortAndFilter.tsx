@@ -3,28 +3,34 @@ import React from 'react';
 import {BottomArrow, FilterIcon} from '../../assets/icons/icons';
 import {COLORS} from '../../constants/colors';
 import {useNavigation} from '@react-navigation/native';
-import {ROUTES} from '../../constants/routes';
 
 type PropsSnadAndFilter = {
   item?: string;
+  setModalVisible?: any;
+  setModalFilter?: any;
+  setModalSort?: any;
 };
+
 export default function SortAndFilter(props: PropsSnadAndFilter) {
   const navigation = useNavigation();
+  const sortHandler = () => {
+    props.setModalVisible(true);
+    props.setModalFilter('Популярные');
+  };
+  const FilterHandler = () => {
+    props.setModalVisible(true);
+    props.setModalFilter('Фильтры');
+  };
+
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.populer}
-        onPress={() => {
-          navigation.navigate(ROUTES.SORTVIEW as never, props as never);
-        }}>
-        <Text style={styles.title}>Популярные</Text>
+      <TouchableOpacity style={styles.populer} onPress={sortHandler}>
+        <Text style={styles.title}>
+          {props.setModalSort ? props.setModalSort : 'Популярные'}
+        </Text>
         <BottomArrow fill={COLORS.textColorBlue} />
       </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.filter}
-        onPress={() => {
-          navigation.navigate(ROUTES.FILTERVIEW as never);
-        }}>
+      <TouchableOpacity style={styles.filter} onPress={FilterHandler}>
         <Text style={styles.title}>Фильтры</Text>
         <FilterIcon fill={COLORS.textColorBlue} />
       </TouchableOpacity>

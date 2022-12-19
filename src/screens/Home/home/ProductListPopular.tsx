@@ -21,9 +21,7 @@ export default function ProductList(props: Props) {
     try {
       loading?.onRun();
       let res = await requests.sort.getPopular();
-      console.log('====================================');
-      console.log('render');
-      console.log('====================================');
+
       setProducts(res.data.data);
     } catch (error) {
       console.log('product lest', error);
