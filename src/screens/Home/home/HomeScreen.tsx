@@ -88,9 +88,7 @@ export default function HomeScreen() {
   useEffect(() => {
     CaruselHandler();
   }, []);
-  console.log('================dataSlider====================');
-  console.log(JSON.stringify(dataSlider, null, 2));
-  console.log('================dataSlider====================');
+
   return (
     <ScrollView style={styles.scroll}>
       <View>
@@ -153,21 +151,9 @@ export default function HomeScreen() {
         <SearchNatlifHeader />
         <ProductListPopular title={'Популярные товары'} filter={true} />
         <ProductCatalog />
-        <ProductListSale
-          title={'Товары со скидкой'}
-          showDiscount={true}
-          filter={true}
-        />
-        <ProductListNew
-          title={'Новые товары'}
-          showNewProduct={true}
-          filter={true}
-        />
-        <ProductListTopShop
-          showDiscountAdd={true}
-          title="Товары под заказ"
-          filter={true}
-        />
+        <ProductListSale title={'Товары со скидкой'} filter={true} />
+        <ProductListNew title={'Новые товары'} filter={true} />
+        <ProductListTopShop title="Товары под заказ" filter={true} />
         <ShopListPopular title="Популярные магазины" filter={true} />
         <NewsList title="Новости" filter={false} />
       </View>

@@ -104,6 +104,7 @@ let requests = {
       axios.post<{data: CardItem[]}>(`${url}/user/card-remove`, data),
     getUploadPhoto: () => axios.get<{data: string}>(`${url}/user/upload-photo`),
     notificationAll: () => axios.get(`${url}/notification`),
+    getTransaction: () => axios.get(`${url}/transaction`),
   },
 
   categories: {

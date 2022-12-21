@@ -20,7 +20,7 @@ export default function NewsList(props: ProductListProps) {
   const getProducts = async () => {
     try {
       loading?.onRun();
-      let res = await requests.sort.getPopular();
+      let res = await requests.news.getNews();
       setProducts(res.data.data);
     } catch (error) {
       console.log('product lest', error);

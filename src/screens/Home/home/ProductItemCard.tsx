@@ -8,22 +8,22 @@ import {
   ActivityIndicator,
   Alert,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   BasketIcon,
   HeartIconActive,
   HeartIconNotActive,
 } from '../../../assets/icons/icons';
-import { COLORS } from '../../../constants/colors';
-import { useNavigation } from '@react-navigation/native';
-import { ROUTES } from '../../../constants/routes';
-import requests, { assetUrl } from '@api/requests';
-import { favoriteSelector, loadFavorite } from '@store/slices/favoriteSlice';
-import { toggleLoading } from '@store/slices/appSettings';
-import { useAppSelector } from '@store/hooks';
-import { cartSelector, loadCart } from '@store/slices/cartSlice';
-import { useDispatch } from 'react-redux';
-import { STRINGS } from '@locales/strings';
+import {COLORS} from '../../../constants/colors';
+import {useNavigation} from '@react-navigation/native';
+import {ROUTES} from '../../../constants/routes';
+import requests, {assetUrl} from '@api/requests';
+import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
+import {toggleLoading} from '@store/slices/appSettings';
+import {useAppSelector} from '@store/hooks';
+import {cartSelector, loadCart} from '@store/slices/cartSlice';
+import {useDispatch} from 'react-redux';
+import {STRINGS} from '@locales/strings';
 
 export type ProductItemCardProps = {
   name?: string;
@@ -39,17 +39,12 @@ export type ProductItemCardProps = {
   shop?: string;
   category: {
     name?: string;
-  }
+  };
   isFavorite?: boolean;
   getProducts?: () => void;
 };
 
 export default function ProductItemCard(props: ProductItemCardProps) {
-
-  console.log('====================================');
-  console.log("-------------", props);
-  console.log('====================================');
-
   const navigation = useNavigation();
   const cart = useAppSelector(cartSelector);
   let isInCart = !!cart[props.id];
@@ -107,14 +102,15 @@ export default function ProductItemCard(props: ProductItemCardProps) {
       }
     }
   };
+
   return (
     <TouchableWithoutFeedback
       onPress={() =>
         //@ts-ignore
-        navigation.navigate(ROUTES.PRODUCTDETAILS, { props })
+        navigation.navigate(ROUTES.PRODUCTDETAILS, {props})
       }>
       <View style={styles.cartItem}>
-        <Image style={styles.image} source={{ uri: assetUrl + props.photo }} />
+        <Image style={styles.image} source={{uri: assetUrl + props.photo}} />
 
         {props.discount && (
           <View style={styles.sileBox}>
@@ -137,20 +133,22 @@ export default function ProductItemCard(props: ProductItemCardProps) {
         </TouchableOpacity>
 
         <View style={styles.cartItemInfo}>
-          <Text style={styles.typeText}>{props?.category?.name || ""}</Text>
-          <Text style={styles.nameText}>{props?.name || ""}</Text>
-          {
-            props.discount ? (
-              <Text style={styles.priceTextSile}>{props.discount ? props.price : discountPrice} UZS</Text>
-            ) : null
-          }
-          <Text style={styles.priceText}>{props.discount ? discountPrice : props.price}UZS</Text>
+          <Text style={styles.typeText}>{props?.category?.name || ''}</Text>
+          <Text style={styles.nameText}>{props?.name || ''}</Text>
+          {props.discount ? (
+            <Text style={styles.priceTextSile}>
+              {props.discount ? props.price : discountPrice} UZS
+            </Text>
+          ) : null}
+          <Text style={styles.priceText}>
+            {props.discount ? discountPrice : props.price}UZS
+          </Text>
         </View>
-        <View style={{ paddingHorizontal: 10 }}>
+        <View style={{paddingHorizontal: 10}}>
           <TouchableOpacity
             style={[
               styles.button,
-              { backgroundColor: isInCart ? '#84A9C0' : '#FFFFFF' },
+              {backgroundColor: isInCart ? '#84A9C0' : '#FFFFFF'},
             ]}
             onPress={onCartPress}>
             {animate ? (
@@ -217,7 +215,7 @@ const styles = StyleSheet.create({
     right: 10,
   },
   cartItemInfo: {
-    height: 100,
+    height: 110,
     paddingHorizontal: 10,
   },
   typeText: {

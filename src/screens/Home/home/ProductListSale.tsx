@@ -10,7 +10,7 @@ import useLoading from '@store/Loader/useLoading';
 
 type ProductListProps = {
   title: string;
-  showDiscount: boolean;
+
   filter?: boolean;
 };
 
@@ -21,7 +21,7 @@ export default function ProductListSale(props: ProductListProps) {
   const getProducts = async () => {
     try {
       loading?.onRun();
-      let res = await requests.sort.getPopular();
+      let res = await requests.sort.getCheap();
       setProducts(res.data.data);
     } catch (error) {
       console.log('product lest', error);
@@ -46,9 +46,7 @@ export default function ProductListSale(props: ProductListProps) {
         horizontal
         showsHorizontalScrollIndicator={false}
         data={products}
-        renderItem={({item}) => (
-          <ProductItemCard showDiscount={true} {...item} />
-        )}
+        renderItem={({item}) => <ProductItemCard {...item} />}
         keyExtractor={item => item.id}
         style={styles.container}
         contentContainerStyle={styles.contentContainerStyle}

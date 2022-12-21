@@ -1,5 +1,5 @@
 import {COLORS} from '../../../../constants/colors';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   View,
@@ -13,12 +13,26 @@ import {
 } from 'react-native';
 import GoBackHeader from '../../../../components/uikit/Header/GoBackHeader';
 import AllProductTitle from '../../../../components/uikit/AllProductTitle';
+import requests from '@api/requests';
 
 export interface BlueButtonProps {
   onPress?: (event: GestureResponderEvent) => void;
 }
 
 const Mypayments = ({onPress}: BlueButtonProps) => {
+  const [state, setState] = useState();
+  const transaction = async () => {
+    try {
+      let res = await requests.profile.getTransaction();
+      setState(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    transaction();
+  }, []);
+
   return (
     <View style={{backgroundColor: '#FFFF', flex: 1}}>
       <View>

@@ -22,9 +22,6 @@ const CatalogProductsScreen = () => {
     try {
       setLoading(true);
       let res = await requests.products.getProducts();
-      console.log('====================================');
-      console.log(res.data.data);
-      console.log('====================================');
 
       setProducts(res.data.data as never);
     } catch (error) {
@@ -85,7 +82,6 @@ const CatalogProductsScreen = () => {
             data={products}
             renderItem={props => <ProductsItem {...props} />}
             numColumns={2}
-            style={styles.container2}
             contentContainerStyle={styles.contentContainerStyle}
           />
         )}
@@ -109,6 +105,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     flexDirection: 'row',
   },
-  container2: {marginBottom: 15},
-  contentContainerStyle: {paddingHorizontal: 10},
+
+  contentContainerStyle: {paddingHorizontal: 10, flexDirection: 'column'},
 });
