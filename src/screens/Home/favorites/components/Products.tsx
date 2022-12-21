@@ -110,7 +110,7 @@ const Products = ({item}: {item: ProductItemResponse}) => {
                 fontSize: 13,
                 color: ' #C8C8C8',
               }}>
-              {category.name}
+              {category?.name ? category.name : ''}
             </Text>
             <Text style={styles.itemName}>{name ? name : ''}</Text>
             {discount ? (
@@ -168,6 +168,7 @@ const styles = StyleSheet.create({
       height: 0,
     },
     borderRadius: 10,
+    alignItems: 'center',
   },
 
   image: {

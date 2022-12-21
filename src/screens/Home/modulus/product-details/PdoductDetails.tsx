@@ -282,8 +282,14 @@ const PdoductDetails = () => {
             </View>
           </View>
           <View style={styles.border}></View>
-          <View style={{flex: 1, paddingHorizontal: 15}}>
-            <Text style={{fontSize: 17, color: '#3F3535', fontWeight: '700'}}>
+          <View style={{flex: 1}}>
+            <Text
+              style={{
+                fontSize: 17,
+                color: '#3F3535',
+                fontWeight: '700',
+                paddingLeft: 15,
+              }}>
               C этим товаром ищут
             </Text>
             <FlatList

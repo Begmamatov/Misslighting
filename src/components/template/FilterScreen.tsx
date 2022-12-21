@@ -17,8 +17,10 @@ import AllProductTitle from '../uikit/AllProductTitle';
 import DefaultButton from '../uikit/DefaultButton';
 import FilterModal from '../uikit/Filter/FilterModal';
 import GoBackHeader from '../uikit/Header/GoBackHeader';
-
-const FilterScren = () => {
+type PropsSort = {
+  setModalVisible?: any;
+};
+const FilterScren = (props: PropsSort) => {
   const [active, setActive] = useState({
     modal1: false,
     modal2: false,
@@ -73,7 +75,6 @@ const FilterScren = () => {
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.white}}>
-      <GoBackHeader />
       <AllProductTitle title={'Фильтры'} />
       <ScrollView style={styles.container}>
         <View>
@@ -87,7 +88,7 @@ const FilterScren = () => {
               <View style={[styles.box_noactive]}>
                 <SelectDropdown
                   data={currency}
-                  onSelect={(selectedItem: any) => {}}
+                  onSelect={() => {}}
                   buttonTextAfterSelection={(selectedItem: any, index: any) => {
                     return selectedItem.name;
                   }}
@@ -376,11 +377,10 @@ const FilterScren = () => {
         </View>
         <View style={styles.button}>
           <DefaultButton
-            title="Показать ( 2 товара )"
-            ButtonStyle={{
-              backgroundColor: '#84A9C0',
-            }}
-            TextStyle={{color: '#ffffff', fontSize: 17}}
+            title={'Применить'}
+            ButtonStyle={{backgroundColor: '#84A9C0'}}
+            TextStyle={{color: COLORS.white}}
+            onPress={() => props.setModalVisible(false)}
           />
         </View>
       </ScrollView>

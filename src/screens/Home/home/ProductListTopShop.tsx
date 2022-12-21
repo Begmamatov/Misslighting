@@ -10,7 +10,6 @@ import useLoading from '@store/Loader/useLoading';
 
 type ProductListProps = {
   title: string;
-  showDiscountAdd?: boolean;
   filter?: boolean;
 };
 
@@ -47,9 +46,7 @@ export default function ProductListTopShop(props: ProductListProps) {
         horizontal
         showsHorizontalScrollIndicator={false}
         data={products}
-        renderItem={({item}) => (
-          <ProductItemCard showDiscountAdd={props.showDiscountAdd} {...item} />
-        )}
+        renderItem={({item}) => <ProductItemCard {...item} />}
         keyExtractor={item => item.id}
         style={styles.container}
         contentContainerStyle={styles.contentContainerStyle}
