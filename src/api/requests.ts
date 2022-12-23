@@ -218,5 +218,8 @@ let requests = {
       axios.post(`${url}/order/send`, credentials),
     getOrders: () => axios.get<BaseResponse<OrderItemResponse>>(`${url}/order`),
   },
+  chat: {
+    postSend: (state: any) => axios.post(`${url}/chat/send`),
+  },
 };
 export default requests;

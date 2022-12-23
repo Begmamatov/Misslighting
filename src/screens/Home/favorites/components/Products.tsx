@@ -169,6 +169,7 @@ const styles = StyleSheet.create({
     },
     borderRadius: 10,
     alignItems: 'center',
+    elevation: 5,
   },
 
   image: {

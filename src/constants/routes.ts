@@ -60,4 +60,5 @@ export const ROUTES = {
   BONUSPROGRAM: 'BonusProgram',
   PERSONALDATE: 'PersonalData',
   PersonalDataChange: 'PersonalDataChange',
+  CHAT: 'Chat',
 };

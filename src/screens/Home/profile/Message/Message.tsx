@@ -2,8 +2,11 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import GoBackHeader from '../../../../components/uikit/Header/GoBackHeader';
 import {COLORS} from '@constants/colors';
+import {useNavigation} from '@react-navigation/native';
+import {ROUTES} from '@constants/routes';
 
 const Message = () => {
+  const navigation = useNavigation();
   return (
     <View style={{flex: 1, backgroundColor: COLORS.white}}>
       <GoBackHeader />
@@ -12,13 +15,11 @@ const Message = () => {
       </View>
       <View
         style={{
-          shadowOffset: {width: -1, height: 4},
-          shadowColor: '#403f3f',
-          shadowOpacity: 0.1,
-          shadowRadius: 3,
           marginTop: 20,
         }}>
-        <TouchableOpacity style={styles.messageCard}>
+        <TouchableOpacity
+          style={styles.messageCard}
+          onPress={() => navigation.navigate(ROUTES.CHAT as never)}>
           <Text style={styles.messageDate}>10.14.2022</Text>
           <Text style={styles.messageTitle}>
             Добрый день. Ваш заказ обработан...
@@ -48,6 +49,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 10,
     backgroundColor: '#fff',
+    shadowOffset: {width: -1, height: 4},
+    shadowColor: '#403f3f',
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 2,
   },
   messageDate: {
     fontSize: 14,
