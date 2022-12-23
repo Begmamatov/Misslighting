@@ -33,6 +33,8 @@ import OrderView from '@home/order/OrderView';
 import MakeRefund from '@components/uikit/MakeRefund';
 import {COLORS} from '@constants/colors';
 import {View} from 'react-native';
+import Chat from '@home/profile/Message/components/Chat';
+// import Chat from '@home/profile/Notification/components/chat';
 
 let Stack = createNativeStackNavigator();
 
@@ -106,6 +108,7 @@ export default function AppRouter() {
               <Stack.Screen name={ROUTES.SEARCH} component={Search} />
               <Stack.Screen name={ROUTES.ORDERVIEW} component={OrderView} />
               <Stack.Screen name={ROUTES.MAKEREFUND} component={MakeRefund} />
+              <Stack.Screen name={ROUTES.CHAT} component={Chat} />
             </>
           )}
         </Stack.Navigator>

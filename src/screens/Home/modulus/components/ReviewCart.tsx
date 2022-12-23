@@ -116,6 +116,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     // paddingBottom: 18,
     marginBottom: 18,
+    elevation: 5,
   },
   img_container: {
     width: 95,
@@ -141,6 +142,7 @@ const styles = StyleSheet.create({
     paddingVertical: 22,
     paddingHorizontal: 11,
     borderRadius: 10,
+    elevation: 5,
   },
   bottom_doc: {
     marginTop: 21,

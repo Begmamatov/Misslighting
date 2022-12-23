@@ -33,8 +33,6 @@ const FavoriteView = () => {
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.white}}>
       <DefaultHeader name={STRINGS.ru.favorites} />
       <ScrollView style={styles.container}>
-        {/* <SelectableMenu /> */}
-        {/* <SelectableItems onPress={toggleModal} headerText={modalText} /> */}
         <View style={{paddingHorizontal: 15}}>
           {favorites?.map((item, index) => (
             <Products item={item} key={index} />

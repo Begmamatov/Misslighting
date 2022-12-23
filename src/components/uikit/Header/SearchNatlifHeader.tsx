@@ -5,21 +5,31 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import React from 'react';
-import {
-  NotificationIcon,
-  SearchIcon,
-} from '../../../assets/icons/icons';
-import { COLORS } from '../../../constants/colors';
-import { STRINGS } from '@locales/strings';
-import { useNavigation } from '@react-navigation/native';
-import { ROUTES } from '@constants/routes';
+import React, {useEffect, useState} from 'react';
+import {NotificationIcon, SearchIcon} from '../../../assets/icons/icons';
+import {COLORS} from '../../../constants/colors';
+import {STRINGS} from '@locales/strings';
+import {useNavigation} from '@react-navigation/native';
+import {ROUTES} from '@constants/routes';
+import requests from '@api/requests';
 interface SearchProps {
   autoFocus?: boolean;
   onChange?: (val: string) => void;
 }
-export default function SearchNatlifHeader({ autoFocus, onChange }: SearchProps) {
+export default function SearchNatlifHeader({autoFocus, onChange}: SearchProps) {
   const navigation = useNavigation();
+  const [state, setState] = useState([]);
+  const notificationHandler = async () => {
+    try {
+      let res = await requests.profile.notificationAll();
+      setState(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    notificationHandler;
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.searchInputBox}>
@@ -32,7 +42,7 @@ export default function SearchNatlifHeader({ autoFocus, onChange }: SearchProps)
           onChangeText={onChange}
           onPressIn={() => navigation.navigate(ROUTES.SEARCH as never)}
         />
-        <SearchIcon fill={'#84A9C0'} style={{ marginRight: 10 }} />
+        <SearchIcon fill={'#84A9C0'} style={{marginRight: 10}} />
       </View>
       <View style={styles.NotificationBox}>
         <TouchableOpacity
@@ -41,9 +51,13 @@ export default function SearchNatlifHeader({ autoFocus, onChange }: SearchProps)
           }>
           <NotificationIcon fill={'#84A9C0'} />
         </TouchableOpacity>
-        <View style={styles.NotificationBoxBadge}>
-          <Text style={styles.NotificationBoxBadgeText}>2</Text>
-        </View>
+        {state.length ? (
+          <View style={styles.NotificationBoxBadge}>
+            <Text style={styles.NotificationBoxBadgeText}>
+              {state.length ? state.length : null}
+            </Text>
+          </View>
+        ) : null}
       </View>
     </View>
   );

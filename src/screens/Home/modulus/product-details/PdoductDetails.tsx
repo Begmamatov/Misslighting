@@ -156,11 +156,27 @@ const PdoductDetails = () => {
         <View style={styles.container}>
           <View style={styles.box1}>
             <Text style={styles.box1_title}>Артикул: 34579</Text>
-            <ProductDetailsButton
-              title={'Нет в наличии'}
-              ButtonStyle={{width: 146, backgroundColor: 'red'}}
-              TextStyle={{color: 'white', fontSize: 15}}
-            />
+            {detailIdValue.status === 0 ? (
+              <ProductDetailsButton
+                title={'Нет в наличии'}
+                ButtonStyle={{width: 146, backgroundColor: 'red'}}
+                TextStyle={{color: 'white', fontSize: 15}}
+              />
+            ) : null}
+            {detailIdValue.status === 1 ? (
+              <ProductDetailsButton
+                title={'В наличии'}
+                ButtonStyle={{width: 146, backgroundColor: '#35A42B'}}
+                TextStyle={{color: 'white', fontSize: 15}}
+              />
+            ) : null}
+            {detailIdValue.status === 2 ? (
+              <ProductDetailsButton
+                title={'Под заказ'}
+                ButtonStyle={{width: 146, backgroundColor: '#729EDB'}}
+                TextStyle={{color: 'white', fontSize: 15}}
+              />
+            ) : null}
           </View>
           <Text style={styles.title}>{detailIdValue.name}</Text>
           <View style={styles.border}></View>
