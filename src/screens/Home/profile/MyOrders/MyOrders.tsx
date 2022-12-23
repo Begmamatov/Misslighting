@@ -1,18 +1,11 @@
-import {
-  Animated,
-  Dimensions,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import React, { useEffect, useState } from 'react';
+import {Animated, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import GoBackHeader from '../../../../components/uikit/Header/GoBackHeader';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 
 import ActiveList from './components/ActiveList';
 import StoryList from './components/StoryList';
-import { COLORS } from '@constants/colors';
+import {COLORS} from '@constants/colors';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -23,86 +16,93 @@ type Props = {
   position: any;
 };
 
-function MyTabBar({ state, descriptors, navigation, position, }: Props) {
+function MyTabBar({state, descriptors, navigation, position}: Props) {
   return (
-    <View style={{ flexDirection: 'row', ...styles.buttonsBox }}>
-      {state.routes.map((route: { key: string | number; name: any; }, index: any) => {
-        const { options } = descriptors[route.key];
-        const label =
-          options.tabBarLabel !== undefined
-            ? options.tabBarLabel
-            : options.title !== undefined
+    <View style={{flexDirection: 'row', ...styles.buttonsBox}}>
+      {state.routes.map(
+        (route: {key: string | number; name: any}, index: any) => {
+          const {options} = descriptors[route.key];
+          const label =
+            options.tabBarLabel !== undefined
+              ? options.tabBarLabel
+              : options.title !== undefined
               ? options.title
               : route.name;
 
-        const isFocused = state.index === index;
+          const isFocused = state.index === index;
 
-        const onPress = () => {
-          const event = navigation.emit({
-            type: 'tabPress',
-            target: route.key,
-            canPreventDefault: true,
-          });
+          const onPress = () => {
+            const event = navigation.emit({
+              type: 'tabPress',
+              target: route.key,
+              canPreventDefault: true,
+            });
 
-          if (!isFocused && !event.defaultPrevented) {
-            // The `merge: true` option makes sure that the params inside the tab screen are preserved
-            navigation.navigate({ name: route.name, merge: true });
-          }
-        };
+            if (!isFocused && !event.defaultPrevented) {
+              // The `merge: true` option makes sure that the params inside the tab screen are preserved
+              navigation.navigate({name: route.name, merge: true});
+            }
+          };
 
-        const onLongPress = () => {
-          navigation.emit({
-            type: 'tabLongPress',
-            target: route.key,
-          });
-        };
+          const onLongPress = () => {
+            navigation.emit({
+              type: 'tabLongPress',
+              target: route.key,
+            });
+          };
 
-        return (
-          <TouchableOpacity
-            accessibilityRole="button"
-            accessibilityState={isFocused ? { selected: true } : {}}
-            accessibilityLabel={options.tabBarAccessibilityLabel}
-            testID={options.tabBarTestID}
-            key={route.key}
-            onPress={onPress}
-            onLongPress={onLongPress}
-            style={{
-              height: 55,
-              borderRadius: 45,
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginBottom: 25,
-              backgroundColor: isFocused ? COLORS.activeButtonBgColor : COLORS.noActiveButtonBgColor2,
-              width: '50%',
-            }}
-          >
-            <Animated.Text style={{
-              color: isFocused ? COLORS.white : COLORS.noActiveButtonTextColor,
-              fontSize: 14,
-              fontWeight: '700',
-            }}>
-              {label}
-            </Animated.Text>
-          </TouchableOpacity>
-        );
-      })}
+          return (
+            <TouchableOpacity
+              accessibilityRole="button"
+              accessibilityState={isFocused ? {selected: true} : {}}
+              accessibilityLabel={options.tabBarAccessibilityLabel}
+              testID={options.tabBarTestID}
+              key={route.key}
+              onPress={onPress}
+              onLongPress={onLongPress}
+              style={{
+                height: 55,
+                borderRadius: 45,
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginBottom: 25,
+                backgroundColor: isFocused
+                  ? COLORS.activeButtonBgColor
+                  : COLORS.noActiveButtonBgColor2,
+                width: '50%',
+              }}>
+              <Animated.Text
+                style={{
+                  color: isFocused
+                    ? COLORS.white
+                    : COLORS.noActiveButtonTextColor,
+                  fontSize: 14,
+                  fontWeight: '700',
+                }}>
+                {label}
+              </Animated.Text>
+            </TouchableOpacity>
+          );
+        },
+      )}
     </View>
   );
 }
 
 const MyOrders = () => {
   return (
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
+    <View style={{flex: 1, backgroundColor: '#FFFFFF'}}>
       <GoBackHeader />
       <View style={styles.header}>
         <Text style={styles.HeaderText}>Мои заказы</Text>
       </View>
 
-      <Tab.Navigator tabBar={(props) =>
-        <View style={{ position: 'relative', paddingHorizontal: 15 }}>
-          <MyTabBar {...props} />
-        </View>
-      }>
+      <Tab.Navigator
+        tabBar={props => (
+          <View style={{position: 'relative', paddingHorizontal: 15}}>
+            <MyTabBar {...props} />
+          </View>
+        )}>
         <Tab.Screen name="Активные" component={ActiveList} />
         <Tab.Screen name="История" component={StoryList} />
       </Tab.Navigator>
@@ -221,22 +221,3 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
 });
-{
-  /* <View style={styles.switchBtns}>
-        <TouchableOpacity
-          style={[
-            styles.position,
-            {left: state ? 0 : '50%'},
-          ]}></TouchableOpacity>
-        <TouchableOpacity style={{zIndex: 100}} onPress={ActiveHandler}>
-          <Text style={[styles.textActive, {color: state ? '#fff' : '#777'}]}>
-            Активные
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={{zIndex: 100}} onPress={StoryHandler}>
-          <Text style={[styles.textNoActive, {color: state ? '#777' : '#fff'}]}>
-            История
-          </Text>
-        </TouchableOpacity>
-      </View> */
-}

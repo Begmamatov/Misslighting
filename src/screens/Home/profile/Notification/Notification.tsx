@@ -8,7 +8,6 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import requests from '@api/requests';
 const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const Notification = () => {
-  const navigation = useNavigation();
   const {params} = useRoute();
   const [state, setState] = useState();
   const notificationHandler = async () => {
@@ -22,9 +21,7 @@ const Notification = () => {
   useEffect(() => {
     notificationHandler;
   }, []);
-  console.log('==============notificationHandler======================');
-  console.log('notificationHandler', JSON.stringify(state, null, 2));
-  console.log('===============notificationHandler=====================');
+
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.white}}>
       <GoBackHeader />

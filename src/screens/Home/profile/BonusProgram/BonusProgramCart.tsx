@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
     marginTop: 12,
     paddingVertical: 18,
     paddingHorizontal: 18,
+    elevation: 5,
   },
   cart: {
     flexDirection: 'row',

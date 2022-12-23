@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
     marginBottom: 18,
     marginHorizontal: 15,
     marginTop: 39,
+    elevation: 5,
   },
   imge_box: {
     width: 91,
