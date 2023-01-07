@@ -1,24 +1,24 @@
-import {Alert, StyleSheet, Text, TouchableOpacity} from 'react-native';
-import React, {useState} from 'react';
+import { Alert, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
 import WelcomeScreen from '@components/template/WelcomeScreen';
 import DefaultInput from '@components/uikit/TextInput';
 import DefaultButton from '@components/uikit/DefaultButton';
-import {ROUTES} from '@constants/routes';
-import {useNavigation} from '@react-navigation/native';
-import {useAppDispatch} from '@store/hooks';
-import {LoginState} from '@api/types';
-import {validatePhoneNumber} from '@constants/validation';
+import { ROUTES } from '@constants/routes';
+import { useNavigation } from '@react-navigation/native';
+import { useAppDispatch } from '@store/hooks';
+import { LoginState } from '@api/types';
+import { validatePhoneNumber } from '@constants/validation';
 import requests from '@api/requests';
-import {userLoggedIn} from '@store/slices/userSlice';
-import {COLORS} from '@constants/colors';
+import { userLoggedIn } from '@store/slices/userSlice';
+import { COLORS } from '@constants/colors';
 import DefaultInputEye from '@components/uikit/DefaultInputEye';
 
 export default function Login(props: any) {
   let navigation = useNavigation();
   let dispatch = useAppDispatch();
   const [state, setState] = useState<LoginState>({
-    password: '300521',
-    phone: '+998901951625',
+    password: '300521', //300521
+    phone: '+998901951625', //+998901951625
   });
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -39,7 +39,7 @@ export default function Login(props: any) {
   };
 
   let onStateChange = (key: string) => (value: string) => {
-    setState({...state, [key]: value});
+    setState({ ...state, [key]: value });
   };
 
   const onPressRegister = () => {
@@ -73,7 +73,7 @@ export default function Login(props: any) {
       <TouchableOpacity
         onPress={onPressForgotPassword}
         style={styles.forgotPassword}
-        hitSlop={{left: 20, right: 20, bottom: 20, top: 20}}>
+        hitSlop={{ left: 20, right: 20, bottom: 20, top: 20 }}>
         <Text style={styles.text}>Забыли пароль?</Text>
       </TouchableOpacity>
       <DefaultButton

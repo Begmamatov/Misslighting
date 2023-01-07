@@ -95,9 +95,10 @@ export default function SingUpScreen() {
   return (
     <SingUpTemplate>
       <SectionTitle title="Регистрация" marginBottom={36} />
-      <View style={{ width: '100%', height: height }}>
+      <View style={{ width: '100%', height: height, backgroundColor: '#fff', }}>
         <Tab.Navigator
           tabBar={(props) => <MyTabBar {...props} setHeight={setHeight} />}
+          sceneContainerStyle={{ backgroundColor: '#fff' }}
         >
           <Tab.Screen name={ROUTES.SIGNUPPHYSCIAL} component={SignUpPhysical} options={{
             tabBarLabel: 'Физическое лицо',
