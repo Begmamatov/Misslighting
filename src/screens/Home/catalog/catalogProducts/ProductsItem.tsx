@@ -9,18 +9,18 @@ import {
   TouchableWithoutFeedback,
   Alert,
 } from 'react-native';
-import React, {ReactElement, useState} from 'react';
-import {COLORS} from '../../../../constants/colors';
-import requests, {appendUrl, assetUrl} from '@api/requests';
-import {useAppSelector} from '@store/hooks';
-import {cartSelector, loadCart} from '@store/slices/cartSlice';
-import {useDispatch} from 'react-redux';
-import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
-import {toggleLoading} from '@store/slices/appSettings';
-import {ProductItemResponse} from '@api/types';
-import {useNavigation} from '@react-navigation/native';
-import {BasketIcon, HeartIconActive, HeartIconNotActive} from '@icons/icons';
-import {STRINGS} from '@locales/strings';
+import React, { ReactElement, useState } from 'react';
+import { COLORS } from '../../../../constants/colors';
+import requests, { appendUrl, assetUrl } from '@api/requests';
+import { useAppSelector } from '@store/hooks';
+import { cartSelector, loadCart } from '@store/slices/cartSlice';
+import { useDispatch } from 'react-redux';
+import { favoriteSelector, loadFavorite } from '@store/slices/favoriteSlice';
+import { toggleLoading } from '@store/slices/appSettings';
+import { ProductItemResponse } from '@api/types';
+import { useNavigation } from '@react-navigation/native';
+import { BasketIcon, HeartIconActive, HeartIconNotActive } from '@icons/icons';
+import { STRINGS } from '@locales/strings';
 
 interface Props {
   showNewProduct?: boolean;
@@ -35,7 +35,7 @@ const ProductsItem = ({
 }: ListRenderItemInfo<ProductItemResponse> & {
   getProducts?: () => void;
 } & Props): ReactElement => {
-  let {photo, brand, category, name, price, discount, id, isFavorite} = item;
+  let { photo, brand, category, name, price, discount, id, isFavorite } = item;
   console.log('item', item);
 
   const dispatch = useDispatch();
@@ -104,9 +104,9 @@ const ProductsItem = ({
       style={styles.cartItem}
       onPress={() => {
         //@ts-ignore
-        navigation.navigate(ROUTES.PRODUCT_DETAILS, {item, id});
+        navigation.navigate(ROUTES.PRODUCT_DETAILS, { item, id });
       }}>
-      <Image style={styles.image} source={{uri: appendUrl(photo)}} />
+      <Image style={styles.image} source={{ uri: appendUrl(photo) }} />
       {discount ? (
         <View style={styles.sileBox}>
           <Text style={styles.sileText}>10%</Text>
@@ -127,7 +127,7 @@ const ProductsItem = ({
       </TouchableOpacity>
 
       <View style={styles.cartItemInfo}>
-        <Text style={styles.typeText}>{category.name || ''}</Text>
+        <Text style={styles.typeText}>{category?.name || ''}</Text>
         <Text style={styles.nameText}>{name || ''}</Text>
         {discount ? (
           <Text style={styles.priceTextSile}>{discountPrice} UZS</Text>
@@ -136,7 +136,7 @@ const ProductsItem = ({
         <TouchableOpacity
           style={[
             styles.button,
-            {backgroundColor: isInCart ? '#84A9C0' : '#FFFFFF'},
+            { backgroundColor: isInCart ? '#84A9C0' : '#FFFFFF' },
           ]}
           onPress={onCartPress}>
           {animate ? (

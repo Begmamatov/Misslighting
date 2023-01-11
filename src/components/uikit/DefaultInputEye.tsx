@@ -1,7 +1,7 @@
-import {COLORS} from '@constants/colors';
-import {WINDOW_WIDTH} from '@constants/sizes';
-import {EyeIcon, OpenedEyeIcon} from '@icons/icons';
-import React, {useState} from 'react';
+import { COLORS } from '@constants/colors';
+import { WINDOW_WIDTH } from '@constants/sizes';
+import { EyeIcon, OpenedEyeIcon } from '@icons/icons';
+import React, { useState } from 'react';
 import {
   StyleProp,
   StyleSheet,
@@ -20,46 +20,46 @@ export interface DefaultInputProps {
   containerStyle?: ViewStyle;
   inputStyle?: string;
   textContentType?:
-    | 'none'
-    | 'URL'
-    | 'addressCity'
-    | 'addressCityAndState'
-    | 'addressState'
-    | 'countryName'
-    | 'creditCardNumber'
-    | 'emailAddress'
-    | 'familyName'
-    | 'fullStreetAddress'
-    | 'givenName'
-    | 'jobTitle'
-    | 'location'
-    | 'middleName'
-    | 'name'
-    | 'namePrefix'
-    | 'nameSuffix'
-    | 'nickname'
-    | 'organizationName'
-    | 'postalCode'
-    | 'streetAddressLine1'
-    | 'streetAddressLine2'
-    | 'sublocality'
-    | 'telephoneNumber'
-    | 'username'
-    | 'password'
-    | 'newPassword'
-    | 'oneTimeCode'
-    | undefined;
+  | 'none'
+  | 'URL'
+  | 'addressCity'
+  | 'addressCityAndState'
+  | 'addressState'
+  | 'countryName'
+  | 'creditCardNumber'
+  | 'emailAddress'
+  | 'familyName'
+  | 'fullStreetAddress'
+  | 'givenName'
+  | 'jobTitle'
+  | 'location'
+  | 'middleName'
+  | 'name'
+  | 'namePrefix'
+  | 'nameSuffix'
+  | 'nickname'
+  | 'organizationName'
+  | 'postalCode'
+  | 'streetAddressLine1'
+  | 'streetAddressLine2'
+  | 'sublocality'
+  | 'telephoneNumber'
+  | 'username'
+  | 'password'
+  | 'newPassword'
+  | 'oneTimeCode'
+  | undefined;
   secureText?: boolean | undefined;
   onChange?: (val: string) => void;
   onFocus?: () => void;
   value?: string;
   keyboardType?:
-    | 'default'
-    | 'number-pad'
-    | 'decimal-pad'
-    | 'numeric'
-    | 'email-address'
-    | 'phone-pad';
+  | 'default'
+  | 'number-pad'
+  | 'decimal-pad'
+  | 'numeric'
+  | 'email-address'
+  | 'phone-pad';
   label?: string;
   defaultValue?: any;
   backgroundColor?: string;
@@ -91,7 +91,7 @@ const DefaultInputEye = ({
       <View
         style={[
           styles.eyeBox,
-          {backgroundColor: backgroundColor ? backgroundColor : '#E3E3E3 '},
+          { backgroundColor: backgroundColor ? backgroundColor : '#E3E3E3 ' },
         ]}>
         <TextInput
           textContentType={textContentType}
@@ -113,11 +113,11 @@ const DefaultInputEye = ({
         />
         <TouchableOpacity
           onPress={() => setIsOpen(!isOpen)}
-          hitSlop={{left: 20, right: 20, bottom: 20, top: 20}}>
+          hitSlop={{ left: 20, right: 20, bottom: 20, top: 20 }}>
           {isOpen == true ? (
-            <EyeIcon fill={'#000000'} />
+            <EyeIcon fill={COLORS.labelText} />
           ) : (
-            <OpenedEyeIcon fill={'#000000'} />
+            <OpenedEyeIcon fill={COLORS.labelText} />
           )}
         </TouchableOpacity>
       </View>
