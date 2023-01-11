@@ -3,15 +3,15 @@ import CheckBox from '../../../components/uikit/CheckBox';
 import DefaultButton from '../../../components/uikit/DefaultButton';
 import SectionTitle from '../../../components/uikit/SectionTitle';
 import DefaultInput from '../../../components/uikit/TextInput';
-import {COLORS} from '../../../constants/colors';
-import React, {useState} from 'react';
-import {ScrollView} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {ROUTES} from '../../../constants/routes';
+import { COLORS } from '../../../constants/colors';
+import React, { useState } from 'react';
+import { ScrollView, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { ROUTES } from '../../../constants/routes';
 
 import moment from 'moment';
 import useRegisterHook from './hooks';
-import {STRINGS} from '@locales/strings';
+import { STRINGS } from '@locales/strings';
 import DefaultInputEye from '@components/uikit/DefaultInputEye';
 
 // export interface RegisterStatePyhsical {
@@ -38,9 +38,8 @@ export default function SignUpPhysical() {
   // const formatDate = (date: Date) => setState({ ...state, birthday: moment(date).format('DD.MM.YYYY') })
 
   return (
-    <ScrollView
-      style={{backgroundColor: COLORS.white}}
-      showsVerticalScrollIndicator={false}>
+    <View
+      style={{ backgroundColor: COLORS.white }}>
       <DefaultInput
         placeholder="Ваш номер"
         label="Номер телефона"
@@ -67,6 +66,8 @@ export default function SignUpPhysical() {
         inputStyle={COLORS.noActiveButtonBgColor2}
         color={COLORS.gray}
         placeholderColor={COLORS.gray}
+        onChange={onStateChange('password')}
+        value={state.password}
       />
 
       {/* <DefaultInput
@@ -118,9 +119,9 @@ export default function SignUpPhysical() {
           backgroundColor: COLORS.activeButtonBgColor,
           width: '100%',
         }}
-        TextStyle={{color: COLORS.white}}
+        TextStyle={{ color: COLORS.white }}
         loading={loading}
       />
-    </ScrollView>
+    </View>
   );
 }

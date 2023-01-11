@@ -23,6 +23,7 @@ import {RegisterState} from '@auth/signup/hooks';
 
 export let url = 'https://miss.nolikvid.uz/api';
 export let assetUrl = 'https://miss.nolikvid.uz';
+
 axios.interceptors.request.use(config => {
   let token = store.getState().user.token;
   console.log('token----', token);

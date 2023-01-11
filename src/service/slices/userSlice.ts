@@ -27,7 +27,7 @@ const userSlice = createSlice({
     userLoggedOut: () => {
       return initialState;
     },
-    userRegistered: (state: any, acion: PayloadAction<RegisterResponse>) => {
+    userRegistered: (state: any, acion: any) => {
       return acion.payload;
     },
   },

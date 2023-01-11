@@ -7,30 +7,31 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import Carousel, {Pagination} from 'react-native-snap-carousel';
+import React, { useEffect, useRef, useState } from 'react';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import Carousel, { Pagination } from 'react-native-snap-carousel';
 import ProductDetailsButton from '../components/productDetailsButton';
 import DefaultButton from '../../../../components/uikit/DefaultButton';
-import {COLORS} from '../../../../constants/colors';
-import {styles} from './style';
+import { COLORS } from '../../../../constants/colors';
+import { styles } from './style';
 import Description from '../components/Description';
 import Characteristics from '../components/Characteristics';
 import AllProductItemCard from '../../home/allProducts/AllProductItemCard';
-import {ROUTES} from '../../../../constants/routes';
+import { ROUTES } from '../../../../constants/routes';
 import {
   HeartIconActive,
   HeartIconNotActive,
   LeftArrowIcon,
 } from '../../../../assets/icons/icons';
-import requests, {assetUrl} from '@api/requests';
-import {useAppSelector} from '@store/hooks';
-import {cartSelector} from '@store/slices/cartSlice';
-import {useDispatch} from 'react-redux';
-import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
-import {toggleLoading} from '@store/slices/appSettings';
+import requests, { assetUrl } from '@api/requests';
+import { useAppSelector } from '@store/hooks';
+import { cartSelector } from '@store/slices/cartSlice';
+import { useDispatch } from 'react-redux';
+import { favoriteSelector, loadFavorite } from '@store/slices/favoriteSlice';
+import { toggleLoading } from '@store/slices/appSettings';
 import FilterModal from '../../../../components/uikit/Filter/FilterModal';
-import {Rating} from 'react-native-ratings';
+import { Rating } from 'react-native-ratings';
+import { LinearGradient, Rect, Stop, Svg } from 'react-native-svg';
 
 const PdoductDetails = () => {
   const [active, setActive] = useState({
@@ -44,10 +45,10 @@ const PdoductDetails = () => {
   const navigation = useNavigation();
 
   const onPress = () => {
-    setActive({...active, value1: !active.value1});
+    setActive({ ...active, value1: !active.value1 });
   };
   const onPress2 = () => {
-    setActive({...active, value2: !active.value2});
+    setActive({ ...active, value2: !active.value2 });
   };
   const width = Dimensions.get('window').width;
   const isCorusel = useRef(null);
@@ -99,38 +100,70 @@ const PdoductDetails = () => {
     try {
       let res = await requests.brands.getBrands(id);
       setBrands(res.data.data.data);
-    } catch (error) {}
+    } catch (error) { }
   };
   useEffect(() => {
     getDetailId();
     getProducts();
     getBrands();
   }, [id]);
-  console.log('=================detailIdValue===================');
-  console.log(JSON.stringify(detailIdValue, null, 2));
-  console.log('=================detailIdValue===================');
-  return (
-    <View style={{backgroundColor: COLORS.white}}>
-      <View style={styles.goBack}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <LeftArrowIcon />
-        </TouchableOpacity>
 
-        <TouchableOpacity onPress={onAddFavorite} style={styles.icons}>
-          {isFav ? <HeartIconActive /> : <HeartIconNotActive />}
-        </TouchableOpacity>
+  return (
+    <View style={{ backgroundColor: COLORS.tabBgColor, zIndex: 0 }}>
+      <View style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        backgroundColor: 'transparent',
+        zIndex: 2,
+        width: '100%',
+        height: 100,
+      }}>
+        <Svg height="100" width="100%" viewBox={`0 0 ${width} 100`} style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          backgroundColor: 'transparent',
+        }}>
+          <LinearGradient
+            id="grad"
+            x1="0"
+            y1="0"
+            x2="0"
+            y2="1"
+          >
+            <Stop offset="0%" stopColor="#000000" stopOpacity="0.84" />
+            <Stop offset="100%" stopColor='#000000' stopOpacity="0.00" />
+          </LinearGradient>
+          <Rect
+            x="0"
+            y="0"
+            width="100%"
+            height="100%"
+            fill="url(#grad)"
+          />
+        </Svg>
+        <View style={styles.goBack}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <LeftArrowIcon />
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={onAddFavorite} style={[styles.icons]}>
+            {isFav ? <HeartIconActive /> : <HeartIconNotActive />}
+          </TouchableOpacity>
+        </View>
       </View>
-      <ScrollView style={{zIndex: 1}}>
-        <View style={{width: '100%', position: 'relative', minHeight: 346}}>
+      <ScrollView style={{ zIndex: 0 }}>
+        <View style={{ width: '100%', position: 'relative', minHeight: 346 }}>
           <Carousel
             ref={isCorusel}
             data={detailIdValue.gallery}
-            renderItem={({item}) => {
+            renderItem={({ item }) => {
               return (
-                <View style={{width: '100%', height: 346}}>
+                <View style={{ width: '100%', height: 346 }}>
                   <Image
-                    style={{width: '100%', height: '100%'}}
-                    source={{uri: assetUrl + item}}
+                    style={{ width: '100%', height: '100%' }}
+                    source={{ uri: assetUrl + item }}
                   />
                 </View>
               );
@@ -159,22 +192,22 @@ const PdoductDetails = () => {
             {detailIdValue.status === 0 ? (
               <ProductDetailsButton
                 title={'Нет в наличии'}
-                ButtonStyle={{width: 146, backgroundColor: 'red'}}
-                TextStyle={{color: 'white', fontSize: 15}}
+                ButtonStyle={{ width: 146, backgroundColor: 'red' }}
+                TextStyle={{ color: 'white', fontSize: 15 }}
               />
             ) : null}
             {detailIdValue.status === 1 ? (
               <ProductDetailsButton
                 title={'В наличии'}
-                ButtonStyle={{width: 146, backgroundColor: '#35A42B'}}
-                TextStyle={{color: 'white', fontSize: 15}}
+                ButtonStyle={{ width: 146, backgroundColor: '#35A42B' }}
+                TextStyle={{ color: 'white', fontSize: 15 }}
               />
             ) : null}
             {detailIdValue.status === 2 ? (
               <ProductDetailsButton
                 title={'Под заказ'}
-                ButtonStyle={{width: 146, backgroundColor: '#729EDB'}}
-                TextStyle={{color: 'white', fontSize: 15}}
+                ButtonStyle={{ width: 146, backgroundColor: '#729EDB' }}
+                TextStyle={{ color: 'white', fontSize: 15 }}
               />
             ) : null}
           </View>
@@ -191,8 +224,8 @@ const PdoductDetails = () => {
             <Text style={styles.box3_title}>Магазин</Text>
             <ProductDetailsButton
               title={'Название'}
-              ButtonStyle={{width: 146, backgroundColor: '#E6E8E9'}}
-              TextStyle={{color: 'black', fontSize: 15}}
+              ButtonStyle={{ width: 146, backgroundColor: '#E6E8E9' }}
+              TextStyle={{ color: 'black', fontSize: 15 }}
             />
           </View>
           <View style={styles.border}></View>
@@ -201,11 +234,11 @@ const PdoductDetails = () => {
             <View style={styles.box4_content}>
               <Text style={styles.content_title}>Цвет:</Text>
               <FlatList
-                style={{marginTop: 18}}
+                style={{ marginTop: 18 }}
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 data={detailIdValue.productColors}
-                renderItem={({item}) => (
+                renderItem={({ item }) => (
                   <TouchableOpacity
                     onPress={() => setColorActive(item.id)}
                     style={[
@@ -286,19 +319,19 @@ const PdoductDetails = () => {
           </TouchableOpacity>
           <View style={styles.border}></View>
           <View style={styles.box6}>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Text style={styles.brend}>Бренд:</Text>
               <Text style={styles.chiaro}> {brands?.name}</Text>
             </View>
             <View>
               <Image
-                style={{width: 80, height: 30}}
-                source={{uri: assetUrl + brands?.photo}}
+                style={{ width: 80, height: 30 }}
+                source={{ uri: assetUrl + brands?.photo }}
               />
             </View>
           </View>
           <View style={styles.border}></View>
-          <View style={{flex: 1}}>
+          <View style={{ flex: 1 }}>
             <Text
               style={{
                 fontSize: 17,
@@ -309,10 +342,10 @@ const PdoductDetails = () => {
               C этим товаром ищут
             </Text>
             <FlatList
-              style={{marginTop: 20}}
+              style={{ marginTop: 20 }}
               showsVerticalScrollIndicator={false}
               data={products}
-              renderItem={({item}) => <AllProductItemCard {...item} />}
+              renderItem={({ item }) => <AllProductItemCard {...item} />}
               numColumns={2}
               contentContainerStyle={styles.contentContainerStyle}
               keyExtractor={item => item.id}
@@ -321,13 +354,13 @@ const PdoductDetails = () => {
           <View style={styles.button}>
             <DefaultButton
               title={'Уведомить о наличии'}
-              ButtonStyle={{backgroundColor: '#84A9C0'}}
-              TextStyle={{color: 'white'}}
+              ButtonStyle={{ backgroundColor: '#84A9C0' }}
+              TextStyle={{ color: 'white' }}
             />
             <DefaultButton
               title={'Связаться с продавцом'}
-              ButtonStyle={{borderWidth: 1, borderColor: '#84A9C0'}}
-              TextStyle={{color: '#84A9C0'}}
+              ButtonStyle={{ borderWidth: 1, borderColor: '#84A9C0' }}
+              TextStyle={{ color: '#84A9C0' }}
             />
           </View>
         </View>

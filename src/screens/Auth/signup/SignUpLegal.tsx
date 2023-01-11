@@ -4,8 +4,8 @@ import DefaultButton from '../../../components/uikit/DefaultButton';
 import { COLORS } from '../../../constants/colors';
 import DefaultInput from '../../../components/uikit/TextInput';
 import CheckBox from '../../../components/uikit/CheckBox';
-import { useNavigation } from '@react-navigation/native';
 import useRegisterHook from './hooks';
+import DefaultInputEye from '@components/uikit/DefaultInputEye';
 
 export default function SignUpLegal() {
 
@@ -19,7 +19,7 @@ export default function SignUpLegal() {
   } = useRegisterHook();
 
   return (
-    <ScrollView style={{ backgroundColor: COLORS.white }} showsVerticalScrollIndicator={false}>
+    <View style={{ backgroundColor: COLORS.white }}>
       <DefaultInput
         placeholder=""
         label="Расчетный счет"
@@ -89,8 +89,8 @@ export default function SignUpLegal() {
         backgroundColor={COLORS.noActiveButtonBgColor2}
         placeholderColor={COLORS.labelText}
         marginBottom={0}
-        onChangeText={onStateChange('okohx')}
-        value={state.okohx}
+        onChangeText={onStateChange('mfo')}
+        value={state.mfo}
       />
       <DefaultInput
         placeholder=""
@@ -103,12 +103,22 @@ export default function SignUpLegal() {
       />
       <DefaultInput
         placeholder=""
-        label="Введите пароль"
+        label="Телефон"
         backgroundColor={COLORS.noActiveButtonBgColor2}
         placeholderColor={COLORS.labelText}
         marginBottom={0}
-        onChangeText={onStateChange('name')}
-        value={state.name}
+        onChangeText={onStateChange('phone')}
+        value={state.phone}
+      />
+      <DefaultInputEye
+        label="Введите пароль"
+        placeholder=""
+        backgroundColor={COLORS.noActiveButtonBgColor2}
+        inputStyle={COLORS.noActiveButtonBgColor2}
+        color={COLORS.gray}
+        placeholderColor={COLORS.labelText}
+        onChange={onStateChange('password')}
+        value={state.password}
       />
       {/* <DefaultInput
         placeholder=""
@@ -128,15 +138,6 @@ export default function SignUpLegal() {
         onChangeText={onStateChange('middleName')}
         value={state.middleName}
       /> */}
-      <DefaultInput
-        placeholder=""
-        label="Телефон"
-        backgroundColor={COLORS.noActiveButtonBgColor2}
-        placeholderColor={COLORS.labelText}
-        marginBottom={0}
-        onChangeText={onStateChange('phone')}
-        value={state.phone}
-      />
       {/* <DefaultInput
         placeholder=""
         label="Дата рождения"
@@ -171,6 +172,6 @@ export default function SignUpLegal() {
         }}
         TextStyle={{ color: COLORS.white }}
       />
-    </ScrollView>
+    </View>
   );
 }

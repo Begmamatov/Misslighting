@@ -170,8 +170,10 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    top: 10,
-    zIndex: 2,
+    top: 0,
+    paddingVertical: 10,
+    backgroundColor: 'transparent',
+    zIndex: 4,
   },
   icons: {
     width: 50,
