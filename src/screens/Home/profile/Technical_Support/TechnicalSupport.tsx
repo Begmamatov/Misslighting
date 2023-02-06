@@ -1,8 +1,17 @@
-import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+  Alert,
+  Linking,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import GoBackHeader from '../../../../components/uikit/Header/GoBackHeader';
 import AllProductTitle from '../../../../components/uikit/AllProductTitle';
-import { COLORS } from '../../../../constants/colors';
+import {COLORS} from '../../../../constants/colors';
 import DefaultButton from '../../../../components/uikit/DefaultButton';
 import {
   FaceBookIconProduct,
@@ -11,6 +20,7 @@ import {
   WhatsapIconProduct,
 } from '../../../../assets/icons/icons';
 import SelectDropdown from 'react-native-select-dropdown';
+import requests from '@api/requests';
 
 const dataTheme = [
   {
@@ -28,7 +38,6 @@ const dataTheme = [
 ];
 
 const TechnicalSupport = () => {
-
   const [state, setState] = React.useState({
     theme: '1',
     message: '',
@@ -41,12 +50,29 @@ const TechnicalSupport = () => {
     });
   };
 
+  const MessegeSende = async () => {
+    try {
+      let res = await requests.chat.postSend(state);
+      const data = res.data.data;
+      !!data && Alert.alert('', `Спасибо, ваше письмо успешно отправлено`);
+      console.log(JSON.stringify(res.data.data, null, 2));
+      setState({
+        theme: '',
+        message: '',
+      });
+    } catch (error) {
+      console.log('====================================');
+      console.log(error);
+      console.log('====================================');
+    }
+  };
+
   return (
-    <View style={{ flex: 1, backgroundColor: COLORS.white }}>
+    <View style={{flex: 1, backgroundColor: COLORS.white}}>
       <GoBackHeader />
       <AllProductTitle title="Поддержка" color={true} />
       <ScrollView style={styles.container}>
-        <Text
+        {/* <Text
           style={{
             fontSize: 16,
             fontWeight: '600',
@@ -72,6 +98,7 @@ const TechnicalSupport = () => {
             buttonTextStyle={{
               color: '#3F3535',
               fontSize: 16,
+              textAlign: 'left',
             }}
             renderDropdownIcon={() => {
               return <NewTopArrowIcon2 />;
@@ -81,15 +108,15 @@ const TechnicalSupport = () => {
               color: '#3F3535',
               fontSize: 16,
             }}
-            defaultButtonText='Выберите тему'
+            defaultButtonText="Выберите тему"
           />
-        </View>
+        </View> */}
         <Text
           style={{
             fontSize: 16,
             fontWeight: '500',
             color: '#757575',
-            marginTop: 10,
+            marginTop: 20,
             marginBottom: 20,
           }}>
           Сообщение
@@ -103,7 +130,7 @@ const TechnicalSupport = () => {
           onChangeText={text => onStateChange('message', text)}
           value={state.message}
         />
-        <View style={{ paddingHorizontal: 23 }}>
+        <View style={{paddingHorizontal: 23}}>
           <DefaultButton
             title="Отправить"
             ButtonStyle={{
@@ -111,7 +138,8 @@ const TechnicalSupport = () => {
               marginTop: 44,
               marginBotton: 44,
             }}
-            TextStyle={{ color: COLORS.white, fontSize: 17 }}
+            TextStyle={{color: COLORS.white, fontSize: 17}}
+            onPress={MessegeSende}
           />
         </View>
         <Text
@@ -132,9 +160,24 @@ const TechnicalSupport = () => {
             marginTop: 22,
             marginBottom: 130,
           }}>
-          <TelegramIconProduct />
-          <FaceBookIconProduct />
-          <WhatsapIconProduct />
+          <TouchableOpacity
+            onPress={() => {
+              Linking.openURL('https://xn--80affa3aj0al.xn--80asehdb/');
+            }}>
+            <TelegramIconProduct />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              Linking.openURL('https://www.facebook.com/');
+            }}>
+            <FaceBookIconProduct />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              Linking.openURL('https://www.whatsapp.com/');
+            }}>
+            <WhatsapIconProduct />
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </View>
@@ -154,7 +197,7 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: '#FAFAFA',
-    minHeight: 140,
+    minHeight: 80,
     borderRadius: 20,
     color: COLORS.defaultBlack,
     padding: 20,
@@ -169,5 +212,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#FAFAFA',
     marginTop: 15,
     marginBottom: 15,
-  }
+  },
 });

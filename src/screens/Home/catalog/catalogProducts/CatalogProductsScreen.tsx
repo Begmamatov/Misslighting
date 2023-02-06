@@ -1,18 +1,31 @@
-import {View, SafeAreaView, FlatList, StyleSheet} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {useRoute} from '@react-navigation/native';
+import requests from '@api/requests';
+import {ProductItemResponse} from '@api/types';
+import FilterScren from '@components/template/FilterScreen';
 import GoBackHeader from '@components/uikit/Header/GoBackHeader';
-import AllProductTitle from '@components/uikit/AllProductTitle';
+import LoadingModal from '@components/uikit/LoadingModal/LoadingModal';
+import SortView from '@components/uikit/Sort/SortView';
 import SortAndFilter from '@components/uikit/SortAndFilter';
 import {COLORS} from '@constants/colors';
-import {ProductItemResponse} from '@api/types';
-import requests from '@api/requests';
+import {useRoute} from '@react-navigation/native';
+import React, {useEffect, useState} from 'react';
+import {
+  FlatList,
+  Modal,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import ProductsItem from './ProductsItem';
-import LoadingModal from '@components/uikit/LoadingModal/LoadingModal';
+import AllProductTitle from '@components/uikit/AllProductTitle';
 
 const CatalogProductsScreen = () => {
   const [products, setProducts] = useState<ProductItemResponse[]>();
   const [loading, setLoading] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalFilter, setModalFilter] = useState('');
+  const [modalSort, setModalSort] = useState('');
+  const [newValyu, setNewValyu] = useState<any>();
 
   let {
     params: {id, name, type},
@@ -21,8 +34,7 @@ const CatalogProductsScreen = () => {
   let effect = async () => {
     try {
       setLoading(true);
-      let res = await requests.products.getProducts();
-
+      let res = await requests.products.getProductsWithID(id);
       setProducts(res.data.data as never);
     } catch (error) {
       console.log(error);
@@ -31,61 +43,74 @@ const CatalogProductsScreen = () => {
     }
   };
 
-  let brandsEffect = async () => {
-    try {
-      setLoading(true);
-      let res = await requests.products.getProductsWithBrand(id);
-      setProducts(res.data.data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-  let shopEffect = async () => {
-    try {
-      setLoading(true);
-      let res = await requests.products.getProductWithShopID(id);
-      setProducts(res.data.data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    // if (type === 'brand') {
-    //   brandsEffect();
-    // }
-    // if (type === 'category') {
     effect();
-    // }
-    // if (type === 'shop') {
-    //   shopEffect();
-    // }
   }, []);
 
+  let productDisebled = products?.length;
+  if (newValyu) {
+    productDisebled = newValyu?.length;
+  }
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
         <View style={{marginBottom: 10}}>
           <GoBackHeader />
           <AllProductTitle title={name} />
-          <SortAndFilter />
+          <SortAndFilter
+            setModalVisible={setModalVisible}
+            setModalFilter={setModalFilter}
+            setModalSort={modalSort}
+            isFilter={true}
+          />
         </View>
         {loading ? (
           <LoadingModal />
         ) : (
-          <FlatList
-            showsVerticalScrollIndicator={false}
-            data={products}
-            renderItem={props => <ProductsItem {...props} />}
-            numColumns={2}
-            contentContainerStyle={styles.contentContainerStyle}
-          />
+          <>
+            {products?.length ? (
+              <FlatList
+                showsVerticalScrollIndicator={false}
+                data={newValyu ? newValyu : products}
+                renderItem={({item}) => (
+                  <ProductsItem {...item} modalSort={modalSort} />
+                )}
+                numColumns={2}
+                contentContainerStyle={styles.contentContainerStyle}
+              />
+            ) : (
+              <Text
+                style={{
+                  textAlign: 'center',
+                  color: COLORS.red,
+                  marginTop: 100,
+                }}>
+                Нет результатов
+              </Text>
+            )}
+          </>
         )}
       </View>
+      <Modal
+        animationType="slide"
+        transparent={false}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        {modalFilter === 'Сортировать' ? (
+          <SortView
+            setModalVisible={setModalVisible}
+            setModalSort={setModalSort}
+          />
+        ) : (
+          <FilterScren
+            setModalVisible={setModalVisible}
+            filter={type}
+            setNewValyu={setNewValyu}
+          />
+        )}
+      </Modal>
     </SafeAreaView>
   );
 };
@@ -105,6 +130,5 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     flexDirection: 'row',
   },
-
   contentContainerStyle: {paddingHorizontal: 10, flexDirection: 'column'},
 });

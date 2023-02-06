@@ -1,5 +1,5 @@
-import { COLORS } from '@constants/colors';
-import { Platform, StyleSheet } from 'react-native';
+import {COLORS} from '@constants/colors';
+import {Platform, StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
@@ -248,5 +248,59 @@ export const styles = StyleSheet.create({
     marginTop: 15,
     marginBottom: 15,
     justifyContent: 'space-between',
+  },
+  noActive: {
+    flexDirection: 'row',
+    width: '100%',
+    paddingHorizontal: 20,
+  },
+  boActive_box: {
+    backgroundColor: COLORS.white,
+    elevation: 5,
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    width: '100%',
+    borderRadius: 8,
+    paddingVertical: 14,
+    paddingHorizontal: 15,
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: '100%',
+    justifyContent: 'space-between',
+  },
+  modal_container: {
+    position: 'relative',
+    width: '100%',
+    backgroundColor: COLORS.white,
+    borderRadius: 10,
+  },
+  checkoutBox: {
+    paddingHorizontal: 10,
+    marginBottom: 20,
+  },
+
+  dropdown2BtnStyle: {
+    width: '100%',
+    height: 50,
+    borderRadius: 45,
+    paddingHorizontal: 20,
+    backgroundColor: '#f4f4f4',
+    marginTop: 15,
+    marginBottom: 15,
+  },
+  btn_item: {
+    width: '48%',
+  },
+  box_item: {
+    width: '100%',
+  },
+
+  map: {
+    marginHorizontal: 20,
+    borderWidth: 10,
   },
 });

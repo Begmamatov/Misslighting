@@ -61,40 +61,36 @@ const AllProducts = () => {
       console.log(error);
     }
   };
-  let getCurrency = async () => {
-    try {
-      let res = await requests.sort.getCurrency();
-      setProducts(res.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
   const [modalVisible, setModalVisible] = useState(false);
   const [modalFilter, setModalFilter] = useState('');
   const [modalSort, setModalSort] = useState('');
 
   useEffect(() => {
-    if (modalSort === 'Новые') {
+    if (modalSort === 'Новинка') {
       getNewAdded();
     }
-
-    if (modalSort === 'Товары со скидкой') {
-      getCheap();
+    if (modalSort === 'Самые дорогие') {
+      getExpensive();
     }
     if (modalSort === 'Популярные') {
       getPopular();
     }
-    if (modalSort === 'Товары под заказ') {
+    if (modalSort === 'Самые дешевые') {
+      getCheap();
+    }
+    if (modalSort === 'Недавно добавленные') {
       getRecently();
     }
-  }, []);
+  }, [modalSort]);
+  const defaultTitle = modalSort ? modalSort : params.props?.title;
 
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
         <View style={{marginBottom: 10}}>
           <GoBackHeader />
-          <AllProductTitle title={params.props.title} />
+          <AllProductTitle title={defaultTitle} />
           {params.props.filter ? (
             <SortAndFilter
               setModalVisible={setModalVisible}
@@ -109,8 +105,6 @@ const AllProducts = () => {
           data={products ? products : params.products}
           renderItem={({item}) => (
             <AllProductItemCard
-              imgRequire={params.props.imgRequire}
-              showDiscount={params.props.showDiscount}
               showNewProduct={params.props.showNewProduct}
               showDiscountAdd={params.props.showDiscountAdd}
               modalSort={modalSort}
@@ -126,13 +120,13 @@ const AllProducts = () => {
         transparent={false}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
           setModalVisible(!modalVisible);
         }}>
-        {modalFilter === 'Популярные' ? (
+        {modalFilter === 'Сортировать' ? (
           <SortView
             setModalVisible={setModalVisible}
             setModalSort={setModalSort}
+            modalSort={modalSort}
           />
         ) : (
           <FilterScren setModalVisible={setModalVisible} />

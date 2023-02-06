@@ -62,7 +62,12 @@ export const cartTotalSelector = (state: RootState) => {
   let keys = Object.keys(state.cart);
   let count = keys.length;
   let total = keys.reduce((prev, current) => {
-    return prev + state.cart[current].price;
+    return (
+      prev +
+      (state.cart[current].price *
+        (100 - state.cart[current].product?.discount)) /
+        100
+    );
   }, 0);
   return {count, total};
 };

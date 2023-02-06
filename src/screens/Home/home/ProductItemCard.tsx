@@ -34,7 +34,7 @@ export type ProductItemCardProps = {
   price: number;
   price_usd?: number;
   id: number;
-  discount: number;
+  discount: any;
   brand?: string;
   shop?: string;
   category: {
@@ -111,22 +111,22 @@ export default function ProductItemCard(props: ProductItemCardProps) {
       }>
       <View style={styles.cartItem}>
         <Image style={styles.image} source={{uri: assetUrl + props.photo}} />
-
-        {props.discount && (
+        {props.discount ? (
           <View style={styles.sileBox}>
-            <Text style={styles.sileText}>{props.discount} %</Text>
+            <Text style={styles.sileText}> {props.discount} %</Text>
           </View>
-        )}
-        {props.showNewProduct && (
+        ) : null}
+
+        {props.showNewProduct ? (
           <View style={[styles.sileBox, styles.sileBoxBgColor]}>
             <Text style={[styles.sileText, styles.sileTextFS]}>Новый</Text>
           </View>
-        )}
-        {props.showDiscountAdd && (
+        ) : null}
+        {props.showDiscountAdd ? (
           <View style={[styles.sileBox, styles.sileBoxBgColor]}>
             <Text style={[styles.sileText, styles.sileTextFS]}>Под заказ</Text>
           </View>
-        )}
+        ) : null}
 
         <TouchableOpacity onPress={onAddFavorite} style={styles.heartIconBox}>
           {isFav ? <HeartIconActive /> : <HeartIconNotActive />}
@@ -134,15 +134,31 @@ export default function ProductItemCard(props: ProductItemCardProps) {
 
         <View style={styles.cartItemInfo}>
           <Text style={styles.typeText}>{props?.category?.name || ''}</Text>
-          <Text style={styles.nameText}>{props?.name || ''}</Text>
-          {props.discount ? (
-            <Text style={styles.priceTextSile}>
-              {props.discount ? props.price : discountPrice} UZS
+          <View
+            style={{
+              flexDirection: 'column',
+              height: 95,
+              justifyContent: 'space-between',
+              paddingBottom: 20,
+            }}>
+            <Text style={styles.nameText}>
+              {props?.name.length > 10
+                ? props?.name.slice(0, 10) + '...'
+                : props?.name}
             </Text>
-          ) : null}
-          <Text style={styles.priceText}>
-            {props.discount ? discountPrice : props.price}UZS
-          </Text>
+            <View>
+              {props?.discount > 0 ? (
+                <Text style={styles.discountPrice}>
+                  {props?.price}
+                  UZS
+                </Text>
+              ) : null}
+              <Text style={styles.priceText}>
+                {discountPrice}
+                UZS
+              </Text>
+            </View>
+          </View>
         </View>
         <View style={{paddingHorizontal: 10}}>
           <TouchableOpacity
@@ -186,6 +202,15 @@ const styles = StyleSheet.create({
     marginRight: 15,
     marginBottom: 20,
     flexDirection: 'column',
+    borderRadius: 15,
+    shadowColor: '#d0d0d0',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 5,
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -215,7 +240,7 @@ const styles = StyleSheet.create({
     right: 10,
   },
   cartItemInfo: {
-    height: 110,
+    height: 115,
     paddingHorizontal: 10,
   },
   typeText: {
@@ -242,7 +267,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '400',
     color: COLORS.black,
-    marginBottom: 20,
   },
   button: {
     width: '100%',
@@ -282,5 +306,13 @@ const styles = StyleSheet.create({
   },
   sileTextFS: {
     fontSize: 13,
+  },
+  discountPrice: {
+    fontSize: 15,
+    fontWeight: '400',
+    color: COLORS.black,
+    textDecorationLine: 'line-through',
+    textDecorationStyle: 'solid',
+    opacity: 0.5,
   },
 });

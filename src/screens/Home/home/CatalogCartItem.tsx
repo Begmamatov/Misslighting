@@ -1,18 +1,27 @@
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {assetUrl} from '@api/requests';
+import {useNavigation} from '@react-navigation/native';
+import {ROUTES} from '@constants/routes';
 
 type Props = {
-  photo: string;
-  itemInfo: string;
-  buttonTitle: string;
+  photo?: string;
+  name?: string;
+  id?: number;
 };
 export default function CatalogCartItem(props: Props) {
+  let {id, name, photo} = props;
+
+  const navivation = useNavigation();
   return (
-    <View style={styles.cartItem}>
-      <Image style={styles.image} source={{uri: assetUrl + props.photo}} />
-      <Text style={styles.title}>Осветительные Приборы</Text>
-    </View>
+    <TouchableOpacity
+      onPress={() =>
+        navivation.navigate(ROUTES.SUBCATEGORY as never, {id, name} as never)
+      }
+      style={styles.cartItem}>
+      <Image style={styles.image} source={{uri: assetUrl + photo}} />
+      <Text style={styles.title}>{name}</Text>
+    </TouchableOpacity>
   );
 }
 
@@ -27,6 +36,14 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+    shadowColor: '#d0d0d0',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 5,
   },
   image: {
     width: 192,

@@ -9,7 +9,7 @@ export default function ProductCatalog() {
 
   const getProducts = async () => {
     try {
-      let res = await requests.sort.getPopular();
+      let res = await requests.categories.getCategories();
       setProducts(res.data.data);
     } catch (error) {
       console.log('product lest', error);
@@ -26,9 +26,7 @@ export default function ProductCatalog() {
         horizontal
         showsHorizontalScrollIndicator={false}
         data={products}
-        renderItem={({item}) => (
-          <CatalogCartItem itemInfo={''} buttonTitle={''} {...item} />
-        )}
+        renderItem={({item}) => <CatalogCartItem {...item} />}
         keyExtractor={item => item.id}
         style={{marginBottom: 15}}
         contentContainerStyle={{paddingHorizontal: 15}}

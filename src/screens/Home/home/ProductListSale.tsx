@@ -1,12 +1,12 @@
-import {View, Text, FlatList, StyleSheet} from 'react-native';
 import React, {useEffect, useState} from 'react';
+import {FlatList, StyleSheet, View} from 'react-native';
 
-import ProductItemCard from './ProductItemCard';
-import ProductsTitle from '../../../components/uikit/ProductsTitle';
-import {useNavigation} from '@react-navigation/native';
-import {ROUTES} from '../../../constants/routes';
 import requests from '@api/requests';
+import {useNavigation} from '@react-navigation/native';
 import useLoading from '@store/Loader/useLoading';
+import ProductsTitle from '../../../components/uikit/ProductsTitle';
+import {ROUTES} from '../../../constants/routes';
+import ProductItemCard from './ProductItemCard';
 
 type ProductListProps = {
   title: string;

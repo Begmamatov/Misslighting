@@ -21,8 +21,8 @@ import {
 } from './types';
 import {RegisterState} from '@auth/signup/hooks';
 
-export let url = 'https://miss.nolikvid.uz/api';
-export let assetUrl = 'https://miss.nolikvid.uz';
+export let url = 'https://admin.becloud.uz/api';
+export let assetUrl = 'https://admin.becloud.uz';
 
 axios.interceptors.request.use(config => {
   let token = store.getState().user.token;
@@ -110,8 +110,10 @@ let requests = {
 
   categories: {
     getCategories: () => axios.get(`${url}/category?type=product`),
-    getSubCategories: (id: number) =>
-      axios.get(`${url}/category/sub-category?id=${id}`),
+    getSubCategories: (e: number) =>
+      axios.get(`${url}/category/sub-category?id=${e}`),
+    getRegions: () => axios.get(`${url}/category?type=region`),
+    getLogistSort: (params: any) => axios.get(`${url}/logist/sort`, {params}),
   },
 
   brands: {
@@ -121,6 +123,8 @@ let requests = {
 
   shops: {
     getShops: () => axios.get(`${url}/shop`),
+    getShopsValyuId: (id: number) => axios.get(`${url}/shop/detail?id=${id}`),
+    getShop: () => axios.get(`${url}/shop-advertising`),
   },
 
   frequentQuestions: {
@@ -145,6 +149,8 @@ let requests = {
       axios.get<BaseResponse<ProductItemResponse>>(
         `${url}/product/detail?id=${id}`,
       ),
+    relatedProducts: (id: number) =>
+      axios.get(`${url}/product/related-products?product_id=${id}`),
     getProductsWithBrand: (id: number) =>
       axios.get<BaseResponse<ProductItemResponse>>(
         `${url}/product/by-brand?id=${id}`,
@@ -199,8 +205,10 @@ let requests = {
   },
 
   slider: {
-    getSliders: () =>
+    getSlidersMobile: () =>
       axios.get<BaseResponse<SliderTypes>>(`${url}/slider?type=mobile`),
+    getSlidersAll: () => axios.get<BaseResponse<SliderTypes>>(`${url}/slider`),
+    getBannerSliderAll: () => axios.get(`${url}/banner`),
   },
 
   sort: {
@@ -212,15 +220,50 @@ let requests = {
     getCheap: () => axios.get(`${url}/product?sort=price_down`),
     getPopular: () => axios.get(`${url}/product?sort=popular`),
     getCurrency: () => axios.get(`${url}/category?type=currency`),
+    getSortAll: (shopName: any) => axios.get(`${url}/product?sort=${shopName}`),
   },
 
   order: {
     sendOrder: (credentials: OrderSend) =>
       axios.post(`${url}/order/send`, credentials),
     getOrders: () => axios.get<BaseResponse<OrderItemResponse>>(`${url}/order`),
+    DetailedSeee: (id: number) => axios.get(`${url}/order/detail?id=${id}`),
+    octoSendOrder: (order_id: number) => axios.post(`${url}/octo`, {order_id}),
   },
   chat: {
-    postSend: (state: any) => axios.post(`${url}/chat/send`),
+    postSend: (state: any) =>
+      axios.post(`${url}/chat/send`, {
+        getter_id: 1,
+        message: state.message,
+        product_id: '',
+        type_user: 'admin',
+      }),
+    sendUserMessege: (sendingMsg: any, file: any) =>
+      axios.post(`${url}/chat/send`, {
+        getter_id: 100,
+        message: sendingMsg,
+        file: file,
+        product_id: 604,
+        type_user: 'user',
+      }),
+    sendShopMessege: (sendingMsg: any, file: any, id: any) =>
+      axios.post(`${url}/chat/send`, {
+        getter_id: id,
+        message: sendingMsg,
+        file: file,
+        product_id: '',
+        type_user: 'shop',
+      }),
+    getTovarId: (id: number) => axios.get(`${url}/chat/messages?id=${id}`),
+    shopGetProduct: () => axios.get(`${url}/chat/users?type_user=shop`),
+  },
+  filter: {
+    catalogFilter: (id: number) =>
+      axios.get(`${url}/category/filter?category_id=${id}`),
+    productFilter: (filter: any, priceMin: any, priceMax: any) =>
+      axios.get(
+        `${url}/product/by-filter?${filter}&price_min=${priceMin}&price_max=${priceMax}`,
+      ),
   },
 };
 export default requests;

@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import React from 'react';
-import { COLORS } from '../../constants/colors';
+import {COLORS} from '../../constants/colors';
 
 type Props = {
   title: string;
@@ -36,13 +36,15 @@ export default function DefaultButton(props: Props) {
       style={[styles.button, props.ButtonStyle]}
       disabled={props.disabled}
       onPress={props.onPress}>
-      {
-        props.loading ? (
-          <ActivityIndicator animating={props.loading} size="small" color={props.loadingColor || COLORS.white} />
-        ) : (
-          <Text style={[styles.buttonText, props.TextStyle]}>{props.title}</Text>
-        )
-      }
+      {props.loading ? (
+        <ActivityIndicator
+          animating={props.loading}
+          size="small"
+          color={props.loadingColor || COLORS.white}
+        />
+      ) : (
+        <Text style={[styles.buttonText, props.TextStyle]}>{props.title}</Text>
+      )}
     </TouchableOpacity>
   );
 }

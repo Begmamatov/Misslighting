@@ -1,14 +1,13 @@
-import { View, StyleSheet, ScrollView } from 'react-native';
-import React, { useState } from 'react';
+import {View, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
+import React, {useState} from 'react';
 import DefaultButton from '../../../components/uikit/DefaultButton';
-import { COLORS } from '../../../constants/colors';
+import {COLORS} from '../../../constants/colors';
 import DefaultInput from '../../../components/uikit/TextInput';
 import CheckBox from '../../../components/uikit/CheckBox';
 import useRegisterHook from './hooks';
 import DefaultInputEye from '@components/uikit/DefaultInputEye';
 
 export default function SignUpLegal() {
-
   let {
     loading,
     onStateChange,
@@ -17,9 +16,10 @@ export default function SignUpLegal() {
     onRegisterNavigation,
     errTxt,
   } = useRegisterHook();
+  const [diseblet, setDiseblet] = useState(true);
 
   return (
-    <View style={{ backgroundColor: COLORS.white }}>
+    <View style={{backgroundColor: COLORS.white}}>
       <DefaultInput
         placeholder=""
         label="Расчетный счет"
@@ -161,16 +161,24 @@ export default function SignUpLegal() {
           setOpen(false)
         }}
       /> */}
-      <CheckBox label="Согласен с политикой конфиденциальности" />
+      <TouchableOpacity onPress={() => setDiseblet(a => !a)}>
+        <CheckBox
+          label="Согласен с политикой конфиденциальности"
+          checkout={!diseblet}
+        />
+      </TouchableOpacity>
       <DefaultButton
         title="Далее"
         onPress={() => onRegister('yur')}
         loading={loading}
         ButtonStyle={{
-          backgroundColor: COLORS.activeButtonBgColor,
+          backgroundColor: diseblet
+            ? COLORS.noActiveButtonBgColor2
+            : COLORS.activeButtonBgColor,
           width: '100%',
         }}
-        TextStyle={{ color: COLORS.white }}
+        TextStyle={{color: COLORS.white}}
+        disabled={diseblet}
       />
     </View>
   );

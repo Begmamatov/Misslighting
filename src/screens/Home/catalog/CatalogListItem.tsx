@@ -14,9 +14,10 @@ import {appendUrl} from '@api/requests';
 import {Dimensions} from 'react-native';
 
 const CatalogListItem = ({
-  item: {photo = '', name = '', id = 0},
+  item: {photo, name, id},
 }: ListRenderItemInfo<Category>) => {
   const navivation = useNavigation();
+
   return (
     <TouchableOpacity
       style={styles.cartItem}

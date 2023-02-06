@@ -1,10 +1,10 @@
-import {View, Text, StyleSheet, ScrollView, FlatList} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {COLORS} from '../../../constants/colors';
-import SearchNatlifHeader from '../../../components/uikit/Header/SearchNatlifHeader';
-import CatalogListItem from './CatalogListItem';
 import requests from '@api/requests';
 import LoadingModal from '@components/uikit/LoadingModal/LoadingModal';
+import React, {useEffect, useState} from 'react';
+import {FlatList, StyleSheet, View} from 'react-native';
+import SearchNatlifHeader from '../../../components/uikit/Header/SearchNatlifHeader';
+import {COLORS} from '../../../constants/colors';
+import CatalogListItem from './CatalogListItem';
 
 export default function CatalogScreen() {
   const [categories, setCategories] = useState([]);

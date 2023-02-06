@@ -7,6 +7,7 @@ type Props = {
     marginBotton?: number;
     marginTop?: number | string;
     width?: number | string;
+    paddingHorizontal?: number | string;
   };
   TextStyle?: {
     color?: string;
@@ -25,6 +26,7 @@ const ProductDetailsButton = (props: Props) => {
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 30,
+        paddingHorizontal: props.ButtonStyle?.paddingHorizontal,
       }}>
       <Text
         style={{

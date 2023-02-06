@@ -1,42 +1,31 @@
-import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native';
-import React from 'react';
-import {
-  HeartIconActive,
-  HeartIconNotActive,
-  HeartIconRed,
-} from '../../../assets/icons/icons';
-import {COLORS} from '../../../constants/colors';
 import requests, {assetUrl} from '@api/requests';
 import {useNavigation} from '@react-navigation/native';
 import {useAppSelector} from '@store/hooks';
-import {cartSelector} from '@store/slices/cartSlice';
-import {useDispatch} from 'react-redux';
-import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
 import {toggleLoading} from '@store/slices/appSettings';
-
+import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
+import React from 'react';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {useDispatch} from 'react-redux';
+import {HeartIconActive, HeartIconNotActive} from '../../../assets/icons/icons';
+import {COLORS} from '../../../constants/colors';
+import {ROUTES} from '@constants/routes';
 type Props = {
-  photo: string;
-  itemInfo: string;
-  buttonTitle: string;
-  id: number;
+  buttonTitle?: string;
   item?: any;
 };
 
-export default function ShopAndNewsItem(props: Props) {
+export default function ShopAndNewsItem({item, buttonTitle}: Props) {
   const navigation = useNavigation();
-  // const {} = props.item;
 
-  const cart = useAppSelector(cartSelector);
-  let isInCart = !!cart[props.id];
   const dispatch = useDispatch();
   const fav = useAppSelector(favoriteSelector);
-  let isFav = !!fav[props.id];
+  let isFav = !!fav[item?.id];
 
   const onAddFavorite = async () => {
     try {
       dispatch(toggleLoading(true));
       let res = await requests.favorites.addFavorite({
-        product_id: props.id,
+        product_id: item.id,
       });
       let r = await requests.favorites.getFavorites();
       dispatch(loadFavorite(r.data.data));
@@ -46,18 +35,26 @@ export default function ShopAndNewsItem(props: Props) {
       dispatch(toggleLoading(false));
     }
   };
+
   return (
     <View style={styles.cartItem}>
-      <Image style={styles.image} source={{uri: assetUrl + props.photo}} />
+      <Image style={styles.image} source={{uri: assetUrl + item.photo}} />
       <TouchableOpacity onPress={onAddFavorite} style={styles.heartIconBox}>
         {isFav ? <HeartIconActive /> : <HeartIconNotActive />}
       </TouchableOpacity>
       <View style={styles.cartItemInfo}>
         <View style={styles.cartItemInfoBox}>
-          <Text style={styles.typeText}>{props.itemInfo}</Text>
+          <Text style={styles.typeText}> {item.name} </Text>
         </View>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>{props.buttonTitle}</Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() =>
+            navigation.navigate(
+              ROUTES.SHOPDETAILS as never,
+              {idShop: item.id} as never,
+            )
+          }>
+          <Text style={styles.buttonText}>{buttonTitle}</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -67,12 +64,20 @@ export default function ShopAndNewsItem(props: Props) {
 const styles = StyleSheet.create({
   cartItem: {
     width: 192,
-    height: 330,
     backgroundColor: '#fff',
     borderRadius: 15,
     marginRight: 15,
     marginBottom: 20,
     flexDirection: 'column',
+    shadowColor: '#d0d0d0',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 5,
+    paddingBottom: 10,
   },
   image: {
     width: 192,
@@ -97,7 +102,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   cartItemInfoBox: {
-    height: 100,
+    height: 50,
     marginBottom: 10,
   },
   button: {

@@ -1,26 +1,16 @@
-import {
-  View,
-  Text,
-  ScrollView,
-  StyleSheet,
-  Image,
-  Dimensions,
-} from 'react-native';
-import React, { useEffect, useRef, useState } from 'react';
-
+import React, {useEffect, useRef, useState} from 'react';
+import {Dimensions, Image, ScrollView, StyleSheet, View} from 'react-native';
 import ProductCatalog from './ProductCatalog';
+import ProductListNew from './ProductListNew';
 import ProductListPopular from './ProductListPopular';
 import ProductListSale from './ProductListSale';
-import ProductListNew from './ProductListNew';
-import ProductListTopShop from './ProductListTopShop';
-
-import ShopListPopular from './ShopListPopular';
-import NewsList from './NewsList';
+import requests, {assetUrl} from '@api/requests';
+import {useRoute} from '@react-navigation/native';
+import Carousel, {Pagination} from 'react-native-snap-carousel';
 import SearchNatlifHeader from '../../../components/uikit/Header/SearchNatlifHeader';
-import { COLORS } from '../../../constants/colors';
-import Carousel, { Pagination } from 'react-native-snap-carousel';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import requests from '@api/requests';
+import {COLORS} from '../../../constants/colors';
+import NewsList from './NewsList';
+import ShopListPopular from './ShopListPopular';
 
 export default function HomeScreen() {
   const width = Dimensions.get('window').width;
@@ -29,57 +19,30 @@ export default function HomeScreen() {
   const [index, setIndex] = useState(0);
   const [index2, setIndex2] = useState(0);
   const route = useRoute();
-  const [dataSlider, setDataSlider] = useState<any>([]);
-
-  const CatalogArray = [
-    {
-      title: 'Black shadow',
-      id: 1,
-      img_url: require('../../../assets/images/carusel.png'),
-    },
-    {
-      title: 'Black shadow',
-      id: 2,
-      img_url: require('../../../assets/images/carusel.png'),
-    },
-    {
-      title: 'Black shadow',
-      id: 3,
-      img_url: require('../../../assets/images/carusel.png'),
-    },
-    {
-      title: 'Black shadow',
-      id: 4,
-      img_url: require('../../../assets/images/carusel.png'),
-    },
-  ];
-  const CatalogArray2 = [
-    {
-      title: 'Black shadow',
-      id: 1,
-      img_url: require('../../../assets/images/BannerTop.png'),
-    },
-    {
-      title: 'Black shadow',
-      id: 2,
-      img_url: require('../../../assets/images/BannerTop.png'),
-    },
-    {
-      title: 'Black shadow',
-      id: 3,
-      img_url: require('../../../assets/images/BannerTop.png'),
-    },
-    {
-      title: 'Black shadow',
-      id: 4,
-      img_url: require('../../../assets/images/BannerTop.png'),
-    },
-  ];
+  const [dataSliderAll, setDataSliderAll] = useState<any>([]);
+  const [dataSliderMobile, setDataSliderMobile] = useState<any>([]);
+  const [bannerSlider, setBannerSlider] = useState<any>([]);
 
   const CaruselHandler = async () => {
     try {
-      let res = await requests.slider.getSliders();
-      setDataSlider(res.data.data);
+      let res = await requests.slider.getSlidersMobile();
+      setDataSliderMobile(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const CaruselSliderAll = async () => {
+    try {
+      let res = await requests.slider.getSlidersAll();
+      setDataSliderAll(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const CaruselBannerAll = async () => {
+    try {
+      let res = await requests.slider.getBannerSliderAll();
+      setBannerSlider(res.data.data);
     } catch (error) {
       console.log(error);
     }
@@ -87,6 +50,8 @@ export default function HomeScreen() {
 
   useEffect(() => {
     CaruselHandler();
+    CaruselSliderAll();
+    CaruselBannerAll();
   }, []);
 
   return (
@@ -94,13 +59,13 @@ export default function HomeScreen() {
       <View>
         <Carousel
           ref={isCorusel}
-          data={CatalogArray2}
-          renderItem={({ item }) => {
+          data={bannerSlider}
+          renderItem={({item}: any) => {
             return (
-              <View style={{ width: '100%', height: 116 }}>
+              <View style={{width: '100%', height: 116}}>
                 <Image
-                  style={{ width: '100%', height: '100%' }}
-                  source={item.img_url}
+                  style={{width: '100%', height: '100%', resizeMode: 'cover'}}
+                  source={{uri: assetUrl + item.photo}}
                 />
               </View>
             );
@@ -108,10 +73,10 @@ export default function HomeScreen() {
           sliderWidth={width}
           itemWidth={width}
           onSnapToItem={index => setIndex2(index)}
-          key={CatalogArray2.length}
+          key={bannerSlider.id}
         />
         <Pagination
-          dotsLength={CatalogArray.length}
+          dotsLength={bannerSlider?.length}
           activeDotIndex={index2}
           dotStyle={{
             width: 35,
@@ -121,13 +86,13 @@ export default function HomeScreen() {
         />
         <Carousel
           ref={isCorusel}
-          data={CatalogArray}
-          renderItem={({ item }) => {
+          data={dataSliderAll}
+          renderItem={({item}: any) => {
             return (
-              <View style={{ width: '100%', height: 245 }}>
+              <View style={{width: '100%', height: 245}}>
                 <Image
-                  style={{ width: '100%', height: '100%' }}
-                  source={item.img_url}
+                  style={{width: '100%', height: 245, resizeMode: 'cover'}}
+                  source={{uri: assetUrl + item.photo}}
                 />
               </View>
             );
@@ -135,10 +100,10 @@ export default function HomeScreen() {
           sliderWidth={width}
           itemWidth={width}
           onSnapToItem={index => setIndex(index)}
-          key={item_width}
+          key={dataSliderAll.id}
         />
         <Pagination
-          dotsLength={CatalogArray.length}
+          dotsLength={dataSliderAll.length}
           activeDotIndex={index}
           dotStyle={{
             width: 35,
@@ -152,10 +117,41 @@ export default function HomeScreen() {
         <ProductListPopular title={'Популярные товары'} filter={true} />
         <ProductCatalog />
         <ProductListSale title={'Товары со скидкой'} filter={true} />
-        <ProductListNew title={'Новые товары'} filter={true} />
-        <ProductListTopShop title="Товары под заказ" filter={true} />
-        <ShopListPopular title="Популярные магазины" filter={true} />
-        {/* <NewsList title="Новости" filter={false} /> */}
+        <Carousel
+          ref={isCorusel}
+          data={bannerSlider}
+          renderItem={({item}: any) => {
+            return (
+              <View style={{width: '100%', height: 116}}>
+                <Image
+                  style={{width: '100%', height: '100%'}}
+                  source={{uri: assetUrl + item.photo}}
+                />
+              </View>
+            );
+          }}
+          sliderWidth={width}
+          itemWidth={width}
+          onSnapToItem={index => setIndex2(index)}
+          key={bannerSlider.id}
+        />
+        <Pagination
+          dotsLength={dataSliderAll.length}
+          activeDotIndex={index2}
+          dotStyle={{
+            width: 35,
+            height: 3,
+            backgroundColor: 'black',
+          }}
+        />
+        <ProductListNew
+          title={'Новые товары'}
+          filter={true}
+          showNewProduct={true}
+        />
+        {/* <ProductListTopShop title="Товары под заказ" filter={true} /> */}
+        <ShopListPopular title="магазины" filter={true} />
+        <NewsList title="Новости" filter={false} />
       </View>
     </ScrollView>
   );

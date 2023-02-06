@@ -5,6 +5,7 @@ export const styles = StyleSheet.create({
   container: {
     width: '100%',
     marginBottom: 50,
+    backgroundColor: COLORS.white,
   },
   box1: {
     flexDirection: 'row',
@@ -18,7 +19,6 @@ export const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#3F3535',
     lineHeight: 40,
-    marginLeft: 15,
   },
   box1_title: {
     fontSize: 15,
@@ -60,6 +60,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    marginBottom: 10,
   },
   box3_title: {
     fontSize: 17,
@@ -160,8 +161,15 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   button: {
-    marginTop: 57,
-    paddingHorizontal: 15,
+    width: '80%',
+    height: 42,
+    borderRadius: 45,
+    backgroundColor: COLORS.white,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    borderWidth: 1,
+    borderColor: COLORS.textColorBlue,
   },
   goBack: {
     position: 'absolute',
@@ -175,6 +183,10 @@ export const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     zIndex: 4,
   },
+  chatIcon: {
+    position: 'absolute',
+    right: 80,
+  },
   icons: {
     width: 50,
     height: 44,
@@ -187,5 +199,55 @@ export const styles = StyleSheet.create({
   contentContainerStyle: {
     flexDirection: 'column',
     paddingHorizontal: 10,
+  },
+  counter: {
+    flexDirection: 'row',
+    paddingHorizontal: 15,
+    justifyContent: 'space-between',
+    width: '100%',
+    height: 40,
+    alignItems: 'center',
+  },
+  add_remov: {
+    flexDirection: 'row',
+    borderRadius: 8,
+  },
+  minus: {
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    backgroundColor: '#84A9C0',
+    borderTopLeftRadius: 5,
+    borderBottomLeftRadius: 5,
+  },
+
+  plus: {
+    padding: 10,
+    backgroundColor: '#84A9C0',
+    borderTopRightRadius: 5,
+    borderBottomRightRadius: 5,
+  },
+  topBottom: {
+    paddingHorizontal: 15,
+    borderColor: COLORS.whiteGray,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    justifyContent: 'center',
+  },
+
+  buttonContainer: {
+    flexDirection: 'row',
+    margin: 0,
+  },
+  cartText: {
+    color: COLORS.white,
+    marginRight: 4,
+    fontWeight: '700',
+    fontSize: 15,
+  },
+  inactiveCartText: {
+    color: '#84A9C0',
+    marginRight: 8,
+    fontWeight: '700',
+    fontSize: 15,
   },
 });

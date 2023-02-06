@@ -9,7 +9,7 @@ type propsType = {
 const ProductOrder = (props: propsType) => {
   return (
     <View style={styles.container}>
-      <Text style={{fontSize: 16, fontWeight: '600', color: '#717171'}}>
+      <Text style={{fontSize: 18, fontWeight: '600', color: '#717171'}}>
         {props.title}
       </Text>
       <Text style={{fontSize: 16, fontWeight: '600', color: '#3F3535'}}>
@@ -28,6 +28,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 15,
-    marginVertical: 16,
+    marginVertical: 5,
   },
 });

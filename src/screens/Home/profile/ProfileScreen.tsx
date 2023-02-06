@@ -1,19 +1,22 @@
+import requests, {assetUrl} from '@api/requests';
+import {LoginResponse} from '@api/types';
+import {useNavigation} from '@react-navigation/native';
+import {useAppDispatch} from '@store/hooks';
+import {userLoggedOut} from '@store/slices/userSlice';
+import React, {useEffect, useState} from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
+  Alert,
   Image,
   ScrollView,
+  StyleSheet,
+  Text,
   TouchableOpacity,
-  Alert,
+  View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import ProductsTitle from '../../../components/uikit/ProductsTitle';
 import {
   NewAdminIcon,
   NewArrowIcon,
   NewBasketIcon,
-  NewDiscountIcon,
   NewLocationIcon,
   NewLogOutIcon,
   NewMessageIcon,
@@ -21,13 +24,9 @@ import {
   NewSettingIcon,
   NewTranstionIcon,
 } from '../../../assets/icons/icons';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import ProductsTitle from '../../../components/uikit/ProductsTitle';
 import {ROUTES} from '../../../constants/routes';
-import {userLoggedOut} from '@store/slices/userSlice';
-import {useAppDispatch} from '@store/hooks';
 import SettingsItem from './Setting/SettingItem';
-import requests, {assetUrl} from '@api/requests';
-import {LoginResponse} from '@api/types';
 
 export default function ProfileScreen() {
   const navigation = useNavigation();
@@ -93,12 +92,12 @@ export default function ProfileScreen() {
         icon={() => <NewBasketIcon />}
         icon2={() => <NewArrowIcon />}
       />
-      <SettingsItem
+      {/* <SettingsItem
         onPress={() => navigation.navigate(ROUTES.PROFILE_SETTING as never)}
         text={'Настройки'}
         icon={() => <NewSettingIcon />}
         icon2={() => <NewArrowIcon />}
-      />
+      /> */}
       <SettingsItem
         text={'Мы на карте'}
         icon={() => <NewLocationIcon />}
@@ -110,12 +109,12 @@ export default function ProfileScreen() {
         icon={() => <NewAdminIcon />}
         icon2={() => <NewArrowIcon />}
       />
-      <SettingsItem
+      {/* <SettingsItem
         onPress={() => navigation.navigate(ROUTES.BONUSPROGRAM as never)}
         text={'Бонусная программа'}
         icon={() => <NewDiscountIcon />}
         icon2={() => <NewArrowIcon />}
-      />
+      /> */}
       <SettingsItem
         onPress={() => navigation.navigate(ROUTES.TRANSACTIONS as never)}
         text={'Транзакции'}

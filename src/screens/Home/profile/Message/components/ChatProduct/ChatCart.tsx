@@ -1,16 +1,12 @@
 import {Image, StyleSheet, View, Text} from 'react-native';
 import React from 'react';
 import {COLORS} from '@constants/colors';
-import {useNavigation} from '@react-navigation/native';
+import {assetUrl} from '@api/requests';
 
-const ChatCart = () => {
-  const navigation: any = useNavigation();
+const ChatCart = ({valyu}: any) => {
   return (
     <View style={styles.container}>
-      <Image
-        style={styles.image}
-        source={require('../../../../../assets/images/img1.png')}
-      />
+      <Image style={styles.image} source={{uri: assetUrl + valyu?.photo}} />
       <View style={styles.itemsContainer}>
         <View style={styles.nameContainer}>
           <Text
@@ -18,14 +14,12 @@ const ChatCart = () => {
               fontWeight: '400',
               fontSize: 13,
               color: ' #C8C8C8',
-            }}>
-            Люстры
-          </Text>
-          <Text style={styles.itemName}>KR77</Text>
-
-          <Text style={styles.oldPrice}>1.200.000 UZS</Text>
-
-          <Text style={styles.price}>3.600.000 сум</Text>
+            }}></Text>
+          <Text style={styles.itemName}> {valyu?.name}</Text>
+          {valyu?.price_usd ? (
+            <Text style={styles.oldPrice}>{valyu?.price_usd}</Text>
+          ) : null}
+          <Text style={styles.price}>{valyu?.price}сум</Text>
         </View>
       </View>
     </View>

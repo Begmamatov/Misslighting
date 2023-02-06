@@ -11,15 +11,16 @@ import useLoading from '@store/Loader/useLoading';
 type ProductListProps = {
   title: string;
   filter?: boolean;
+  showNewProduct?: boolean;
 };
 
 export default function ProductListNew(props: ProductListProps) {
-  const [products, setProducts] = useState<any>();
+  const [products, setProducts] = useState();
   const loading = useLoading();
   let effect = async () => {
     try {
       loading?.onRun();
-      let res = await requests.sort.getNewAdded();
+      let res = await requests.sort.getSortAll('new');
       setProducts(res.data.data);
     } catch (error) {
       console.log('product lest', error);
@@ -44,7 +45,9 @@ export default function ProductListNew(props: ProductListProps) {
         horizontal
         showsHorizontalScrollIndicator={false}
         data={products}
-        renderItem={({item}) => <ProductItemCard {...item} />}
+        renderItem={({item}) => (
+          <ProductItemCard {...item} showNewProduct={true} />
+        )}
         keyExtractor={item => item.id}
         style={styles.container}
         contentContainerStyle={styles.contentContainerStyle}

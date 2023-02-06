@@ -1,6 +1,11 @@
+import requests, {assetUrl} from '@api/requests';
+import {LoginResponse} from '@api/types';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import React, {useState} from 'react';
 import {
   ActivityIndicator,
   Image,
+  KeyboardAvoidingView,
   Platform,
   ScrollView,
   StyleSheet,
@@ -8,19 +13,11 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
-import GoBackHeader from '../../../../components/uikit/Header/GoBackHeader';
-import AllProductTitle from '../../../../components/uikit/AllProductTitle';
-import DefaultInput from '../../../../components/uikit/TextInput';
-import DefaultButton from '../../../../components/uikit/DefaultButton';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import {ROUTES} from '../../../../constants/routes';
-import {COLORS} from '../../../../constants/colors';
-import {LoginResponse} from '@api/types';
-import requests, {appendUrl, assetUrl, formData} from '@api/requests';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {assets} from 'react-native.config';
-
+import AllProductTitle from '../../../../components/uikit/AllProductTitle';
+import GoBackHeader from '../../../../components/uikit/Header/GoBackHeader';
+import DefaultInput from '../../../../components/uikit/TextInput';
+import {COLORS} from '../../../../constants/colors';
 type ProfileData = Partial<LoginResponse>;
 
 const PersonalData = () => {
@@ -41,6 +38,10 @@ const PersonalData = () => {
     certificateStateRegistration: params?.certificateStateRegistration ?? '',
     adres_0: params?.adres_0 ?? '',
   });
+
+  console.log('start..........');
+  console.log(state);
+  console.log('end..........');
 
   let onStateChange = (key: string) => (value: string) => {
     setState({...state, [key]: value});
@@ -79,131 +80,140 @@ const PersonalData = () => {
   return (
     <View style={{marginBottom: 100, backgroundColor: COLORS.white}}>
       <GoBackHeader />
-      <ScrollView>
-        <AllProductTitle title="Личные данные" color={true} />
-        <View style={style.ProfileInfo}>
-          <Image style={style.ProfileImage} source={{uri: url}} />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        keyboardVerticalOffset={60}>
+        <ScrollView>
+          <AllProductTitle title="Личные данные" color={true} />
+          <View style={style.ProfileInfo}>
+            <Image style={style.ProfileImage} source={{uri: url}} />
 
-          <TouchableOpacity
-            onPress={changePhoto}
-            style={style.ProfileInfoTextBox}>
-            <Text style={style.ProfileInfoText}>Добавить</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={{paddingHorizontal: 15}}>
-          {params?.type === 'yur' ? (
-            <DefaultInput
-              label="Наименование учреждения"
-              backgroundColor={COLORS.noActiveButtonBgColor2}
-            />
-          ) : null}
-          {params?.type === 'yur' ? (
-            <DefaultInput
-              value={state.inn}
-              onChangeText={onStateChange('inn')}
-              label="ИНН"
-              backgroundColor={COLORS.noActiveButtonBgColor2}
-              // placeholder={params.inn}
-            />
-          ) : null}
-          {params?.type === 'yur' ? (
-            <DefaultInput
-              value={state.certificateStateRegistration}
-              onChangeText={onStateChange('certificateStateRegistration')}
-              label="Свидетельство гос.регистрации"
-              backgroundColor={COLORS.noActiveButtonBgColor2}
-            />
-          ) : null}
-          {params?.type === 'yur' ? (
-            <DefaultInput
-              value={state.last_address}
-              onChangeText={onStateChange('last_address')}
-              label="Свидетельство НДС"
-              backgroundColor={COLORS.noActiveButtonBgColor2}
-            />
-          ) : null}
-          {params?.type === 'yur' ? (
-            <DefaultInput
-              value={state.requisites}
-              onChangeText={onStateChange('requisites')}
-              label="Реквизиты"
-              backgroundColor={COLORS.noActiveButtonBgColor2}
-            />
-          ) : null}
+            <TouchableOpacity
+              onPress={changePhoto}
+              style={style.ProfileInfoTextBox}>
+              <Text style={style.ProfileInfoText}>Добавить</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={{paddingHorizontal: 15}}>
+            {params?.type === 'yur' ? (
+              <DefaultInput
+                label="Наименование учреждения"
+                backgroundColor={COLORS.noActiveButtonBgColor2}
+              />
+            ) : null}
+            {params?.type === 'yur' ? (
+              <DefaultInput
+                value={state.inn}
+                onChangeText={onStateChange('inn')}
+                label="ИНН"
+                backgroundColor={COLORS.noActiveButtonBgColor2}
+                // placeholder={params.inn}
+              />
+            ) : null}
+            {params?.type === 'yur' ? (
+              <DefaultInput
+                value={state.certificateStateRegistration}
+                onChangeText={onStateChange('certificateStateRegistration')}
+                label="Свидетельство гос.регистрации"
+                backgroundColor={COLORS.noActiveButtonBgColor2}
+              />
+            ) : null}
+            {params?.type === 'yur' ? (
+              <DefaultInput
+                value={state.last_address}
+                onChangeText={onStateChange('last_address')}
+                label="Свидетельство НДС"
+                backgroundColor={COLORS.noActiveButtonBgColor2}
+              />
+            ) : null}
+            {params?.type === 'yur' ? (
+              <DefaultInput
+                value={state.requisites}
+                onChangeText={onStateChange('requisites')}
+                label="Реквизиты"
+                backgroundColor={COLORS.noActiveButtonBgColor2}
+              />
+            ) : null}
 
-          <DefaultInput
-            label="Номер телефона"
-            backgroundColor={COLORS.noActiveButtonBgColor2}
-            // placeholder={params?.phone}
-            onChangeText={onStateChange('phone')}
-            value={state.phone}
-            defaultValue={state.phone}
-          />
+            <DefaultInput
+              label="Номер телефона"
+              backgroundColor={COLORS.noActiveButtonBgColor2}
+              // placeholder={params?.phone}
+              onChangeText={onStateChange('phone')}
+              value={state.phone}
+              defaultValue={state.phone}
+              typeOf="phone-pad"
+            />
 
-          <DefaultInput
-            label="Имя"
-            backgroundColor={COLORS.noActiveButtonBgColor2}
-            // placeholder={params?.name}
-            onChangeText={onStateChange('name')}
-            value={state.name}
-          />
-          {/* <DefaultInput
+            <DefaultInput
+              label="Имя"
+              backgroundColor={COLORS.noActiveButtonBgColor2}
+              // placeholder={params?.name}
+              onChangeText={onStateChange('name')}
+              value={state.name}
+            />
+            {/* <DefaultInput
             label="Фамилия"
             backgroundColor={COLORS.noActiveButtonBgColor2}
             placeholder={params?.lastName}
           /> */}
-          <DefaultInput
+            {/* <DefaultInput
             label="Отчество"
             backgroundColor={COLORS.noActiveButtonBgColor2}
             // placeholder={params?.middleName}
             onChangeText={onStateChange('middleName')}
             value={state.middleName}
-          />
-          <DefaultInput
-            label="Дата рождения"
-            backgroundColor={COLORS.noActiveButtonBgColor2}
-            // placeholder={params?.birthday}
-            onChangeText={onStateChange('birthday')}
-            value={state.birthday}
-          />
-          {/* <DefaultInput
+          /> */}
+
+            <DefaultInput
+              label="Дата рождения"
+              isDate
+              backgroundColor={COLORS.noActiveButtonBgColor2}
+              // placeholder={params?.birthday}
+              onChangeText={onStateChange('birthday')}
+              value={state.birthday}
+              typeOf="number-pad"
+              defaultValue={state.birthday}
+            />
+            {/* <DefaultInput
             label="Страна"
             backgroundColor={COLORS.noActiveButtonBgColor2}
             placeholder={params?.country}
           /> */}
-          <DefaultInput
-            label="Город"
-            backgroundColor={COLORS.noActiveButtonBgColor2}
-            // placeholder={params?.last_address}
-            // onChangeText={onStateChange('last_address')}
-            // value={state.last_address}
-          />
-          <Text>Адрес</Text>
-          <DefaultInput
-            label="Улица"
-            backgroundColor={COLORS.noActiveButtonBgColor2}
-            // placeholder={params?.addresses}
-          />
-          <DefaultInput
-            label="Дом"
-            backgroundColor={COLORS.noActiveButtonBgColor2}
-            // placeholder={params?.house}
-          />
-          <View>
-            <TouchableOpacity style={style.button} onPress={onUpdateProfile}>
-              {animate ? (
-                <ActivityIndicator
-                  size="small"
-                  color={COLORS.white}
-                  animating={animate}
-                />
-              ) : (
-                <Text style={{color: COLORS.white}}> Изменить</Text>
-              )}
-            </TouchableOpacity>
+            <DefaultInput
+              label="Город"
+              backgroundColor={COLORS.noActiveButtonBgColor2}
+              // placeholder={params?.last_address}
+              // onChangeText={onStateChange('last_address')}
+              // value={state.last_address}
+            />
+            <Text>Адрес</Text>
+            <DefaultInput
+              label="Улица"
+              backgroundColor={COLORS.noActiveButtonBgColor2}
+              // placeholder={params?.addresses}
+            />
+            <DefaultInput
+              label="Дом"
+              backgroundColor={COLORS.noActiveButtonBgColor2}
+              // placeholder={params?.house}
+            />
+            <View>
+              <TouchableOpacity style={style.button} onPress={onUpdateProfile}>
+                {animate ? (
+                  <ActivityIndicator
+                    size="small"
+                    color={COLORS.white}
+                    animating={animate}
+                  />
+                ) : (
+                  <Text style={{color: COLORS.white}}> Изменить</Text>
+                )}
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </View>
   );
 };

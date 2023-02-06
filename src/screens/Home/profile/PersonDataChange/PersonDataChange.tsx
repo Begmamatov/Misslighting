@@ -23,9 +23,7 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 
 const PersonDataChange = (props: any) => {
   let {params}: any = useRoute();
-  console.log('============PersonDataChange========================');
-  console.log(JSON.stringify(params, null, 2));
-  console.log('==============PersonDataChange======================');
+
   let navigation = useNavigation();
   return (
     <SingUpTemplate>

@@ -14,7 +14,7 @@ type ProductListProps = {
 };
 
 export default function ProductListTopShop(props: ProductListProps) {
-  const [products, setProducts] = useState<any>();
+  const [products, setProducts] = useState();
   const loading = useLoading();
 
   const getProducts = async () => {

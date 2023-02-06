@@ -17,7 +17,7 @@ export default function ShopListPopular(props: ProductListProps) {
 
   const getProducts = async () => {
     try {
-      let res = await requests.sort.getPopular();
+      let res = await requests.shops.getShops();
       setProducts(res.data.data);
     } catch (error) {
       console.log('product lest', error);
@@ -29,10 +29,7 @@ export default function ShopListPopular(props: ProductListProps) {
   const navigation = useNavigation();
 
   const onPress = () => {
-    navigation.navigate(
-      ROUTES.ALLPRODUCTS as never,
-      {products, props} as never,
-    );
+    navigation.navigate(ROUTES.ALLSHOPS as never, {products, props} as never);
   };
 
   return (
@@ -42,12 +39,8 @@ export default function ShopListPopular(props: ProductListProps) {
         horizontal
         showsHorizontalScrollIndicator={false}
         data={products}
-        renderItem={({item}) => (
-          <ShopAndNewsItem
-            itemInfo="Ваш Проводник Света"
-            buttonTitle="Посмотреть"
-            {...item}
-          />
+        renderItem={({item, index}) => (
+          <ShopAndNewsItem buttonTitle="Посмотреть" item={item} key={index} />
         )}
         keyExtractor={item => item.id}
         style={styles.container}
