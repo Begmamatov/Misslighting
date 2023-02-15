@@ -55,7 +55,7 @@ export default function HomeScreen() {
   }, []);
 
   return (
-    <ScrollView style={styles.scroll}>
+    <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
       <View>
         <Carousel
           ref={isCorusel}
