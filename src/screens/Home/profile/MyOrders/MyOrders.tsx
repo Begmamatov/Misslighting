@@ -1,11 +1,11 @@
-import {Animated, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
-import GoBackHeader from '../../../../components/uikit/Header/GoBackHeader';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import React from 'react';
+import {Animated, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import GoBackHeader from '../../../../components/uikit/Header/GoBackHeader';
 
-import ActiveList from './components/ActiveList';
-import StoryList from './components/StoryList';
 import {COLORS} from '@constants/colors';
+import ActiveList from './components/ActiveList/ActiveList';
+import StoryList from './components/StoreList/StoryList';
 
 const Tab = createMaterialTopTabNavigator();
 

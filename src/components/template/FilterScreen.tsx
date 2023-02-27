@@ -16,374 +16,131 @@ import {COLORS} from '../../constants/colors';
 import AllProductTitle from '../uikit/AllProductTitle';
 import DefaultButton from '../uikit/DefaultButton';
 import FilterModal from '../uikit/Filter/FilterModal';
-import GoBackHeader from '../uikit/Header/GoBackHeader';
+import DefaultInput from '@components/uikit/TextInput';
+import {TextInput} from 'react-native-paper';
+import FilterSwitch from './FilterSwitch';
 type PropsSort = {
   setModalVisible?: any;
+  filter?: any;
+  setNewValyu?: any;
 };
-const FilterScren = (props: PropsSort) => {
-  const [active, setActive] = useState({
-    modal1: false,
-    modal2: false,
-    modal3: false,
-    modal4: false,
-    modal5: false,
-    modal6: false,
-    modal7: false,
-  });
-  const onPress = () => {
-    setActive({...active, modal1: !active.modal1});
-  };
-  const onPress2 = () => {
-    setActive({...active, modal2: !active.modal2});
-  };
-  const onPress3 = () => {
-    setActive({...active, modal3: !active.modal3});
-  };
-  const onPress4 = () => {
-    setActive({...active, modal4: !active.modal4});
-  };
-  const onPress5 = () => {
-    setActive({...active, modal5: !active.modal5});
-  };
-  const onPress6 = () => {
-    setActive({...active, modal6: !active.modal6});
-  };
-  const onPress7 = () => {
-    setActive({...active, modal7: !active.modal7});
-  };
 
-  const [colorData, setColorData] = useState<any>();
-  const [colorActive, setColorActive] = useState();
-  const [currency, setCurrency] = useState([]);
-  const ColorHandler = async () => {
+const FilterScren = (props: PropsSort) => {
+  const [catalogType, setCatalogType] = useState<any>([]);
+  const getFilterId = async () => {
     try {
-      let res = await requests.products.colorItem();
-      const currency = await requests.sort.getCurrency();
-      setCurrency(currency.data.data);
-      setColorData(res.data.data);
+      let res = await requests.filter.catalogFilter(props.filter);
+      setCatalogType(res.data.data);
     } catch (error) {
-      console.log('================FilterScren====================');
       console.log(error);
-      console.log('=================FilterScren===================');
     }
   };
   useEffect(() => {
-    ColorHandler();
+    getFilterId();
   }, []);
-  const [activeModal, setActiveModal] = useState(true);
-  const [activeModal2, setActiveModal2] = useState(true);
+  const [filter, setFilter] = useState<any>();
+  const [priceMin, setPriceMin] = useState(0);
+  const [priceMax, setPriceMax] = useState(priceMin);
+
+  const handleFilter = (id?: any, value?: any, type?: any) => {
+    setFilter(({prevState}: any) => {
+      return {
+        ...prevState,
+        [`filter[${id}]`]: id,
+      };
+    });
+  };
+
+  const OnChangeHandlerMine = (e: any) => {
+    let newFilter = {
+      ...filter,
+      price_min: e,
+    };
+    setPriceMin(e);
+    setFilter(newFilter);
+  };
+  const OnChangeHandlerMax = (e: any) => {
+    let newFilter = {
+      ...filter,
+      price_max: e,
+    };
+    setPriceMax(e);
+    setFilter(newFilter);
+  };
+
+  const subMendHandler = async () => {
+    try {
+      let res = await requests.filter.productFilter(filter, priceMin, priceMax);
+      props.setNewValyu(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const submetAndClosed = async () => {
+    await subMendHandler();
+    props.setModalVisible((a: any) => {
+      return !a;
+    });
+  };
+  let btnDisebled = true;
+  if (priceMin && priceMax) {
+    btnDisebled = false;
+  }
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.white}}>
       <AllProductTitle title={'Фильтры'} />
-      <ScrollView style={styles.container}>
-        <View>
-          {/* 1 */}
-          <FilterModal
-            title="Валюта"
-            active={active.modal1}
-            onPress={onPress}
-            activeBorder={true}>
-            {active.modal1 && (
-              <View style={[styles.box_noactive]}>
-                <SelectDropdown
-                  data={currency}
-                  onSelect={() => {}}
-                  buttonTextAfterSelection={(selectedItem: any, index: any) => {
-                    return selectedItem.name;
-                  }}
-                  rowTextForSelection={(item: any, index: any) => {
-                    return item.name;
-                  }}
-                  buttonStyle={styles.dropdown2BtnStyle}
-                  buttonTextStyle={{
-                    color: '#3F3535',
-                    fontSize: 16,
-                  }}
-                  renderDropdownIcon={() => {
-                    return <NewTopArrowIcon2 />;
-                  }}
-                  dropdownIconPosition="right"
-                  rowTextStyle={{
-                    color: '#3F3535',
-                    fontSize: 16,
-                  }}
-                  defaultButtonText="Выберите тип оплаты"
-                  defaultValueByIndex={0}
-                />
-              </View>
-            )}
-          </FilterModal>
-          {/* 2 */}
-          <FilterModal
-            onPress={onPress2}
-            title="Цена"
-            active={active.modal2}
-            activeBorder={true}>
-            {active.modal2 && (
-              <View style={[styles.box_noactive]}>
-                <View
-                  style={{
-                    width: '100%',
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                  }}>
-                  <View style={[styles.value, {}]}>
-                    <Text style={styles.value_title}>От</Text>
-                  </View>
-                  <View style={styles.value}>
-                    <Text style={styles.value_title}>До</Text>
-                  </View>
-                </View>
-                <View style={{width: '100%', marginTop: 30}}>
-                  <Slider
-                    style={{width: '100%'}}
-                    minimumValue={1}
-                    maximumValue={2}
-                    minimumTrackTintColor="#84A9C0"
-                    maximumTrackTintColor="#000000"
-                  />
-                </View>
-              </View>
-            )}
-          </FilterModal>
-          {/* 3 */}
-          <FilterModal
-            title="Стиль"
-            active={active.modal3}
-            onPress={onPress3}
-            activeBorder={true}>
-            {active.modal3 && (
-              <View style={styles.box_noactive}>
-                <TouchableOpacity
-                  onPress={() => setActiveModal(a => !a)}
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    marginTop: 25,
-                  }}>
-                  <View
-                    style={[
-                      {
-                        borderColor: activeModal ? '#84A9C0' : '',
-                        borderWidth: activeModal ? 1 : 1,
-                      },
-                      {
-                        width: 22,
-                        height: 22,
-                        borderStyle: 'solid',
-                        borderRadius: 5,
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      },
-                    ]}>
-                    <View
-                      style={[
-                        {backgroundColor: activeModal ? '#84A9C0' : '#FFFFFF'},
-                        {
-                          width: 18,
-                          height: 18,
-                          borderRadius: 5,
-                        },
-                      ]}></View>
-                  </View>
-                  <Text style={{marginLeft: 13, color: COLORS.defaultBlack}}>
-                    Нео-классика
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => setActiveModal(a => !a)}
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    marginTop: 25,
-                  }}>
-                  <View
-                    style={[
-                      {
-                        borderColor: activeModal ? '' : '#84A9C0',
-                        borderWidth: activeModal ? 1 : 1,
-                      },
-                      {
-                        width: 22,
-                        height: 22,
-                        borderStyle: 'solid',
-                        borderRadius: 5,
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      },
-                    ]}>
-                    <View
-                      style={[
-                        {backgroundColor: activeModal ? '#FFFFFF' : '#84A9C0'},
-                        {
-                          width: 18,
-                          height: 18,
-                          borderRadius: 5,
-                        },
-                      ]}></View>
-                  </View>
-                  <Text style={{marginLeft: 13, color: COLORS.defaultBlack}}>
-                    Минимализм
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            )}
-          </FilterModal>
+      <View style={styles.container}>
+        <DefaultInput
+          backgroundColor="#f5f5f5"
+          label="От"
+          onChangeText={OnChangeHandlerMine}
+          typeOf="number-pad"
+        />
+        <DefaultInput
+          backgroundColor="#f5f5f5"
+          label="До"
+          onChangeText={OnChangeHandlerMax}
+          typeOf="number-pad"
+        />
 
-          {/* 4 */}
-          <FilterModal
-            title="Кол-во патронов"
-            active={active.modal4}
-            onPress={onPress4}
-            activeBorder={true}>
-            {active.modal4 && (
-              <View style={styles.box_noactive}>
-                <TouchableOpacity
-                  onPress={() => setActiveModal2(a => !a)}
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    marginTop: 25,
-                  }}>
-                  <View
-                    style={[
-                      {
-                        borderColor: activeModal2 ? '#84A9C0' : '',
-                        borderWidth: activeModal2 ? 1 : 1,
-                      },
-                      {
-                        width: 22,
-                        height: 22,
-                        borderStyle: 'solid',
-                        borderRadius: 5,
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      },
-                    ]}>
-                    <View
-                      style={[
-                        {backgroundColor: activeModal2 ? '#84A9C0' : '#FFFFFF'},
-                        {
-                          width: 18,
-                          height: 18,
-                          borderRadius: 5,
-                        },
-                      ]}></View>
-                  </View>
-                  <Text style={{marginLeft: 13, color: COLORS.defaultBlack}}>
-                    1
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => setActiveModal2(a => !a)}
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    marginTop: 25,
-                  }}>
-                  <View
-                    style={[
-                      {
-                        borderColor: activeModal2 ? '' : '#84A9C0',
-                        borderWidth: activeModal2 ? 1 : 1,
-                      },
-                      {
-                        width: 22,
-                        height: 22,
-                        borderStyle: 'solid',
-                        borderRadius: 5,
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      },
-                    ]}>
-                    <View
-                      style={[
-                        {backgroundColor: activeModal2 ? '#FFFFFF' : '#84A9C0'},
-                        {
-                          width: 18,
-                          height: 18,
-                          borderRadius: 5,
-                        },
-                      ]}></View>
-                  </View>
-                  <Text style={{marginLeft: 13, color: COLORS.defaultBlack}}>
-                    2
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            )}
-          </FilterModal>
-
-          {/* 5 */}
-          <FilterModal
-            title="Цвет"
-            active={active.modal5}
-            onPress={onPress5}
-            activeBorder={true}>
-            {active.modal5 && (
-              <View style={styles.box_noactive}>
-                <FlatList
-                  style={{marginTop: 18}}
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  data={colorData}
-                  renderItem={({item}) => (
-                    <TouchableOpacity
-                      onPress={() => setColorActive(item.id)}
-                      style={[
-                        styles.active,
-                        {
-                          backgroundColor:
-                            colorActive === item.id ? '#84A9C0' : '#FFFFFF',
-                        },
-                      ]}>
-                      <Text
-                        style={[
-                          styles.active_title,
-                          {
-                            color:
-                              colorActive === item.id ? '#ffffff' : '#84A9C0',
-                          },
-                        ]}>
-                        {item.name}
-                      </Text>
-                    </TouchableOpacity>
-                  )}
-                />
-              </View>
-            )}
-          </FilterModal>
-          {/* 6 */}
-          <FilterModal
-            title="Материал"
-            active={active.modal6}
-            onPress={onPress6}
-            activeBorder={true}>
-            {active.modal6 && <View style={styles.box_noactive}></View>}
-          </FilterModal>
-          {/* 7 */}
-          <FilterModal
-            title="Температура"
-            active={active.modal7}
-            onPress={onPress7}
-            activeBorder={true}>
-            {active.modal7 && <View style={styles.box_noactive}></View>}
-          </FilterModal>
+        <FlatList
+          data={catalogType}
+          renderItem={({item}) => (
+            <FilterSwitch
+              input={item}
+              handleFilter={handleFilter}
+              priceMin={priceMin}
+              priceMax={priceMax}
+            />
+          )}
+          style={{marginBottom: 30}}
+        />
+        <View
+          style={{
+            width: '100%',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}>
+          <View style={{width: '100%'}}>
+            <DefaultButton
+              title="Фильтр"
+              ButtonStyle={{backgroundColor: '#ff9500'}}
+              TextStyle={{color: '#ffffff'}}
+              onPress={submetAndClosed}
+              disabled={btnDisebled}
+            />
+          </View>
+          {/* <View style={{width: '45%'}}>
+            <DefaultButton
+              title="Сбросить"
+              ButtonStyle={{backgroundColor: '#84a9c0'}}
+              TextStyle={{color: '#ffffff'}}
+            />
+          </View> */}
         </View>
-        <View style={styles.button}>
-          <DefaultButton
-            title={'Применить'}
-            ButtonStyle={{backgroundColor: '#84A9C0'}}
-            TextStyle={{color: COLORS.white}}
-            onPress={() => props.setModalVisible(false)}
-          />
-        </View>
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };
@@ -393,89 +150,16 @@ export default FilterScren;
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    marginTop: 14,
-  },
-  box: {
-    marginLeft: 15,
-    marginRight: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#71717119',
-    paddingBottom: 5,
-    paddingTop: 5,
-    backgroundColor: COLORS.white,
-  },
-  box1: {position: 'relative'},
-  box_active: {
-    marginTop: 14,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%',
-    zIndex: 4,
-  },
-  active: {
-    width: 92,
-    height: 33,
-    borderRadius: 25,
-    borderWidth: 1,
-    borderColor: '#84A9C0',
-    borderStyle: 'solid',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 5,
-    paddingHorizontal: 4,
-  },
-  active_title: {
-    fontSize: 16,
-    // lineHeight: 40,
-    fontWeight: '500',
-  },
-  box_noactive: {
-    width: '100%',
-    marginTop: 9,
-    zIndex: 3,
-    paddingBottom: 24,
-  },
-  value: {
-    flexDirection: 'row',
-    width: 163,
-    height: 55,
-    backgroundColor: '#d1d1d1',
-    borderRadius: 45,
-    alignItems: 'center',
-    justifyContent: 'space-around',
-  },
-  value_title: {
-    fontSize: 15,
-    fontWeight: '500',
-    color: '#7171714f',
-  },
-  box2: {
-    position: 'relative',
-    width: '100%',
-  },
-  VectotIcon: {
-    width: 100,
-    height: 50,
-    borderWidth: 1,
-  },
-  button: {
-    marginTop: 100,
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 28,
     paddingHorizontal: 15,
   },
-  dropdown2BtnStyle: {
+  input_box: {},
+  input: {
     width: '100%',
-    height: 50,
+    height: 55,
+    backgroundColor: '#fff',
     borderRadius: 45,
-    paddingHorizontal: 20,
-    backgroundColor: '#FAFAFA',
-    marginTop: 15,
+    paddingHorizontal: 24,
+    fontSize: 16,
     marginBottom: 15,
   },
 });

@@ -1,4 +1,4 @@
-import {View, Text, FlatList, StyleSheet} from 'react-native';
+import {View, FlatList, StyleSheet} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import ProductsTitle from '../../../components/uikit/ProductsTitle';
 import ProductItemCard from './ProductItemCard';
@@ -14,14 +14,13 @@ type Props = {
 
 export default function ProductList(props: Props) {
   const navigation = useNavigation();
-  const [products, setProducts] = useState<any>();
+  const [products, setProducts] = useState<any>([]);
   const loading = useLoading();
 
   const getProducts = async () => {
     try {
       loading?.onRun();
-      let res = await requests.sort.getPopular();
-
+      let res = await requests.sort.getSortAll('popular');
       setProducts(res.data.data);
     } catch (error) {
       console.log('product lest', error);

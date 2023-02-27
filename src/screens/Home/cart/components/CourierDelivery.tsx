@@ -1,19 +1,14 @@
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import React, { useState } from 'react';
-import { COLORS } from '@constants/colors';
-import { NewTopArrowIcon2 } from '@icons/icons';
-import SelectDropdown from 'react-native-select-dropdown'
+import {Platform, StyleSheet, Text, View} from 'react-native';
+import React, {useState} from 'react';
+import {COLORS} from '@constants/colors';
+import {NewTopArrowIcon2} from '@icons/icons';
+import SelectDropdown from 'react-native-select-dropdown';
 
 type typeProps = {
   onStateChange: any;
   typePayment: {
     [key: string]: any;
-  },
+  };
 };
 
 // Тариф доставки
@@ -28,7 +23,7 @@ const dataOrderTariff = [
   },
 ];
 
-// Логистическая компания 
+// Логистическая компания
 const dataOrderLogistic = [
   {
     id: 1,
@@ -54,9 +49,7 @@ const dataOrderType = [
   },
 ];
 
-
 const CourierDelivery = (props: typeProps) => {
-
   return (
     <>
       <View>
@@ -84,6 +77,7 @@ const CourierDelivery = (props: typeProps) => {
           buttonTextStyle={{
             color: '#3F3535',
             fontSize: 16,
+            textAlign: 'left',
           }}
           renderDropdownIcon={() => {
             return <NewTopArrowIcon2 />;
@@ -93,7 +87,7 @@ const CourierDelivery = (props: typeProps) => {
             color: '#3F3535',
             fontSize: 16,
           }}
-          defaultButtonText='Выберите тип оплаты'
+          defaultButtonText="Выберите тип оплаты"
           defaultValueByIndex={0}
         />
       </View>
@@ -122,6 +116,7 @@ const CourierDelivery = (props: typeProps) => {
           buttonTextStyle={{
             color: '#3F3535',
             fontSize: 16,
+            textAlign: 'left',
           }}
           renderDropdownIcon={() => {
             return <NewTopArrowIcon2 />;
@@ -131,7 +126,7 @@ const CourierDelivery = (props: typeProps) => {
             color: '#3F3535',
             fontSize: 16,
           }}
-          defaultButtonText='Выберите тип оплаты'
+          defaultButtonText="Выберите тип оплаты"
           defaultValueByIndex={0}
         />
       </View>
@@ -146,9 +141,9 @@ const CourierDelivery = (props: typeProps) => {
           Тип оплаты
         </Text>
         <SelectDropdown
-          data={props.typePayment ? props.typePayment : dataOrderType as any}
+          data={props.typePayment ? props.typePayment : (dataOrderType as any)}
           onSelect={(selectedItem: any) => {
-            props.onStateChange('payment_id')(selectedItem.id)
+            props.onStateChange('payment_id')(selectedItem.id);
           }}
           buttonTextAfterSelection={(selectedItem: any, index: any) => {
             return selectedItem.name;
@@ -160,6 +155,7 @@ const CourierDelivery = (props: typeProps) => {
           buttonTextStyle={{
             color: '#3F3535',
             fontSize: 16,
+            textAlign: 'left',
           }}
           renderDropdownIcon={() => {
             return <NewTopArrowIcon2 />;
@@ -169,7 +165,7 @@ const CourierDelivery = (props: typeProps) => {
             color: '#3F3535',
             fontSize: 16,
           }}
-          defaultButtonText='Выберите тип оплаты'
+          defaultButtonText="Выберите тип оплаты"
         />
       </View>
     </>
@@ -428,6 +424,5 @@ export const styles = StyleSheet.create({
     backgroundColor: '#FAFAFA',
     marginTop: 15,
     marginBottom: 15,
-  }
+  },
 });
-

@@ -1,27 +1,29 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  ActivityIndicator,
-  TouchableWithoutFeedback,
-  Dimensions,
-  Alert,
-} from 'react-native';
+import requests, {assetUrl} from '@api/requests';
+import {STRINGS} from '@locales/strings';
+import {useAppSelector} from '@store/hooks';
+import {cartSelector, loadCart} from '@store/slices/cartSlice';
+import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
 import React, {useState} from 'react';
-import {COLORS} from '../../../../constants/colors';
+import {
+  ActivityIndicator,
+  Alert,
+  Dimensions,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
+import {useDispatch} from 'react-redux';
 import {
   BasketIcon,
   HeartIconActive,
   HeartIconNotActive,
 } from '../../../../assets/icons/icons';
-import requests, {assetUrl} from '@api/requests';
-import {useAppSelector} from '@store/hooks';
-import {cartSelector, loadCart} from '@store/slices/cartSlice';
-import {useDispatch} from 'react-redux';
-import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
-import {STRINGS} from '@locales/strings';
+import {COLORS} from '../../../../constants/colors';
+import {useNavigation} from '@react-navigation/native';
+import {ROUTES} from '@constants/routes';
 
 type ProductItemCardProps = {
   showNewProduct?: boolean;
@@ -67,6 +69,7 @@ const AllProductItemCard = (props: ProductItemCardProps) => {
   const fav = useAppSelector(favoriteSelector);
   let isFav = !!fav[id];
   const discountPrice = (price * (100 - discount)) / 100;
+  const navigation = useNavigation();
 
   const onAddFavorite = async () => {
     try {
@@ -116,7 +119,11 @@ const AllProductItemCard = (props: ProductItemCardProps) => {
   };
 
   return (
-    <TouchableWithoutFeedback>
+    <TouchableWithoutFeedback
+      onPress={() =>
+        //@ts-ignore
+        navigation.navigate(ROUTES.PRODUCTDETAILS, {props})
+      }>
       <View style={styles.cartItem}>
         <Image style={styles.image} source={{uri: assetUrl + props.photo}} />
         {discount ? (
@@ -139,17 +146,30 @@ const AllProductItemCard = (props: ProductItemCardProps) => {
         </TouchableOpacity>
 
         <View style={styles.cartItemInfo}>
-          <View style={{height: 120}}>
-            <Text style={styles.typeText}>{category?.name || ''}</Text>
-            <Text style={styles.nameText}>{name || ''}</Text>
-            {discount ? (
-              <Text style={styles.priceTextSile}>
-                {discount ? price : discountPrice} UZS
+          <View style={{height: 115}}>
+            <View style={styles.title_box}>
+              <Text style={styles.typeText}>{category?.name || ''}</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                height: 80,
+              }}>
+              <Text style={styles.nameText}>
+                {name?.length > 10 ? name?.slice(0, 10) + '...' : name}
               </Text>
-            ) : null}
-            <Text style={styles.priceText}>
-              {discount ? discountPrice : price}UZS
-            </Text>
+              <View>
+                {discount ? (
+                  <Text style={styles.priceTextSile}>
+                    {discount ? price : discountPrice} UZS
+                  </Text>
+                ) : null}
+                <Text style={styles.priceText}>
+                  {discount ? discountPrice : price}UZS
+                </Text>
+              </View>
+            </View>
           </View>
           <TouchableOpacity
             style={[
@@ -194,6 +214,14 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     flexDirection: 'column',
     marginRight: 20,
+    shadowColor: '#d0d0d0',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 5,
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -218,7 +246,8 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 15,
   },
   cartItemInfo: {
-    paddingHorizontal: 10,
+    paddingHorizontal: 5,
+    paddingVertical: 5,
   },
   typeText: {
     fontSize: 13,
@@ -226,10 +255,9 @@ const styles = StyleSheet.create({
     color: '#84A9C0',
   },
   nameText: {
-    fontSize: 21,
+    fontSize: 18,
     fontWeight: '600',
     color: '#3F3535',
-    marginBottom: 5,
   },
   priceTextSile: {
     fontSize: 15,
@@ -238,13 +266,11 @@ const styles = StyleSheet.create({
     textDecorationLine: 'line-through',
     textDecorationStyle: 'solid',
     opacity: 0.5,
-    marginBottom: 5,
   },
   priceText: {
     fontSize: 18,
     fontWeight: '400',
     color: COLORS.black,
-    marginBottom: 20,
   },
   button: {
     width: '100%',
@@ -289,5 +315,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 10,
     right: 10,
+  },
+  title_box: {
+    height: 20,
+    width: '100%',
   },
 });

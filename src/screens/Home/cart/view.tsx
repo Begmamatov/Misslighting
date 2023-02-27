@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/core';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {SafeAreaView, ScrollView, View, Text} from 'react-native';
 import {useSelector} from 'react-redux';
 import DefaultHeader from '../favorites/components/DefaultHeader';
@@ -7,17 +7,15 @@ import ChooseItemNum from './components/ChooseItemNum';
 import OrderDetails from './components/OrderDetails';
 import {useCartScreenHooks} from './hooks';
 import {styles} from './style';
-import {useRoute} from '@react-navigation/native';
 import {cartArraySelector, cartTotalSelector} from '@store/slices/cartSlice';
 import {STRINGS} from '@locales/strings';
 
 import DefaultButton from '@components/uikit/DefaultButton';
 import {ROUTES} from '@constants/routes';
 import {COLORS} from '@constants/colors';
+import requests from '@api/requests';
 
 const CartView = () => {
-  let rout = useRoute();
-
   let navigation: any = useNavigation();
 
   let cart = useSelector(cartArraySelector);
@@ -25,9 +23,21 @@ const CartView = () => {
   let cartTotal = useSelector(cartTotalSelector);
 
   let {onClearCart, getCart} = useCartScreenHooks();
+  const [profileData, setProfileData] = useState<any>();
+  const fetchData = async () => {
+    try {
+      let res = await requests.profile.getProfile();
+      setProfileData(res.data.data);
+    } catch (error) {
+      console.log('====================================');
+      console.log(error);
+      console.log('====================================');
+    }
+  };
 
   useEffect(() => {
     getCart();
+    fetchData();
   }, []);
 
   if (cart.length <= 0) {
@@ -46,8 +56,8 @@ const CartView = () => {
       <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
         <OrderDetails total={cartTotal} />
         <View style={{paddingHorizontal: 15}}>
-          {cart.map((e, index) => {
-            return <ChooseItemNum data={e} key={index} />;
+          {cart.map((item, index) => {
+            return <ChooseItemNum data={item} key={index} />;
           })}
         </View>
         <View style={{paddingHorizontal: 15, paddingBottom: 30}}>
@@ -61,7 +71,7 @@ const CartView = () => {
             TextStyle={{color: COLORS.white}}
           />
           <DefaultButton
-            onPress={() => onClearCart()}
+            onPress={() => onClearCart}
             title={STRINGS.ru.emptyCart}
             ButtonStyle={{
               backgroundColor: COLORS.white,

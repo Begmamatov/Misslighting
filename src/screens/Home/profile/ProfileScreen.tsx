@@ -1,19 +1,23 @@
+import requests, {assetUrl} from '@api/requests';
+import {LoginResponse} from '@api/types';
+import {useNavigation} from '@react-navigation/native';
+import {useAppDispatch} from '@store/hooks';
+import {userLoggedOut} from '@store/slices/userSlice';
+import React, {useEffect, useState} from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
+  ActivityIndicator,
+  Alert,
   Image,
   ScrollView,
+  StyleSheet,
+  Text,
   TouchableOpacity,
-  Alert,
+  View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import ProductsTitle from '../../../components/uikit/ProductsTitle';
 import {
   NewAdminIcon,
   NewArrowIcon,
   NewBasketIcon,
-  NewDiscountIcon,
   NewLocationIcon,
   NewLogOutIcon,
   NewMessageIcon,
@@ -21,19 +25,17 @@ import {
   NewSettingIcon,
   NewTranstionIcon,
 } from '../../../assets/icons/icons';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import ProductsTitle from '../../../components/uikit/ProductsTitle';
 import {ROUTES} from '../../../constants/routes';
-import {userLoggedOut} from '@store/slices/userSlice';
-import {useAppDispatch} from '@store/hooks';
 import SettingsItem from './Setting/SettingItem';
-import requests, {assetUrl} from '@api/requests';
-import {LoginResponse} from '@api/types';
+import {COLORS} from '@constants/colors';
 
 export default function ProfileScreen() {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
   type ProfileData = Partial<LoginResponse>;
   let [profileData, setProfileData] = useState<ProfileData>();
+  const [animate2, setAnimate2] = useState(false);
 
   let onLogOut = () => {
     Alert.alert('Вы точно хотите выйти из аккаунта ?', '', [
@@ -45,7 +47,7 @@ export default function ProfileScreen() {
         text: 'OK',
         onPress: () => {
           dispatch(userLoggedOut());
-          navigation.navigate(ROUTES.LOGIN as never);
+          // navigation.navigate(ROUTES.LOGIN as never);
         },
       },
     ]);
@@ -59,6 +61,16 @@ export default function ProfileScreen() {
       console.log(error);
       console.log('====================================');
     }
+  };
+  const detailAccount = async () => {
+    try {
+      setAnimate2(true);
+      let {data} = await requests.profile.removAcount();
+      dispatch(userLoggedOut());
+
+      setAnimate2(false);
+      console.log(data);
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -93,12 +105,12 @@ export default function ProfileScreen() {
         icon={() => <NewBasketIcon />}
         icon2={() => <NewArrowIcon />}
       />
-      <SettingsItem
+      {/* <SettingsItem
         onPress={() => navigation.navigate(ROUTES.PROFILE_SETTING as never)}
         text={'Настройки'}
         icon={() => <NewSettingIcon />}
         icon2={() => <NewArrowIcon />}
-      />
+      /> */}
       <SettingsItem
         text={'Мы на карте'}
         icon={() => <NewLocationIcon />}
@@ -110,12 +122,12 @@ export default function ProfileScreen() {
         icon={() => <NewAdminIcon />}
         icon2={() => <NewArrowIcon />}
       />
-      <SettingsItem
+      {/* <SettingsItem
         onPress={() => navigation.navigate(ROUTES.BONUSPROGRAM as never)}
         text={'Бонусная программа'}
         icon={() => <NewDiscountIcon />}
         icon2={() => <NewArrowIcon />}
-      />
+      /> */}
       <SettingsItem
         onPress={() => navigation.navigate(ROUTES.TRANSACTIONS as never)}
         text={'Транзакции'}
@@ -141,6 +153,23 @@ export default function ProfileScreen() {
         <NewLogOutIcon />
         <Text style={style.logOutButtonText}>Выйти из аккаунта</Text>
       </TouchableOpacity>
+      <View
+        style={{
+          width: '100%',
+          paddingHorizontal: 15,
+        }}>
+        <TouchableOpacity style={style.butto2} onPress={detailAccount}>
+          {animate2 ? (
+            <ActivityIndicator
+              size="small"
+              color={COLORS.white}
+              animating={animate2}
+            />
+          ) : (
+            <Text style={{color: COLORS.white}}> Удалить аккаунт</Text>
+          )}
+        </TouchableOpacity>
+      </View>
     </ScrollView>
   );
 }
@@ -220,7 +249,7 @@ const style = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 17,
     elevation: 1,
-    marginBottom: 50,
+    marginBottom: 20,
     marginHorizontal: 15,
   },
   logOutButtonText: {
@@ -229,7 +258,13 @@ const style = StyleSheet.create({
     marginLeft: 10,
     color: '#000',
   },
+  butto2: {
+    height: 55,
+    backgroundColor: COLORS.red,
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 50,
+    paddingHorizontal: 15,
+  },
 });
-function dispatch(arg0: any) {
-  throw new Error('Function not implemented.');
-}

@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '500',
     lineHeight: 20,
-    color: '#C8C8C8',
+    color: '#302f2f',
   },
   box_value: {
     fontSize: 15,

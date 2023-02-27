@@ -7,6 +7,7 @@ import {useNavigation} from '@react-navigation/native';
 import {ROUTES} from '../../../constants/routes';
 import requests from '@api/requests';
 import useLoading from '@store/Loader/useLoading';
+import NewsItemDetail from './NewsItemDetail';
 
 type ProductListProps = {
   title: string;
@@ -34,10 +35,7 @@ export default function NewsList(props: ProductListProps) {
   }, []);
   const navigation = useNavigation();
   const onPress = () => {
-    navigation.navigate(
-      ROUTES.ALLPRODUCTS as never,
-      {products, props} as never,
-    );
+    navigation.navigate(ROUTES.ALLNEWS as never, {products, props} as never);
   };
 
   return (
@@ -48,11 +46,7 @@ export default function NewsList(props: ProductListProps) {
         showsHorizontalScrollIndicator={false}
         data={products}
         renderItem={({item}) => (
-          <ShopAndNewsItem
-            itemInfo="В текст представили портрет типичного покупателя"
-            buttonTitle="Подробнее"
-            {...item}
-          />
+          <NewsItemDetail buttonTitle="Подробнее" item={item} />
         )}
         keyExtractor={item => item.id}
         style={styles.container}

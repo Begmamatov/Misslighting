@@ -1,26 +1,25 @@
-import { Alert, StyleSheet, Text, TouchableOpacity } from 'react-native';
-import React, { useState } from 'react';
-import WelcomeScreen from '@components/template/WelcomeScreen';
-import DefaultInput from '@components/uikit/TextInput';
-import DefaultButton from '@components/uikit/DefaultButton';
-import { ROUTES } from '@constants/routes';
-import { useNavigation } from '@react-navigation/native';
-import { useAppDispatch } from '@store/hooks';
-import { LoginState } from '@api/types';
-import { validatePhoneNumber } from '@constants/validation';
 import requests from '@api/requests';
-import { userLoggedIn } from '@store/slices/userSlice';
-import { COLORS } from '@constants/colors';
+import {LoginState} from '@api/types';
+import WelcomeScreen from '@components/template/WelcomeScreen';
+import DefaultButton from '@components/uikit/DefaultButton';
 import DefaultInputEye from '@components/uikit/DefaultInputEye';
+import DefaultInput from '@components/uikit/TextInput';
+import {COLORS} from '@constants/colors';
+import {ROUTES} from '@constants/routes';
+import {validatePhoneNumber} from '@constants/validation';
+import {useAppDispatch} from '@store/hooks';
+import {userLoggedIn} from '@store/slices/userSlice';
+import React, {useState} from 'react';
+import {Alert, StyleSheet, Text, TouchableOpacity} from 'react-native';
 
 export default function Login(props: any) {
-  let navigation = useNavigation();
   let dispatch = useAppDispatch();
   const [state, setState] = useState<LoginState>({
-    password: '300521', //300521
-    phone: '+998901951625', //+998901951625
+    password: '', //381555
+    phone: '', //+998901951625
   });
   const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState(false);
 
   const onLogin = async () => {
     if (validatePhoneNumber(state.phone as string)) {
@@ -28,18 +27,21 @@ export default function Login(props: any) {
         setLoading(true);
         let res = await requests.auth.login(state);
         dispatch(userLoggedIn(res.data));
-      } catch (e: any) {
-        Alert.alert((e.message as any) || 'Ошибка');
+        console.log(JSON.stringify(res.data, null, 2));
+        setError(!res.data);
+      } catch (error) {
+        console.log(error);
       } finally {
         setLoading(false);
+        setState({password: '', phone: ''});
       }
     } else {
-      console.log('Invalid phone number');
+      Alert.alert('цифры в номере должны быть +99890******* тогда');
     }
   };
 
   let onStateChange = (key: string) => (value: string) => {
-    setState({ ...state, [key]: value });
+    setState({...state, [key]: value});
   };
 
   const onPressRegister = () => {
@@ -56,11 +58,6 @@ export default function Login(props: any) {
         onChangeText={onStateChange('phone')}
         value={state.phone}
       />
-      {/* <DefaultInput
-        placeholder="Ваш пароль"
-        onChangeText={onStateChange('password')}
-        value={state.password}
-      /> */}
       <DefaultInputEye
         placeholder="Ваш пароль"
         onChange={onStateChange('password')}
@@ -68,12 +65,13 @@ export default function Login(props: any) {
         inputStyle={COLORS.white}
         value={state.password}
         color={COLORS.black}
-        placeholderColor={COLORS.gray}
+        placeholderColor={COLORS.black}
       />
+      {error && <Text style={styles.error}>Не верный логин и/или пароль</Text>}
       <TouchableOpacity
         onPress={onPressForgotPassword}
         style={styles.forgotPassword}
-        hitSlop={{ left: 20, right: 20, bottom: 20, top: 20 }}>
+        hitSlop={{left: 20, right: 20, bottom: 20, top: 20}}>
         <Text style={styles.text}>Забыли пароль?</Text>
       </TouchableOpacity>
       <DefaultButton
@@ -99,5 +97,9 @@ const styles = StyleSheet.create({
   forgotPassword: {
     width: '100%',
     alignItems: 'flex-end',
+  },
+  error: {
+    color: COLORS.red,
+    alignSelf: 'center',
   },
 });

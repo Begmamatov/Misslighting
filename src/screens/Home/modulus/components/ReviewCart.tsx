@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, Image} from 'react-native';
+import {StyleSheet, Text, View, Image, Dimensions} from 'react-native';
 import React from 'react';
 import {StrokeIcon} from '@icons/icons';
 import {assetUrl} from '@api/requests';
@@ -6,7 +6,7 @@ import {Rating} from 'react-native-ratings';
 import {COLORS} from '@constants/colors';
 
 const ReviewCart = ({item}: any) => {
-  console.log('ReviewCart', JSON.stringify(item, null, 2));
+  // console.log('ReviewCart', JSON.stringify(item, null, 2));
   const {date, user, bought, review, rate, id} = item;
 
   return (
@@ -31,7 +31,9 @@ const ReviewCart = ({item}: any) => {
               color: COLORS.defaultBlack,
               marginBottom: 2,
             }}>
-            {user.name}
+            {user.name.length > 10
+              ? user?.name.slice(0, 10) + '...'
+              : user?.name}
           </Text>
           <Rating
             type="custom"
@@ -73,11 +75,6 @@ const ReviewCart = ({item}: any) => {
 export default ReviewCart;
 
 const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    height: '96%',
-    paddingHorizontal: 15,
-  },
   userInfo: {
     marginLeft: -20,
   },
@@ -102,22 +99,6 @@ const styles = StyleSheet.create({
     marginBottom: 29,
   },
 
-  box_content: {
-    display: 'flex',
-    borderRadius: 10,
-    paddingVertical: 8,
-    backgroundColor: '#fff',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    shadowOffset: {width: -1, height: 4},
-    shadowColor: '#171717',
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    // paddingBottom: 18,
-    marginBottom: 18,
-    elevation: 5,
-  },
   img_container: {
     width: 95,
     height: 91,
@@ -136,13 +117,14 @@ const styles = StyleSheet.create({
     shadowColor: '#171717',
     shadowOpacity: 0.1,
     shadowRadius: 3,
-    width: '100%',
     minHeight: 100,
-    marginTop: 11,
+    marginVertical: 7,
     paddingVertical: 22,
     paddingHorizontal: 11,
     borderRadius: 10,
     elevation: 5,
+    marginHorizontal: 15,
+    maxWidth: '100%',
   },
   bottom_doc: {
     marginTop: 21,

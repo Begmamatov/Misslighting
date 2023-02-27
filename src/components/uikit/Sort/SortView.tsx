@@ -17,6 +17,7 @@ type PropsSort = {
   item?: string;
   setModalVisible?: any;
   setModalSort?: any;
+  modalSort?: string;
 };
 
 const title = 'Сортировать';
@@ -27,22 +28,23 @@ const data = [
   },
   {
     id: 1,
-    name: 'Новые',
+    name: 'Новинка',
   },
-
   {
     id: 2,
-    name: 'Товары под заказ',
+    name: 'Самые дорогие',
   },
   {
     id: 3,
-    name: 'Товары со скидкой',
+    name: 'Самые дешевые',
+  },
+  {
+    id: 4,
+    name: 'Недавно добавленные',
   },
 ];
 const SortView = (props: PropsSort) => {
-  const routes = useRoute();
-
-  const [active, setActive] = useState('');
+  const [active, setActive] = useState(props.modalSort || 'Популярные');
 
   const sortAddHandler = () => {
     props.setModalVisible(false);

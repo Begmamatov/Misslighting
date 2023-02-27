@@ -9,13 +9,15 @@ type PropsSnadAndFilter = {
   setModalVisible?: any;
   setModalFilter?: any;
   setModalSort?: any;
+  title?: any;
+  isFilter?: boolean;
 };
 
 export default function SortAndFilter(props: PropsSnadAndFilter) {
   const navigation = useNavigation();
   const sortHandler = () => {
     props.setModalVisible(true);
-    props.setModalFilter('Популярные');
+    props.setModalFilter('Сортировать');
   };
   const FilterHandler = () => {
     props.setModalVisible(true);
@@ -30,10 +32,12 @@ export default function SortAndFilter(props: PropsSnadAndFilter) {
         </Text>
         <BottomArrow fill={COLORS.textColorBlue} />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.filter} onPress={FilterHandler}>
-        <Text style={styles.title}>Фильтры</Text>
-        <FilterIcon fill={COLORS.textColorBlue} />
-      </TouchableOpacity>
+      {props.isFilter ? (
+        <TouchableOpacity style={styles.filter} onPress={FilterHandler}>
+          <Text style={styles.title}>Фильтры</Text>
+          <FilterIcon fill={COLORS.textColorBlue} />
+        </TouchableOpacity>
+      ) : null}
     </View>
   );
 }

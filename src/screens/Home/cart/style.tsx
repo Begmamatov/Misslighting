@@ -29,6 +29,7 @@ export const styles = StyleSheet.create({
 
   emptyText: {
     fontSize: 22,
+    color: COLORS.black,
   },
 
   bottom: {

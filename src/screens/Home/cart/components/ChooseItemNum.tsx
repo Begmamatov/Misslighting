@@ -1,5 +1,4 @@
 import requests, {appendUrl} from '@api/requests';
-import {CartItemResponse} from '@api/types';
 import {
   CrashIcon,
   HeartIconActive,
@@ -9,26 +8,25 @@ import {
 } from '@icons/icons';
 
 import {COLORS} from '@constants/colors';
+import {useNavigation} from '@react-navigation/native';
 import {useAppSelector} from '@store/hooks';
 import {loadCart} from '@store/slices/cartSlice';
 import {favoriteSelector, loadFavorite} from '@store/slices/favoriteSlice';
 import React, {useEffect, useState} from 'react';
 import {
   Image,
+  Keyboard,
   LayoutAnimation,
+  Modal,
   StyleSheet,
-  TouchableOpacity,
-  View,
   Text,
   TextInput,
-  Modal,
-  Keyboard,
+  TouchableOpacity,
   TouchableWithoutFeedback,
+  View,
 } from 'react-native';
-import {useDispatch} from 'react-redux';
 import {ActivityIndicator} from 'react-native-paper';
-import {useNavigation} from '@react-navigation/native';
-import {ROUTES} from '@constants/routes';
+import {useDispatch} from 'react-redux';
 
 export let ProductsData = {
   name: 'Элегантный Костюм с брюками ZARA стиль',
@@ -45,9 +43,10 @@ export default function ChooseItemNum({data}: {data: any}) {
   const dispatch = useDispatch();
 
   let id = data.product.id;
+
   const fav = useAppSelector(favoriteSelector);
   let isFav = !!fav[id];
-  const discountPrice = (data.price * (100 - data.discount)) / 100;
+  const discountPrice = (data?.price * (100 - data?.product?.discount)) / 100;
   const navigation: any = useNavigation();
 
   const onAddItem = async (addOne?: boolean) => {
@@ -123,7 +122,6 @@ export default function ChooseItemNum({data}: {data: any}) {
     <TouchableWithoutFeedback
       onPress={() => {
         Keyboard.dismiss();
-        navigation.navigate(ROUTES.PRODUCTDETAILS, {props: data.product});
       }}>
       <View style={styles.container}>
         <View>
@@ -135,14 +133,10 @@ export default function ChooseItemNum({data}: {data: any}) {
         <View style={styles.textBox}>
           <Text style={styles.headerTxt}>{data?.product?.name}</Text>
           <View style={styles.rowTxt}>
-            {data.discount ? (
-              <Text style={styles.lineThrough}>
-                {data.discount ? data.price : discountPrice} сум
-              </Text>
+            {data?.product?.discount ? (
+              <Text style={styles.lineThrough}>{data.price} сум</Text>
             ) : null}
-            <Text style={styles.blueTxt}>
-              {data.discount ? discountPrice : data.price} сум
-            </Text>
+            <Text style={styles.blueTxt}>{discountPrice.toFixed(2)} сум</Text>
           </View>
           <View style={styles.counter}>
             <TouchableOpacity onPress={onDecreaseItem} style={styles.minus}>
@@ -161,7 +155,7 @@ export default function ChooseItemNum({data}: {data: any}) {
                 value={value}
                 onFocus={() => setShouldShow(true)}
               />
-              <Text style={{color: '#717171B2'}}> шт</Text>
+              <Text style={styles.input_title}>шт</Text>
             </View>
             <TouchableOpacity
               onPress={() => onAddItem(true)}
@@ -181,7 +175,7 @@ export default function ChooseItemNum({data}: {data: any}) {
             onPress={onAddFavorite}
             hitSlop={{left: 10, right: 10, top: 10, bottom: 10}}>
             {isFav ? (
-              <HeartIconActive />
+              <HeartIconActive fill={'red'} />
             ) : (
               <HeartIconBorder fill={COLORS.red} stroke={COLORS.red} />
             )}
@@ -239,7 +233,7 @@ export default function ChooseItemNum({data}: {data: any}) {
                     value={value}
                     onChangeText={onChangeText}
                   />
-                  <Text style={{color: '#717171B2'}}> шт</Text>
+                  <Text style={styles.input_title}> шт</Text>
                 </View>
                 <TouchableOpacity
                   onPress={() => onAddItem(true)}
@@ -316,10 +310,10 @@ const styles = StyleSheet.create({
   input: {
     color: '#717171B2',
     height: 30,
-    minWidth: 20,
     margin: 0,
     padding: 0,
     paddingHorizontal: 3,
+    width: 30,
   },
   leftImage: {
     width: 101,
@@ -400,9 +394,14 @@ const styles = StyleSheet.create({
     borderColor: COLORS.whiteGray,
     borderTopWidth: 1,
     borderBottomWidth: 1,
-    justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
     paddingHorizontal: 5,
+    position: 'relative',
+  },
+  input_title: {
+    color: '#717171B2',
+    position: 'absolute',
+    right: 10,
   },
 });

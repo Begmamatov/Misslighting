@@ -6,13 +6,22 @@ type Props = {
   label?: string;
   viewStyle?: object;
   textStyle?: object;
+  checkout?: any;
 };
 
 export default function CheckBox(props: Props) {
   return (
     <View style={styles.checkBox} {...props.viewStyle}>
       <View style={styles.checkBoxItem}>
-        <View style={styles.checkBoxItemBox}></View>
+        <View
+          style={[
+            styles.checkBoxItemBox,
+            {
+              backgroundColor: props.checkout
+                ? COLORS.activeButtonBgColor
+                : COLORS.white,
+            },
+          ]}></View>
       </View>
       <Text style={styles.checkBoxText} {...props.textStyle}>
         {props.label}
@@ -41,7 +50,6 @@ const styles = StyleSheet.create({
   checkBoxItemBox: {
     width: '100%',
     height: '100%',
-    backgroundColor: COLORS.activeButtonBgColor,
     borderRadius: 5,
   },
   checkBoxText: {

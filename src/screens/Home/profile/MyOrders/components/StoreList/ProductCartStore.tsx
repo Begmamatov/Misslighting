@@ -1,45 +1,52 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import {ROUTES} from '../../../../constants/routes';
+import {ROUTES} from '../../../../../../constants/routes';
 import {useNavigation} from '@react-navigation/native';
 import {
   OrderStatusColor,
   OrderStatusText,
+  OrderStatusTextNoActive,
 } from '@constants/OrderStatusColorAndText';
-type typesProps = {
-  [key: string]: any;
-};
-const ProductCart = (props: typesProps) => {
+
+const ProductCartStore = ({item}: any) => {
   const navigation = useNavigation();
-  //"2022-12-02 12:28:48"
-  const date = new Date(props.item.item.date);
+
+  const date = new Date(item.date);
   const dateStr = `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`;
+
+  const isHistry = Object.keys(OrderStatusTextNoActive).some(
+    i => i == item.status,
+  );
+
+  if (!isHistry) return <View />;
+
   return (
     <View style={styles.itemProduct}>
       <View style={styles.itemHeader}>
         <View>
-          <Text style={styles.itemTextBold}>Заказ {props.item.item.id}</Text>
+          <Text style={styles.itemTextBold}>Заказ {item.id}</Text>
           <Text style={styles.itemText}>{dateStr}</Text>
         </View>
         <View>
           <Text
             style={[
               styles.itemTextRed,
-              {color: OrderStatusColor[props.item.item.status]},
+              {color: OrderStatusColor[item.status]},
             ]}>
-            {OrderStatusText[props.item.item.status]}
+            {OrderStatusText[item.status]}
           </Text>
         </View>
       </View>
-      {props.item.item.orderProducts.map((item: any, index: number) => {
+      {item.orderProducts?.map((item: any, index: number) => {
         return (
           <View style={styles.itemHeader2} key={index}>
-            <View>
+            <View style={{width: '70%'}}>
               <View
                 style={{
                   display: 'flex',
                   flexDirection: 'row',
                   alignItems: 'center',
+                  width: '90%',
                 }}>
                 <View
                   style={{
@@ -61,14 +68,18 @@ const ProductCart = (props: typesProps) => {
                     {item.amount}x
                   </Text>
                 </View>
-                <Text style={styles.itemTextBold}>{item.product.name}</Text>
+                <Text style={styles.itemTextBold}>
+                  {item.product?.name.length > 20
+                    ? item.product?.name.slice(0, 20) + '...'
+                    : item.product?.name}
+                </Text>
               </View>
-              {item.product.shopName ? (
-                <Text style={styles.itemText}>{item.product.shopName}</Text>
+              {item.product?.shopName ? (
+                <Text style={styles.itemText}>{item.product?.shopName}</Text>
               ) : null}
             </View>
 
-            <Text style={{color: '#000', fontSize: 17, fontWeight: '400'}}>
+            <Text style={{color: '#000', fontSize: 15, fontWeight: '400'}}>
               {item.price} сум{' '}
             </Text>
           </View>
@@ -85,8 +96,7 @@ const ProductCart = (props: typesProps) => {
           }}>
           <Text style={styles.itemTextBold}>Итого: </Text>
           <Text style={{fontSize: 16, color: '#3F3535', fontWeight: '600'}}>
-            {' '}
-            {props.item.item.price} сум
+            {item.price} сум
           </Text>
         </View>
         <TouchableOpacity
@@ -94,7 +104,7 @@ const ProductCart = (props: typesProps) => {
           onPress={() =>
             navigation.navigate(
               ROUTES.ORDERVIEW as never,
-              {id: props.item.item.id} as never,
+              {id: item.id} as never,
             )
           }>
           <Text style={{color: '#fff', fontWeight: '600'}}>Детали</Text>
@@ -104,7 +114,7 @@ const ProductCart = (props: typesProps) => {
   );
 };
 
-export default ProductCart;
+export default ProductCartStore;
 
 const styles = StyleSheet.create({
   header: {
@@ -203,7 +213,7 @@ const styles = StyleSheet.create({
     borderRadius: 45,
   },
   itemTextBold: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 'bold',
     color: '#000',
   },

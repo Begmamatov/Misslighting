@@ -1,15 +1,12 @@
 import React from 'react';
-import {Image, StyleSheet, TextInput, View, Text} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 
 //@ts-ignore
-import MirImg from '../../../../assets/images/mir.png';
 //@ts-ignore
-import VisaImg from '../../../../assets/images/visa.png';
 //@ts-ignore
-import MastercardImg from '../../../../assets/images/mastercard.png';
 
-import {STRINGS} from '@locales/strings';
 import {COLORS} from '@constants/colors';
+import {STRINGS} from '@locales/strings';
 
 const OrderDetails = ({total}: {total: {total: number; count: number}}) => {
   return (
@@ -20,17 +17,17 @@ const OrderDetails = ({total}: {total: {total: number; count: number}}) => {
           <Text style={{color: '#757575'}}>
             {STRINGS.ru.items} ({total?.count})
           </Text>
-          <Text style={styles.price}>{total.total} сум</Text>
+          <Text style={styles.price}>{total.total.toFixed(2)} сум</Text>
         </View>
-        <View style={styles.row}>
+        {/* <View style={styles.row}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Text style={{color: '#757575'}}>{STRINGS.ru.Delivery}</Text>
           </View>
           <Text style={{color: COLORS.defaultBlack}}>-50 сум</Text>
-        </View>
+        </View> */}
         <View style={styles.rowFooter}>
           <Text style={styles.footerTxt}>{STRINGS.ru.totalPrice}</Text>
-          <Text style={styles.total}> {total?.total} сум </Text>
+          <Text style={styles.total}> {total?.total.toFixed(2)} сум </Text>
         </View>
       </View>
     </View>
@@ -92,7 +89,7 @@ const styles = StyleSheet.create({
   },
 
   rowFooter: {
-    marginTop: 5,
+    marginTop: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },

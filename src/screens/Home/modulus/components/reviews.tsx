@@ -25,56 +25,56 @@ const Reviews = () => {
       console.log(e);
     }
   };
-  console.log('Reviews', JSON.stringify(reviewsList, null, 2));
+
   useEffect(() => {
     getReviews();
   }, []);
+  // console.log('Reviews', JSON.stringify(reviewsList, null, 2));
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: COLORS.white}}>
       <GoBackHeader />
       <View style={styles.container}>
         <Text style={styles.title}>Оценка и отзывы</Text>
-        <View>
-          <View style={styles.box_content}>
-            <View style={styles.img_container}>
-              <Image
-                style={{width: '100%', height: '100%', borderRadius: 15}}
-                source={{uri: assetUrl + params.photo}}
-              />
-            </View>
-            <View style={styles.img_doc}>
-              <Text style={{fontSize: 17, fontWeight: '600', lineHeight: 40}}>
+
+        <View style={styles.box_content}>
+          <View style={styles.img_container}>
+            <Image
+              style={{width: '100%', height: '100%', borderRadius: 15}}
+              source={{uri: assetUrl + params.photo}}
+            />
+          </View>
+          <View style={styles.img_doc}>
+            <View style={{width: '70%'}}>
+              <Text style={{fontSize: 17, fontWeight: '600'}}>
                 {params.name}
               </Text>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  marginRight: 11,
-                }}>
-                <Text style={{marginLeft: 48, marginRight: 10}}>
-                  {params.rating}
-                </Text>
-                <Rating
-                  type="custom"
-                  ratingCount={1}
-                  imageSize={18}
-                  ratingColor="#edcf21"
-                  ratingBackgroundColor="#FFFFFF"
-                  readonly={true}
-                  startingValue={params?.rating}
-                />
-              </View>
+            </View>
+
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+              <Text style={{marginRight: 10}}>{params.rating}</Text>
+              <Rating
+                type="custom"
+                ratingCount={1}
+                imageSize={18}
+                ratingColor="#edcf21"
+                ratingBackgroundColor="#FFFFFF"
+                readonly={true}
+                startingValue={params?.rating}
+              />
             </View>
           </View>
-          <FlatList
-            showsVerticalScrollIndicator={false}
-            data={reviewsList}
-            style={{height: '72%', paddingHorizontal: 1}}
-            keyExtractor={(index: any) => index.id}
-            renderItem={({item}) => <ReviewCart item={item} />}
-          />
         </View>
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={reviewsList}
+          keyExtractor={(index: any) => index.id}
+          renderItem={({item}) => <ReviewCart item={item} />}
+          style={{width: '100%'}}
+        />
       </View>
     </SafeAreaView>
   );
@@ -85,8 +85,7 @@ export default Reviews;
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    height: '96%',
-    paddingHorizontal: 15,
+    height: '93%',
   },
   userInfo: {
     marginLeft: -20,
@@ -109,6 +108,7 @@ const styles = StyleSheet.create({
     lineHeight: 40,
     color: '#3F3535',
     marginBottom: 29,
+    marginHorizontal: 15,
   },
 
   box_content: {
@@ -123,9 +123,9 @@ const styles = StyleSheet.create({
     shadowColor: '#171717',
     shadowOpacity: 0.1,
     shadowRadius: 3,
-    // paddingBottom: 18,
     marginBottom: 18,
     elevation: 5,
+    marginHorizontal: 15,
   },
   img_container: {
     width: 95,

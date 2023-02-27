@@ -3,15 +3,15 @@ import CheckBox from '../../../components/uikit/CheckBox';
 import DefaultButton from '../../../components/uikit/DefaultButton';
 import SectionTitle from '../../../components/uikit/SectionTitle';
 import DefaultInput from '../../../components/uikit/TextInput';
-import { COLORS } from '../../../constants/colors';
-import React, { useState } from 'react';
-import { ScrollView, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { ROUTES } from '../../../constants/routes';
+import {COLORS} from '../../../constants/colors';
+import React, {useState} from 'react';
+import {ScrollView, TouchableOpacity, View} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {ROUTES} from '../../../constants/routes';
 
 import moment from 'moment';
 import useRegisterHook from './hooks';
-import { STRINGS } from '@locales/strings';
+import {STRINGS} from '@locales/strings';
 import DefaultInputEye from '@components/uikit/DefaultInputEye';
 
 // export interface RegisterStatePyhsical {
@@ -36,10 +36,10 @@ export default function SignUpPhysical() {
   // const [date, setDate] = useState(new Date())
   // const [open, setOpen] = useState(false)
   // const formatDate = (date: Date) => setState({ ...state, birthday: moment(date).format('DD.MM.YYYY') })
+  const [diseblet, setDiseblet] = useState(true);
 
   return (
-    <View
-      style={{ backgroundColor: COLORS.white }}>
+    <View style={{backgroundColor: COLORS.white}}>
       <DefaultInput
         placeholder="Ваш номер"
         label="Номер телефона"
@@ -111,16 +111,22 @@ export default function SignUpPhysical() {
           setOpen(false)
         }}
       /> */}
-      <CheckBox label="Я согласен с условиями" />
+      <TouchableOpacity onPress={() => setDiseblet(a => !a)}>
+        <CheckBox label="Я согласен с условиями" checkout={!diseblet} />
+      </TouchableOpacity>
+
       <DefaultButton
         onPress={() => onRegister('fiz')}
         title="Далее"
         ButtonStyle={{
-          backgroundColor: COLORS.activeButtonBgColor,
+          backgroundColor: diseblet
+            ? COLORS.noActiveButtonBgColor2
+            : COLORS.activeButtonBgColor,
           width: '100%',
         }}
-        TextStyle={{ color: COLORS.white }}
+        TextStyle={{color: COLORS.white}}
         loading={loading}
+        disabled={diseblet}
       />
     </View>
   );

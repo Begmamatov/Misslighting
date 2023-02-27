@@ -1,31 +1,26 @@
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import React, { useState } from 'react';
-import { COLORS } from '@constants/colors';
-import { NewTopArrowIcon2 } from '@icons/icons';
-import SelectDropdown from 'react-native-select-dropdown'
+import {Platform, StyleSheet, Text, View} from 'react-native';
+import React, {useState} from 'react';
+import {COLORS} from '@constants/colors';
+import {NewTopArrowIcon2} from '@icons/icons';
+import SelectDropdown from 'react-native-select-dropdown';
 
 type typeProps = {
   onStateChange: any;
   typePayment: {
     [key: string]: any;
-  }
+  };
 };
 
 // Тип оплаты
 const dataOrderType = [
   {
     id: 1,
-    title: 'Самовывоз',
+    name: 'Самовывоз',
     value: 'pickup',
   },
   {
     id: 2,
-    title: 'Доставка курьером',
+    name: 'Доставка курьером',
     value: 'delivery',
   },
 ];
@@ -43,7 +38,7 @@ const PickupPoints = (props: typeProps) => {
         Тип оплаты
       </Text>
       <SelectDropdown
-        data={props.typePayment ? [props.typePayment] : dataOrderType}
+        data={props?.typePayment ? props?.typePayment : dataOrderType}
         onSelect={(selectedItem: any) => {
           props.onStateChange('payment_id')(selectedItem.id);
         }}
@@ -66,7 +61,7 @@ const PickupPoints = (props: typeProps) => {
           color: '#3F3535',
           fontSize: 16,
         }}
-        defaultButtonText='Выберите тип оплаты'
+        defaultButtonText="Выберите тип оплаты"
       />
     </View>
   );
@@ -324,5 +319,5 @@ export const styles = StyleSheet.create({
     backgroundColor: '#FAFAFA',
     marginTop: 15,
     marginBottom: 15,
-  }
+  },
 });

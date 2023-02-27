@@ -1,12 +1,37 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import GoBackHeader from '../../../../components/uikit/Header/GoBackHeader';
 import {COLORS} from '@constants/colors';
 import {useNavigation} from '@react-navigation/native';
 import {ROUTES} from '@constants/routes';
+import requests from '@api/requests';
+import ShopCart from './components/ShopCart/ShopCart';
 
 const Message = () => {
-  const navigation = useNavigation();
+  const [state, setState] = useState<any>([]);
+  const shopsAll = async () => {
+    try {
+      let res = await requests.shops.getShops();
+      setState(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const [shopProductMessesge, setshopProductMessesge] = useState<any>();
+  const getShopDetail = async () => {
+    try {
+      let res = await requests.chat.shopGetProduct();
+      setshopProductMessesge(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    shopsAll();
+    getShopDetail();
+  }, []);
+
   return (
     <View style={{flex: 1, backgroundColor: COLORS.white}}>
       <GoBackHeader />
@@ -16,15 +41,16 @@ const Message = () => {
       <View
         style={{
           marginTop: 20,
+          flex: 1,
         }}>
-        <TouchableOpacity
-          style={styles.messageCard}
-          onPress={() => navigation.navigate(ROUTES.CHAT as never)}>
-          <Text style={styles.messageDate}>10.14.2022</Text>
-          <Text style={styles.messageTitle}>
-            Добрый день. Ваш заказ обработан...
-          </Text>
-        </TouchableOpacity>
+        <FlatList
+          showsHorizontalScrollIndicator={false}
+          data={shopProductMessesge}
+          renderItem={({item}) => <ShopCart item={item} />}
+          style={styles.container}
+          contentContainerStyle={styles.contentContainerStyle}
+          keyExtractor={item => item.id}
+        />
       </View>
     </View>
   );
@@ -41,6 +67,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: '600',
     zIndex: 100,
+    color: COLORS.black,
   },
   messageCard: {
     marginHorizontal: 20,
@@ -66,4 +93,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     color: COLORS.defaultBlack,
   },
+  container: {marginBottom: 15, marginTop: 15},
+  contentContainerStyle: {paddingHorizontal: 10},
 });
