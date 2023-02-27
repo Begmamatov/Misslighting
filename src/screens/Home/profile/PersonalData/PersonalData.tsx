@@ -18,6 +18,8 @@ import AllProductTitle from '../../../../components/uikit/AllProductTitle';
 import GoBackHeader from '../../../../components/uikit/Header/GoBackHeader';
 import DefaultInput from '../../../../components/uikit/TextInput';
 import {COLORS} from '../../../../constants/colors';
+import {useAppDispatch} from '@store/hooks';
+import {userLoggedOut} from '@store/slices/userSlice';
 type ProfileData = Partial<LoginResponse>;
 
 const PersonalData = () => {
@@ -26,7 +28,7 @@ const PersonalData = () => {
   const [animate, setAnimate] = useState(false);
   const navigation = useNavigation();
 
-  const [state, setState] = useState<ProfileData>({
+  const [state, setState] = useState<any>({
     gender: params?.gender ?? '',
     name: params?.name ?? '',
     phone: params?.phone ?? '',
@@ -59,7 +61,7 @@ const PersonalData = () => {
   };
 
   const changePhoto = async () => {
-    await launchImageLibrary({mediaType: 'photo'}, ({assets}) => {
+    await launchImageLibrary({mediaType: 'photo'}, ({assets}: any) => {
       if (assets) {
         setUrl(assets[0].uri);
         setState({
@@ -76,6 +78,16 @@ const PersonalData = () => {
       }
     });
   };
+  // const detailAccount = async () => {
+  //   try {
+  //     setAnimate2(true);
+  //     let {data} = await requests.profile.removAcount();
+  //     dispatch(userLoggedOut());
+
+  //     setAnimate(false);
+  //     console.log(data);
+  //   } catch (error) {}
+  // };
 
   return (
     <View style={{marginBottom: 100, backgroundColor: COLORS.white}}>

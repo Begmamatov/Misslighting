@@ -106,6 +106,7 @@ let requests = {
     getUploadPhoto: () => axios.get<{data: string}>(`${url}/user/upload-photo`),
     notificationAll: () => axios.get(`${url}/notification`),
     getTransaction: () => axios.get(`${url}/transaction`),
+    removAcount: () => axios.post(`${url}/user/remove-account`),
   },
 
   categories: {
