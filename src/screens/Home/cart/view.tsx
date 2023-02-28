@@ -23,11 +23,9 @@ const CartView = () => {
   let cartTotal = useSelector(cartTotalSelector);
 
   let {onClearCart, getCart} = useCartScreenHooks();
-  const [profileData, setProfileData] = useState<any>();
   const fetchData = async () => {
     try {
       let res = await requests.profile.getProfile();
-      setProfileData(res.data.data);
     } catch (error) {
       console.log('====================================');
       console.log(error);
@@ -71,7 +69,7 @@ const CartView = () => {
             TextStyle={{color: COLORS.white}}
           />
           <DefaultButton
-            onPress={() => onClearCart}
+            onPress={() => onClearCart()}
             title={STRINGS.ru.emptyCart}
             ButtonStyle={{
               backgroundColor: COLORS.white,

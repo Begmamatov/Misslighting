@@ -7,8 +7,10 @@ import DefaultInput from '@components/uikit/TextInput';
 import {COLORS} from '@constants/colors';
 import {ROUTES} from '@constants/routes';
 import {validatePhoneNumber} from '@constants/validation';
-import {useAppDispatch} from '@store/hooks';
-import {userLoggedIn} from '@store/slices/userSlice';
+import {useNavigation} from '@react-navigation/native';
+import NavigationService from '@routes/NavigationService';
+import {useAppDispatch, useAppSelector} from '@store/hooks';
+import {selectUser, userLoggedIn} from '@store/slices/userSlice';
 import React, {useState} from 'react';
 import {Alert, StyleSheet, Text, TouchableOpacity} from 'react-native';
 
@@ -20,7 +22,7 @@ export default function Login(props: any) {
   });
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState(false);
-
+  const user = useAppSelector(selectUser);
   const onLogin = async () => {
     if (validatePhoneNumber(state.phone as string)) {
       try {
@@ -29,6 +31,9 @@ export default function Login(props: any) {
         dispatch(userLoggedIn(res.data));
         console.log(JSON.stringify(res.data, null, 2));
         setError(!res.data);
+        if (!!res.data) {
+          NavigationService.navigate('TABS');
+        }
       } catch (error) {
         console.log(error);
       } finally {

@@ -14,7 +14,7 @@ let initialState: InitialState = {
   photo: '',
   token: '',
   email: '',
-  gender: 0,
+  gender: '0',
 };
 
 const userSlice = createSlice({

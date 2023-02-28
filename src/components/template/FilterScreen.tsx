@@ -23,6 +23,7 @@ type PropsSort = {
   setModalVisible?: any;
   filter?: any;
   setNewValyu?: any;
+  category_id?: number;
 };
 
 const FilterScren = (props: PropsSort) => {
@@ -67,10 +68,16 @@ const FilterScren = (props: PropsSort) => {
     setPriceMax(e);
     setFilter(newFilter);
   };
-
+  console.log('filter :', filter);
+  let categoryId = props.category_id;
   const subMendHandler = async () => {
     try {
-      let res = await requests.filter.productFilter(filter, priceMin, priceMax);
+      let res = await requests.filter.productFilter(
+        filter,
+        priceMin,
+        priceMax,
+        categoryId,
+      );
       props.setNewValyu(res.data.data);
     } catch (error) {
       console.log(error);
@@ -103,7 +110,6 @@ const FilterScren = (props: PropsSort) => {
           onChangeText={OnChangeHandlerMax}
           typeOf="number-pad"
         />
-
         <FlatList
           data={catalogType}
           renderItem={({item}) => (
@@ -132,13 +138,6 @@ const FilterScren = (props: PropsSort) => {
               disabled={btnDisebled}
             />
           </View>
-          {/* <View style={{width: '45%'}}>
-            <DefaultButton
-              title="Сбросить"
-              ButtonStyle={{backgroundColor: '#84a9c0'}}
-              TextStyle={{color: '#ffffff'}}
-            />
-          </View> */}
         </View>
       </View>
     </SafeAreaView>

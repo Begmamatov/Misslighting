@@ -261,9 +261,14 @@ let requests = {
   filter: {
     catalogFilter: (id: number) =>
       axios.get(`${url}/category/filter?category_id=${id}`),
-    productFilter: (filter: any, priceMin: any, priceMax: any) =>
+    productFilter: (
+      filter: any,
+      priceMin: any,
+      priceMax: any,
+      categoryId: any,
+    ) =>
       axios.get(
-        `${url}/product/by-filter?${filter}&price_min=${priceMin}&price_max=${priceMax}`,
+        `${url}/product/by-filter?filter[${filter}]=${filter}&price_min=${priceMin}&price_max=${priceMax}&category_id=${categoryId} `,
       ),
   },
 };
