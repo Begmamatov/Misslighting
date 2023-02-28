@@ -13,7 +13,7 @@ let Stack = createNativeStackNavigator();
 export default function AuthStack() {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
-      <Stack.Screen name={ROUTES.LANGUAGE} component={LanguageScreen} />
+      {/* <Stack.Screen name={ROUTES.LANGUAGE} component={LanguageScreen} /> */}
       <Stack.Screen name={ROUTES.LOGIN} component={Login} />
       <Stack.Screen name={ROUTES.REGISTER} component={SingUpScreen} />
       <Stack.Screen name={ROUTES.VERIFICATION} component={Verification} />

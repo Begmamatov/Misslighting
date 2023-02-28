@@ -1,6 +1,6 @@
 import requests, {assetUrl} from '@api/requests';
 import {LoginResponse} from '@api/types';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {useAppDispatch} from '@store/hooks';
 import {userLoggedOut} from '@store/slices/userSlice';
 import React, {useEffect, useState} from 'react';
@@ -22,77 +22,49 @@ import {
   NewLogOutIcon,
   NewMessageIcon,
   NewNotificationIcon,
-  NewSettingIcon,
   NewTranstionIcon,
 } from '../../../assets/icons/icons';
 import ProductsTitle from '../../../components/uikit/ProductsTitle';
 import {ROUTES} from '../../../constants/routes';
 import SettingsItem from './Setting/SettingItem';
 import {COLORS} from '@constants/colors';
+import {deleteAccountData, getProfileData} from '@store/slices/ProfileSlice';
+import {useSelector} from 'react-redux';
+import {RootState} from '@store/configureStore';
 
 export default function ProfileScreen() {
   const navigation = useNavigation();
-  const dispatch = useAppDispatch();
+  const isFocused = useIsFocused();
+  const dispatch: any = useAppDispatch();
+  const profileStore = useSelector((store: RootState) => store.profile);
   type ProfileData = Partial<LoginResponse>;
-  let [profileData, setProfileData] = useState<ProfileData>();
-  const [animate2, setAnimate2] = useState(false);
+  // let [profileData, setProfileData] = useState<ProfileData>();
+  // const [animate2, setAnimate2] = useState(false);
 
   let onLogOut = () => {
-    Alert.alert('Вы точно хотите выйти из аккаунта ?', '', [
-      {
-        text: 'Cancel',
-        style: 'cancel',
-      },
-      {
-        text: 'OK',
-        onPress: () => {
-          dispatch(userLoggedOut());
-          // navigation.navigate(ROUTES.LOGIN as never);
-        },
-      },
-    ]);
-  };
-  let fetchData = async () => {
-    try {
-      let res = await requests.profile.getProfile();
-      setProfileData(res.data.data);
-    } catch (error) {
-      console.log('====================================');
-      console.log(error);
-      console.log('====================================');
-    }
-  };
-  const detailAccount = async () => {
-    try {
-      setAnimate2(true);
-      let {data} = await requests.profile.removAcount();
-      dispatch(userLoggedOut());
-
-      setAnimate2(false);
-      console.log(data);
-    } catch (error) {}
+    navigation.navigate(ROUTES.AUTH as never);
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    isFocused && dispatch(getProfileData());
+  }, [isFocused]);
 
   return (
-    <ScrollView style={style.container}>
+    <ScrollView style={style.container} showsVerticalScrollIndicator={false}>
       <ProductsTitle title="Профиль" showButton={false} />
       <View style={style.ProfileInfo}>
         <Image
           style={style.ProfileImage}
-          source={{uri: assetUrl + profileData?.photo}}
+          source={{uri: assetUrl + profileStore?.photo}}
         />
         <View style={style.ProfileInfoTextBox}>
-          <Text style={style.ProfileInfoTextName}>{profileData?.name}</Text>
+          <Text style={style.ProfileInfoTextName}>{profileStore?.name}</Text>
 
           <TouchableOpacity
             onPress={() =>
               navigation.navigate(
                 ROUTES.PERSONALDATE as never,
-                profileData as never,
+                profileStore as never,
               )
             }>
             <Text style={style.ProfileInfoText}>Изменить личные данные</Text>
@@ -151,19 +123,21 @@ export default function ProfileScreen() {
 
       <TouchableOpacity style={style.logOutButton} onPress={onLogOut}>
         <NewLogOutIcon />
-        <Text style={style.logOutButtonText}>Выйти из аккаунта</Text>
+        <Text style={style.logOutButtonText}>Войти</Text>
       </TouchableOpacity>
       <View
         style={{
           width: '100%',
           paddingHorizontal: 15,
         }}>
-        <TouchableOpacity style={style.butto2} onPress={detailAccount}>
-          {animate2 ? (
+        <TouchableOpacity
+          style={style.butto2}
+          onPress={() => dispatch(deleteAccountData())}>
+          {profileStore.isLoadingOfBtn ? (
             <ActivityIndicator
               size="small"
               color={COLORS.white}
-              animating={animate2}
+              animating={profileStore.isLoadingOfBtn}
             />
           ) : (
             <Text style={{color: COLORS.white}}> Удалить аккаунт</Text>

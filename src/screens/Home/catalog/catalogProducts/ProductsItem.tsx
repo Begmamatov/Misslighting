@@ -120,7 +120,7 @@ const ProductsItem = (props: ProductItemCardProps) => {
 
   return (
     <TouchableWithoutFeedback
-      onPressIn={() =>
+      onPress={() =>
         //@ts-ignore
         navigation.navigate(ROUTES.PRODUCTDETAILS, {props})
       }>

@@ -19,6 +19,7 @@ export const styles = StyleSheet.create({
   empty: {
     flex: 1,
     backgroundColor: COLORS.white,
+    paddingTop: 10,
   },
 
   emptyBox: {

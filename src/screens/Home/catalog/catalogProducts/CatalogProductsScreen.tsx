@@ -30,6 +30,7 @@ const CatalogProductsScreen = () => {
   let {
     params: {id, name, type},
   }: any = useRoute();
+  console.log('ID', id);
 
   let effect = async () => {
     try {

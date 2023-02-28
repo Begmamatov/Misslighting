@@ -9,7 +9,6 @@ import {selectUser} from '@store/slices/userSlice';
 import AuthStack from '@auth/index';
 import AllProducts from '@home/home/allProducts/view';
 import Subcategory from '@home/catalog/subCatalog/Subcategory';
-
 import {CheckoutScreen} from '@home/cart/checkout';
 import ProfileScreen from '@home/profile/ProfileScreen';
 import MyProduct from '@home/profile/MyOrders/MyOrders';
@@ -40,6 +39,7 @@ import TabNavigation2 from '@home/bottomTab/TabNavigation2';
 import WebView from 'react-native-webview';
 import WebViewComponets from '@home/cart/checkout/OrderModal/WebView';
 import Reviews from '@home/modulus/components/reviews';
+import NavigationService from './NavigationService';
 // import Chat from '@home/profile/Notification/components/chat';
 
 let Stack = createNativeStackNavigator();
@@ -54,7 +54,7 @@ export default function AppRouter() {
         marginTop: insets.top,
         backgroundColor: COLORS.tabBgColor,
       }}>
-      <NavigationContainer>
+      <NavigationContainer ref={NavigationService.ref}>
         <Stack.Navigator
           screenOptions={{
             headerShown: false,
@@ -113,6 +113,7 @@ export default function AppRouter() {
           <Stack.Screen name={ROUTES.CHAT} component={Chat} />
           <Stack.Screen name={ROUTES.CHATPRODUCTS} component={ChatProducts} />
           <Stack.Screen name={ROUTES.WebView} component={WebViewComponets} />
+          <Stack.Screen name={ROUTES.AUTH} component={AuthStack} />
           {/* </>
           )} */}
         </Stack.Navigator>

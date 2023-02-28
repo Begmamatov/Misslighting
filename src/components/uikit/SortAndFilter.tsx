@@ -1,8 +1,8 @@
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {BottomArrow, FilterIcon} from '../../assets/icons/icons';
 import {COLORS} from '../../constants/colors';
-import {useNavigation} from '@react-navigation/native';
 
 type PropsSnadAndFilter = {
   item?: string;
@@ -14,7 +14,6 @@ type PropsSnadAndFilter = {
 };
 
 export default function SortAndFilter(props: PropsSnadAndFilter) {
-  const navigation = useNavigation();
   const sortHandler = () => {
     props.setModalVisible(true);
     props.setModalFilter('Сортировать');

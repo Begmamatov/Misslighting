@@ -33,7 +33,7 @@ const favoriteSlice = createSlice({
       }, {});
       return st;
     },
-
+    clearFavorite: () => initialState,
     loadFavorite: (state, action: PayloadAction<ProductItemResponse[]>) => {
       let obj = action.payload.reduce((previous, current) => {
         if (!previous) {
@@ -59,6 +59,10 @@ export const favoriteTotalSelector = (state: RootState) => {
   return {count};
 };
 
-export const {loadFavorite, addToFavorite} = favoriteSlice.actions;
+export const {
+  loadFavorite,
+  addToFavorite,
+  clearFavorite: clearFavoriteData,
+} = favoriteSlice.actions;
 
 export default favoriteSlice.reducer;

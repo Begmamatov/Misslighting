@@ -72,6 +72,10 @@ export const cartTotalSelector = (state: RootState) => {
   return {count, total};
 };
 
-export const {loadCart, addToCart} = cartSlice.actions;
+export const {
+  loadCart,
+  addToCart,
+  clearCart: clearAllCarts,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;

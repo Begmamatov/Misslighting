@@ -1,9 +1,9 @@
 import requests from '@api/requests';
-import { STRINGS } from '@locales/strings';
+import {STRINGS} from '@locales/strings';
 import useLoading from '@store/Loader/useLoading';
-import { favoriteArraySelector, loadFavorite } from '@store/slices/favoriteSlice';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import {favoriteArraySelector, loadFavorite} from '@store/slices/favoriteSlice';
+import {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 
 export const useFavoritesHook = () => {
   const [isModalVisible, setModalVisible] = useState(false);
