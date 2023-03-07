@@ -7,7 +7,6 @@ import DefaultInput from '@components/uikit/TextInput';
 import {COLORS} from '@constants/colors';
 import {ROUTES} from '@constants/routes';
 import {validatePhoneNumber} from '@constants/validation';
-import {useNavigation} from '@react-navigation/native';
 import NavigationService from '@routes/NavigationService';
 import {useAppDispatch, useAppSelector} from '@store/hooks';
 import {selectUser, userLoggedIn} from '@store/slices/userSlice';
@@ -63,6 +62,7 @@ export default function Login(props: any) {
         onChangeText={onStateChange('phone')}
         value={state.phone}
       />
+
       <DefaultInputEye
         placeholder="Ваш пароль"
         onChange={onStateChange('password')}
@@ -72,6 +72,7 @@ export default function Login(props: any) {
         color={COLORS.black}
         placeholderColor={COLORS.black}
       />
+
       {error && <Text style={styles.error}>Не верный логин и/или пароль</Text>}
       <TouchableOpacity
         onPress={onPressForgotPassword}

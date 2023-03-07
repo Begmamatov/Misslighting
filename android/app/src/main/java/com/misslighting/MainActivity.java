@@ -1,4 +1,4 @@
-package com.misslighting;
+package uz.misslighting;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

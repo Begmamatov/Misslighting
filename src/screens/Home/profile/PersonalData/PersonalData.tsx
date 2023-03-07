@@ -99,7 +99,6 @@ const PersonalData = () => {
           <AllProductTitle title="Личные данные" color={true} />
           <View style={style.ProfileInfo}>
             <Image style={style.ProfileImage} source={{uri: url}} />
-
             <TouchableOpacity
               onPress={changePhoto}
               style={style.ProfileInfoTextBox}>

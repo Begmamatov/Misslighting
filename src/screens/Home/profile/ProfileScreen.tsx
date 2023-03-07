@@ -1,9 +1,9 @@
-import requests, {assetUrl} from '@api/requests';
+import {assetUrl} from '@api/requests';
 import {LoginResponse} from '@api/types';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
-import {useAppDispatch} from '@store/hooks';
-import {userLoggedOut} from '@store/slices/userSlice';
-import React, {useEffect, useState} from 'react';
+import {useAppDispatch, useAppSelector} from '@store/hooks';
+import {selectUser} from '@store/slices/userSlice';
+import React, {useEffect} from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -33,7 +33,7 @@ import {useSelector} from 'react-redux';
 import {RootState} from '@store/configureStore';
 
 export default function ProfileScreen() {
-  const navigation = useNavigation();
+  const navigation: any = useNavigation();
   const isFocused = useIsFocused();
   const dispatch: any = useAppDispatch();
   const profileStore = useSelector((store: RootState) => store.profile);
@@ -48,27 +48,33 @@ export default function ProfileScreen() {
   useEffect(() => {
     isFocused && dispatch(getProfileData());
   }, [isFocused]);
+  const user = useAppSelector(selectUser);
+  const ubdeteProfile = () => {
+    user.token
+      ? navigation.navigate(ROUTES.PERSONALDATE as never, profileStore as never)
+      : Alert.alert('Зарегистрируйте чтобы добавить в корзину');
+  };
 
   return (
     <ScrollView style={style.container} showsVerticalScrollIndicator={false}>
       <ProductsTitle title="Профиль" showButton={false} />
       <View style={style.ProfileInfo}>
-        <Image
-          style={style.ProfileImage}
-          source={{uri: assetUrl + profileStore?.photo}}
-        />
+        {user?.token ? (
+          <Image
+            style={style.ProfileImage}
+            source={{uri: assetUrl + profileStore?.photo}}
+          />
+        ) : (
+          <View style={[style.ProfileImage]}></View>
+        )}
         <View style={style.ProfileInfoTextBox}>
           <Text style={style.ProfileInfoTextName}>{profileStore?.name}</Text>
 
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate(
-                ROUTES.PERSONALDATE as never,
-                profileStore as never,
-              )
-            }>
-            <Text style={style.ProfileInfoText}>Изменить личные данные</Text>
-          </TouchableOpacity>
+          <View style={{width: '80%'}}>
+            <TouchableOpacity onPress={ubdeteProfile}>
+              <Text style={style.ProfileInfoText}>Изменить личные данные</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
       <SettingsItem
@@ -77,12 +83,6 @@ export default function ProfileScreen() {
         icon={() => <NewBasketIcon />}
         icon2={() => <NewArrowIcon />}
       />
-      {/* <SettingsItem
-        onPress={() => navigation.navigate(ROUTES.PROFILE_SETTING as never)}
-        text={'Настройки'}
-        icon={() => <NewSettingIcon />}
-        icon2={() => <NewArrowIcon />}
-      /> */}
       <SettingsItem
         text={'Мы на карте'}
         icon={() => <NewLocationIcon />}
@@ -130,19 +130,21 @@ export default function ProfileScreen() {
           width: '100%',
           paddingHorizontal: 15,
         }}>
-        <TouchableOpacity
-          style={style.butto2}
-          onPress={() => dispatch(deleteAccountData())}>
-          {profileStore.isLoadingOfBtn ? (
-            <ActivityIndicator
-              size="small"
-              color={COLORS.white}
-              animating={profileStore.isLoadingOfBtn}
-            />
-          ) : (
-            <Text style={{color: COLORS.white}}> Удалить аккаунт</Text>
-          )}
-        </TouchableOpacity>
+        {user.token ?? (
+          <TouchableOpacity
+            style={style.butto2}
+            onPress={() => dispatch(deleteAccountData())}>
+            {profileStore.isLoadingOfBtn ? (
+              <ActivityIndicator
+                size="small"
+                color={COLORS.white}
+                animating={profileStore.isLoadingOfBtn}
+              />
+            ) : (
+              <Text style={{color: COLORS.white}}> Удалить аккаунт</Text>
+            )}
+          </TouchableOpacity>
+        )}
       </View>
     </ScrollView>
   );
