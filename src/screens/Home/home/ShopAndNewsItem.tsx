@@ -50,6 +50,7 @@ export default function ShopAndNewsItem({item, buttonTitle}: Props) {
           style={styles.button}
           onPress={() =>
             navigation.navigate(
+              //@ts-ignore
               ROUTES.SHOPDETAILS as never,
               {idShop: item.id} as never,
             )

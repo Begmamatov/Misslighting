@@ -18,8 +18,6 @@ import AllProductTitle from '../../../../components/uikit/AllProductTitle';
 import GoBackHeader from '../../../../components/uikit/Header/GoBackHeader';
 import DefaultInput from '../../../../components/uikit/TextInput';
 import {COLORS} from '../../../../constants/colors';
-import {useAppDispatch} from '@store/hooks';
-import {userLoggedOut} from '@store/slices/userSlice';
 type ProfileData = Partial<LoginResponse>;
 
 const PersonalData = () => {
@@ -40,10 +38,6 @@ const PersonalData = () => {
     certificateStateRegistration: params?.certificateStateRegistration ?? '',
     adres_0: params?.adres_0 ?? '',
   });
-
-  console.log('start..........');
-  console.log(state);
-  console.log('end..........');
 
   let onStateChange = (key: string) => (value: string) => {
     setState({...state, [key]: value});
@@ -78,16 +72,6 @@ const PersonalData = () => {
       }
     });
   };
-  // const detailAccount = async () => {
-  //   try {
-  //     setAnimate2(true);
-  //     let {data} = await requests.profile.removAcount();
-  //     dispatch(userLoggedOut());
-
-  //     setAnimate(false);
-  //     console.log(data);
-  //   } catch (error) {}
-  // };
 
   return (
     <View style={{marginBottom: 100, backgroundColor: COLORS.white}}>

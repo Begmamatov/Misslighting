@@ -1,15 +1,15 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {Dimensions, Image, ScrollView, StyleSheet, View} from 'react-native';
-import ProductCatalog from './ProductCatalog';
-import ProductListNew from './ProductListNew';
-import ProductListPopular from './ProductListPopular';
-import ProductListSale from './ProductListSale';
 import requests, {assetUrl} from '@api/requests';
 import {useRoute} from '@react-navigation/native';
+import React, {useEffect, useRef, useState} from 'react';
+import {Dimensions, Image, ScrollView, StyleSheet, View} from 'react-native';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import SearchNatlifHeader from '../../../components/uikit/Header/SearchNatlifHeader';
 import {COLORS} from '../../../constants/colors';
 import NewsList from './NewsList';
+import ProductCatalog from './ProductCatalog';
+import ProductListNew from './ProductListNew';
+import ProductListPopular from './ProductListPopular';
+import ProductListSale from './ProductListSale';
 import ShopListPopular from './ShopListPopular';
 
 export default function HomeScreen() {

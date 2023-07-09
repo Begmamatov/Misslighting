@@ -36,6 +36,8 @@ import React from 'react';
 import {View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import NavigationService from './NavigationService';
+import Camera from '@components/uikit/Camera/Camera';
+import CameraScreen from '@components/uikit/Camera/Camera';
 // import Chat from '@home/profile/Notification/components/chat';
 
 let Stack = createNativeStackNavigator();
@@ -110,8 +112,7 @@ export default function AppRouter() {
           <Stack.Screen name={ROUTES.CHATPRODUCTS} component={ChatProducts} />
           <Stack.Screen name={ROUTES.WebView} component={WebViewComponets} />
           <Stack.Screen name={ROUTES.AUTH} component={AuthStack} />
-          {/* </>
-          )} */}
+          <Stack.Screen name={ROUTES.Camera} component={CameraScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </View>

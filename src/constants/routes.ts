@@ -69,4 +69,5 @@ export const ROUTES = {
   CHATPRODUCTS: 'ChatProduct',
   TIME_LINE_STACK: 'TIME_LINE_STACK',
   WebView: 'WebView',
+  Camera: 'Camera',
 };

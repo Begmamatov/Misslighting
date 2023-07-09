@@ -21,14 +21,13 @@ export default function Login(props: any) {
   });
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState(false);
-  const user = useAppSelector(selectUser);
+
   const onLogin = async () => {
     if (validatePhoneNumber(state.phone as string)) {
       try {
         setLoading(true);
         let res = await requests.auth.login(state);
         dispatch(userLoggedIn(res.data));
-        console.log(JSON.stringify(res.data, null, 2));
         setError(!res.data);
         if (!!res.data) {
           NavigationService.navigate('TABS');

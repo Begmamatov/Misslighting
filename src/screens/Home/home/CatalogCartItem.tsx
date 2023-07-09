@@ -16,6 +16,7 @@ export default function CatalogCartItem(props: Props) {
   return (
     <TouchableOpacity
       onPress={() =>
+        //@ts-ignore
         navivation.navigate(ROUTES.SUBCATEGORY as never, {id, name} as never)
       }
       style={styles.cartItem}>

@@ -24,6 +24,7 @@ import {
 import {COLORS} from '../../../../constants/colors';
 import {useNavigation} from '@react-navigation/native';
 import {ROUTES} from '@constants/routes';
+import {selectUser} from '@store/slices/userSlice';
 
 type ProductItemCardProps = {
   showNewProduct?: boolean;
@@ -70,6 +71,7 @@ const AllProductItemCard = (props: ProductItemCardProps) => {
   let isFav = !!fav[id];
   const discountPrice = (price * (100 - discount)) / 100;
   const navigation = useNavigation();
+  const user = useAppSelector(selectUser);
 
   const onAddFavorite = async () => {
     try {
@@ -104,6 +106,14 @@ const AllProductItemCard = (props: ProductItemCardProps) => {
           amount: 1,
           product_id: id,
         });
+        if (!user.token) {
+          return Alert.alert(`Oшибка `, 'вы не зарегистрированы', [
+            {
+              text: 'Ок',
+              onPress: () => navigation.navigate(ROUTES.AUTH as never),
+            },
+          ]);
+        }
         if (res.status.toString() === '422') {
           Alert.alert('Кол-во товара на складе меньше чем вы указали');
         }

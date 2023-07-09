@@ -18,6 +18,7 @@ import {
   NewAdminIcon,
   NewArrowIcon,
   NewBasketIcon,
+  NewDiscountIcon,
   NewLocationIcon,
   NewLogOutIcon,
   NewMessageIcon,
@@ -49,6 +50,7 @@ export default function ProfileScreen() {
     isFocused && dispatch(getProfileData());
   }, [isFocused]);
   const user = useAppSelector(selectUser);
+
   const ubdeteProfile = () => {
     user.token
       ? navigation.navigate(ROUTES.PERSONALDATE as never, profileStore as never)
@@ -121,16 +123,16 @@ export default function ProfileScreen() {
         icon2={() => <NewArrowIcon />}
       />
 
-      <TouchableOpacity style={style.logOutButton} onPress={onLogOut}>
+      {/* <TouchableOpacity style={style.logOutButton} onPress={onLogOut}>
         <NewLogOutIcon />
         <Text style={style.logOutButtonText}>Войти</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <View
         style={{
           width: '100%',
           paddingHorizontal: 15,
         }}>
-        {user.token ?? (
+        {user.token && (
           <TouchableOpacity
             style={style.butto2}
             onPress={() => dispatch(deleteAccountData())}>
@@ -141,7 +143,7 @@ export default function ProfileScreen() {
                 animating={profileStore.isLoadingOfBtn}
               />
             ) : (
-              <Text style={{color: COLORS.white}}> Удалить аккаунт</Text>
+              <Text style={{color: COLORS.white}}>Удалить аккаунт</Text>
             )}
           </TouchableOpacity>
         )}
@@ -242,5 +244,6 @@ const style = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 50,
     paddingHorizontal: 15,
+    marginTop: 20,
   },
 });

@@ -29,6 +29,7 @@ export default function ShopListPopular(props: ProductListProps) {
   const navigation = useNavigation();
 
   const onPress = () => {
+    //@ts-ignore
     navigation.navigate(ROUTES.ALLSHOPS as never, {products, props} as never);
   };
 

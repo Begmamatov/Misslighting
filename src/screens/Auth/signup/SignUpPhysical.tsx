@@ -5,7 +5,13 @@ import SectionTitle from '../../../components/uikit/SectionTitle';
 import DefaultInput from '../../../components/uikit/TextInput';
 import {COLORS} from '../../../constants/colors';
 import React, {useState} from 'react';
-import {ScrollView, TouchableOpacity, View} from 'react-native';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {ROUTES} from '../../../constants/routes';
 
@@ -39,38 +45,41 @@ export default function SignUpPhysical() {
   const [diseblet, setDiseblet] = useState(true);
 
   return (
-    <View style={{backgroundColor: COLORS.white}}>
-      <DefaultInput
-        placeholder="Ваш номер"
-        label="Номер телефона"
-        backgroundColor={COLORS.noActiveButtonBgColor2}
-        placeholderColor={COLORS.labelText}
-        marginBottom={0}
-        onChangeText={onStateChange('phone')}
-        value={state.phone}
-      />
-      <DefaultInput
-        placeholder="Ваше имя"
-        label="Имя"
-        backgroundColor={COLORS.noActiveButtonBgColor2}
-        placeholderColor={COLORS.labelText}
-        marginBottom={0}
-        onChangeText={onStateChange('name')}
-        value={state.name}
-      />
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={80}>
+      <View style={{backgroundColor: COLORS.white}}>
+        <DefaultInput
+          placeholder="Ваш номер"
+          label="Номер телефона"
+          backgroundColor={COLORS.noActiveButtonBgColor2}
+          placeholderColor={COLORS.labelText}
+          marginBottom={0}
+          onChangeText={onStateChange('phone')}
+          value={state.phone}
+        />
+        <DefaultInput
+          placeholder="Ваше имя"
+          label="Имя"
+          backgroundColor={COLORS.noActiveButtonBgColor2}
+          placeholderColor={COLORS.labelText}
+          marginBottom={0}
+          onChangeText={onStateChange('name')}
+          value={state.name}
+        />
 
-      <DefaultInputEye
-        label="Ваш пароль"
-        placeholder="Ваш пароль"
-        backgroundColor={COLORS.noActiveButtonBgColor2}
-        inputStyle={COLORS.noActiveButtonBgColor2}
-        color={COLORS.gray}
-        placeholderColor={COLORS.gray}
-        onChange={onStateChange('password')}
-        value={state.password}
-      />
+        <DefaultInputEye
+          label="Ваш пароль"
+          placeholder="Ваш пароль"
+          backgroundColor={COLORS.noActiveButtonBgColor2}
+          inputStyle={COLORS.noActiveButtonBgColor2}
+          color={COLORS.gray}
+          placeholderColor={COLORS.gray}
+          onChange={onStateChange('password')}
+          value={state.password}
+        />
 
-      {/* <DefaultInput
+        {/* <DefaultInput
         placeholder="Ваша фамилия"
         label="Фамилия"
         backgroundColor={COLORS.noActiveButtonBgColor2}
@@ -88,7 +97,7 @@ export default function SignUpPhysical() {
         onChangeText={onStateChange('middleName')}
         value={state.middleName}
       /> */}
-      {/* <DefaultInput
+        {/* <DefaultInput
         placeholder="Ваша дата рождения"
         label="Дата рождения"
         backgroundColor={COLORS.noActiveButtonBgColor2}
@@ -111,23 +120,24 @@ export default function SignUpPhysical() {
           setOpen(false)
         }}
       /> */}
-      <TouchableOpacity onPress={() => setDiseblet(a => !a)}>
-        <CheckBox label="Я согласен с условиями" checkout={!diseblet} />
-      </TouchableOpacity>
+        <TouchableOpacity onPress={() => setDiseblet(a => !a)}>
+          <CheckBox label="Я согласен с условиями" checkout={!diseblet} />
+        </TouchableOpacity>
 
-      <DefaultButton
-        onPress={() => onRegister('fiz')}
-        title="Далее"
-        ButtonStyle={{
-          backgroundColor: diseblet
-            ? COLORS.noActiveButtonBgColor2
-            : COLORS.activeButtonBgColor,
-          width: '100%',
-        }}
-        TextStyle={{color: COLORS.white}}
-        loading={loading}
-        disabled={diseblet}
-      />
-    </View>
+        <DefaultButton
+          onPress={() => onRegister('fiz')}
+          title="Далее"
+          ButtonStyle={{
+            backgroundColor: diseblet
+              ? COLORS.noActiveButtonBgColor2
+              : COLORS.activeButtonBgColor,
+            width: '100%',
+          }}
+          TextStyle={{color: COLORS.white}}
+          loading={loading}
+          disabled={diseblet}
+        />
+      </View>
+    </KeyboardAvoidingView>
   );
 }

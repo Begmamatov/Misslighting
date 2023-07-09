@@ -24,6 +24,7 @@ import {useAppSelector} from '@store/hooks';
 import {cartSelector, loadCart} from '@store/slices/cartSlice';
 import {useDispatch} from 'react-redux';
 import {STRINGS} from '@locales/strings';
+import {selectUser} from '@store/slices/userSlice';
 
 export type ProductItemCardProps = {
   name?: string;
@@ -52,6 +53,7 @@ export default function ProductItemCard(props: ProductItemCardProps) {
   const fav = useAppSelector(favoriteSelector);
   let isFav = !!fav[props.id];
   const discountPrice = (props.price * (100 - props.discount)) / 100;
+  const user = useAppSelector(selectUser);
 
   const onAddFavorite = async () => {
     try {
@@ -89,6 +91,14 @@ export default function ProductItemCard(props: ProductItemCardProps) {
           amount: 1,
           product_id: props.id,
         });
+        if (!user.token) {
+          return Alert.alert(`Oшибка `, 'вы не зарегистрированы', [
+            {
+              text: 'Ок',
+              onPress: () => navigation.navigate(ROUTES.AUTH as never),
+            },
+          ]);
+        }
         if (res.status.toString() === '422') {
           Alert.alert('Кол-во товара на складе меньше чем вы указали');
         }

@@ -44,6 +44,7 @@ import Description from '../components/Description';
 import ProductDetailsButton from '../components/productDetailsButton';
 import {styles} from './style';
 import {STRINGS} from '@locales/strings';
+import {selectUser} from '@store/slices/userSlice';
 
 const PdoductDetails = () => {
   const [active, setActive] = useState({
@@ -67,6 +68,7 @@ const PdoductDetails = () => {
   const [adValue, setAdValue] = useState(1);
   const [detailIdValue, setDetailIdValue] = useState<any>([]);
   const [related, setrelated] = useState();
+  const userToken = useAppSelector(selectUser);
 
   const getDetailId = async () => {
     try {
@@ -144,6 +146,15 @@ const PdoductDetails = () => {
           amount: adValue,
           product_id: id,
         });
+        if (!userToken.token) {
+          return Alert.alert(`Oшибка `, 'вы не зарегистрированы', [
+            {
+              text: 'Ок',
+              onPress: () => navigation.navigate(ROUTES.AUTH as never),
+            },
+          ]);
+        }
+
         if (res.status.toString() === '422') {
           Alert.alert('Кол-во товара на складе меньше чем вы указали');
         }
@@ -200,18 +211,19 @@ const PdoductDetails = () => {
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <LeftArrowIcon />
           </TouchableOpacity>
-          {detailIdValue?.shop && (
+          {detailIdValue?.shop && userToken.token ? (
             <TouchableOpacity
               style={styles.chatIcon}
               onPress={() =>
                 navigation.navigate(
+                  //@ts-ignore
                   ROUTES.CHATPRODUCTS as never,
                   {id: detailIdValue?.shop?.id} as never,
                 )
               }>
               <ChatProductIcon />
             </TouchableOpacity>
-          )}
+          ) : null}
 
           <TouchableOpacity onPress={onAddFavorite} style={[styles.icons]}>
             {isFav ? <HeartIconActive /> : <HeartIconNotActive />}
@@ -434,6 +446,7 @@ const PdoductDetails = () => {
           <TouchableOpacity
             onPress={() =>
               navigation.navigate(
+                //@ts-ignore
                 ROUTES.REVIEWS as never,
                 detailIdValue as never,
               )

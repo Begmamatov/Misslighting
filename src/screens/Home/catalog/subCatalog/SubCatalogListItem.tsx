@@ -1,15 +1,8 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  ListRenderItemInfo,
-} from 'react-native';
+import {Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {ROUTES} from '@constants/routes';
-import {Category} from '@api/types';
+// import {Category} from '@api/types';s
 import {appendUrl} from '@api/requests';
 import {Dimensions} from 'react-native';
 
@@ -22,6 +15,7 @@ const SubCatalogListItem = ({props, id}: any) => {
       style={styles.cartItem}
       onPress={() =>
         navigation.navigate(
+          //@ts-ignore
           ROUTES.CATALOG_PRODUCTS as never,
           {id: item.id, type: id, name: item.name} as never,
         )
