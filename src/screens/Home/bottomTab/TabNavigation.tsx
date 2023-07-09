@@ -25,12 +25,14 @@ import {cartTotalSelector} from '@store/slices/cartSlice';
 import FavoriteView from '@home/favorites/view';
 import {ROUTES} from '@constants/routes';
 import Tabbar from './TabNavigation2';
+import {useAppSelector} from '@store/hooks';
+import {selectUser} from '@store/slices/userSlice';
+import AuthStack from '@auth/index';
 
 const Tab = createBottomTabNavigator();
 
 export default function TabNavigation() {
-  let favs = useSelector(favoriteArraySelector);
-  let total = useSelector(cartTotalSelector);
+  const user = useAppSelector(selectUser);
 
   return (
     <>
@@ -42,7 +44,11 @@ export default function TabNavigation() {
         <Tab.Screen name={ROUTES.FAVORITES} component={FavoriteView} />
         <Tab.Screen name={ROUTES.CATALOG} component={CatalogScreen} />
         <Tab.Screen name={ROUTES.CART} component={CartScreen} />
-        <Tab.Screen name={ROUTES.PROFILE_STACK} component={ProfileScreen} />
+        {user?.token ? (
+          <Tab.Screen name={ROUTES.PROFILE_STACK} component={ProfileScreen} />
+        ) : (
+          <Tab.Screen name={ROUTES.AUTH} component={AuthStack} />
+        )}
       </Tab.Navigator>
     </>
   );

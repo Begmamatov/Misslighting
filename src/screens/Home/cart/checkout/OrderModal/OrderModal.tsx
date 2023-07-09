@@ -1,14 +1,12 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
 import requests from '@api/requests';
-import {Link, useNavigation} from '@react-navigation/native';
-import {COLORS} from '@constants/colors';
-import {Linking} from 'react-native';
 import DefaultButton from '@components/uikit/DefaultButton';
-import WebView from 'react-native-webview';
+import {COLORS} from '@constants/colors';
 import {ROUTES} from '@constants/routes';
+import {useNavigation} from '@react-navigation/native';
+import React, {useEffect, useState} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 
-const OrderModal = ({orderValyu, setOpenOrderModal, onClose}: any) => {
+const OrderModal = ({orderValyu, onClose}: any) => {
   let order_id = orderValyu?.id;
   const [octoValyu, setOctoValyu] = useState<any>();
   const orderSendHandler = async () => {

@@ -22,6 +22,7 @@ const CatalogListItem = ({
     <TouchableOpacity
       style={styles.cartItem}
       onPress={() =>
+        //@ts-ignore
         navivation.navigate(ROUTES.SUBCATEGORY as never, {id, name} as never)
       }>
       <Image style={styles.image} source={{uri: appendUrl(photo as any)}} />

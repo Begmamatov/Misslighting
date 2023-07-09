@@ -5,13 +5,19 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {NotificationIcon, SearchIcon} from '../../../assets/icons/icons';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
+import {
+  NotificationIcon,
+  RoundIcon,
+  SearchIcon,
+} from '../../../assets/icons/icons';
 import {COLORS} from '../../../constants/colors';
 import {STRINGS} from '@locales/strings';
 import {useNavigation} from '@react-navigation/native';
 import {ROUTES} from '@constants/routes';
 import requests from '@api/requests';
+import {Camera as RNCamera, PhotoFile} from 'react-native-vision-camera';
+
 interface SearchProps {
   autoFocus?: boolean;
   onChange?: (val: string) => void;
@@ -19,6 +25,7 @@ interface SearchProps {
 export default function SearchNatlifHeader({autoFocus, onChange}: SearchProps) {
   const navigation = useNavigation();
   const [state, setState] = useState([]);
+
   const notificationHandler = async () => {
     try {
       let res = await requests.profile.notificationAll();
@@ -30,6 +37,7 @@ export default function SearchNatlifHeader({autoFocus, onChange}: SearchProps) {
   useEffect(() => {
     notificationHandler;
   }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.searchInputBox}>
@@ -42,7 +50,10 @@ export default function SearchNatlifHeader({autoFocus, onChange}: SearchProps) {
           onChangeText={onChange}
           onPressIn={() => navigation.navigate(ROUTES.SEARCH as never)}
         />
-        <SearchIcon fill={'#84A9C0'} style={{marginRight: 10}} />
+        <TouchableOpacity
+          onPress={() => navigation.navigate(ROUTES.Camera as never)}>
+          <SearchIcon fill={'#84A9C0'} style={{marginRight: 10}} />
+        </TouchableOpacity>
       </View>
       <View style={styles.NotificationBox}>
         <TouchableOpacity

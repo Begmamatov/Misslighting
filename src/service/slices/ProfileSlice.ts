@@ -29,7 +29,6 @@ const profileSlice = createSlice({
 
     showLoading: state => ({...state, isLoading: true}),
     hideLoading: state => ({...state, isLoading: false}),
-
     showLoadingOfBtn: state => ({...state, isLoadingOfBtn: true}),
     hideLoadingOfBtn: state => ({...state, isLoadingOfBtn: false}),
 

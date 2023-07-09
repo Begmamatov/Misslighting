@@ -16,6 +16,7 @@ import useLoading from '@store/Loader/useLoading';
 import {loadCart} from '@store/slices/cartSlice';
 import React, {useEffect, useState} from 'react';
 import {
+  Alert,
   Image,
   LayoutAnimation,
   Modal,
@@ -32,6 +33,7 @@ import PickupPoints from '../components/PickupPoints';
 
 import OrderModal from './OrderModal/OrderModal';
 import {styles} from './style';
+import {NewTopArrowIcon2} from '@icons/icons';
 type ProfileData = Partial<LoginResponse>;
 const CheckoutView = () => {
   const route = useRoute();
@@ -47,7 +49,7 @@ const CheckoutView = () => {
   const [visibleSnackbar, setVisibleSnackbar] = useState(false);
   const [openOrderModal, setOpenOrderModal] = useState(false);
   const [orderValyu, setOrderValyu] = useState();
-  const [open, setOpen] = useState(false);
+
   const [profileData, setProfileData] = useState<any>();
   const [state, setState] = useState<any>({
     address: '',
@@ -61,7 +63,7 @@ const CheckoutView = () => {
     receiver: 0,
     phone2: '',
   });
-
+  const loading = useLoading();
   const fetchData = async () => {
     try {
       let res = await requests.profile.getProfile();
@@ -109,13 +111,18 @@ const CheckoutView = () => {
   let onStateChange = (key: string) => (value: string) => {
     setState({...state, [key]: value});
   };
+  const sendProduct = async () => {
+    if (state.address.length > 0) {
+      await sendOrder();
+    } else {
+      return Alert.alert(`Ошибка `, 'Вы не ввели свой адрес');
+    }
+  };
 
-  const loading = useLoading();
   const sendOrder = async () => {
     try {
       loading?.onRun();
       let res = await requests.order.sendOrder(state);
-      let ClearRes = await requests.products.clearCart();
       let cartGet = await requests.products.getCarts();
       dispatch(loadCart(cartGet.data.data));
       toggleSnackbar();
@@ -131,6 +138,8 @@ const CheckoutView = () => {
     navigation.goBack();
   };
 
+  // console.log(JSON.stringify(state, null, 2));
+
   return (
     <>
       <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -144,8 +153,7 @@ const CheckoutView = () => {
                 style={activeIndex === item.id ? styles.activeBox : styles.box}
                 onPress={() => {
                   setIsActive(item.id),
-                    setState({...state, delivery_id: item.id}),
-                    setOpen(true);
+                    setState({...state, delivery_id: item.id});
                 }}
                 key={index}>
                 <View
@@ -325,7 +333,7 @@ const CheckoutView = () => {
 
           <DefaultButton
             title={STRINGS.ru.addOrder}
-            onPress={sendOrder}
+            onPress={sendProduct}
             ButtonStyle={{
               backgroundColor: '#84A9C0',
               marginTop: 20,

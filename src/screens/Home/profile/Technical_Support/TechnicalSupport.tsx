@@ -22,21 +22,6 @@ import {
 import SelectDropdown from 'react-native-select-dropdown';
 import requests from '@api/requests';
 
-const dataTheme = [
-  {
-    id: 1,
-    title: 'Тема 1',
-  },
-  {
-    id: 2,
-    title: 'Тема 2',
-  },
-  {
-    id: 3,
-    title: 'Тема 3',
-  },
-];
-
 const TechnicalSupport = () => {
   const [state, setState] = React.useState({
     theme: '1',

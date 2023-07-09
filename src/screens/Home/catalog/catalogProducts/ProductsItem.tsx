@@ -149,7 +149,8 @@ const ProductsItem = (props: ProductItemCardProps) => {
           <View style={{height: 120}}>
             <Text style={styles.typeText}>
               {category?.name.length > 18
-                ? category?.name.slice(0, 18) + '...'
+                ? //@ts-ignore
+                  category?.name.slice(0, 18) + '...'
                 : category?.name}
             </Text>
             <View

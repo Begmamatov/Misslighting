@@ -39,7 +39,7 @@ const cartSlice = createSlice({
     },
     clearCart: () => initialState,
 
-    loadCart: (state, action: PayloadAction<CartItemResponse[]>) => {
+    loadCart: (state, action: PayloadAction<any[]>) => {
       let obj = action.payload.reduce((previous, current) => {
         if (!previous) {
           return {[current.product.id]: current};

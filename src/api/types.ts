@@ -259,3 +259,122 @@ export interface OrderSend {
   phone: string;
   phone2: string;
 }
+
+export interface ActionProduct {
+  id: number;
+  name: string;
+  region: Region;
+  region_full: string;
+  region_full_array: RegionFullArray[];
+  photo: string;
+  photoBanner: string;
+  gallery: string[];
+  contact_user: string;
+  contact_phone: string;
+  isFavorite: boolean;
+  date: string;
+  cart: Cart[];
+}
+
+export interface Region {
+  id: number;
+  bts_region_id: number;
+  bts_city_id: number;
+  name: string;
+  description: any;
+  photo: string;
+}
+
+export interface RegionFullArray {
+  id: number;
+  name: string;
+}
+
+export interface Cart {
+  amount: number;
+  delivery: any;
+  amount_left: number;
+  price: number;
+  product: Product;
+  productFilter: any[];
+}
+
+export interface Product {
+  id: number;
+  name: string;
+  color: Color;
+  name_ru: string;
+  name_en: string;
+  name_uz: string;
+  price: number;
+  price_old: number;
+  price_opt: number;
+  price_opt_small: number;
+  delivery: any;
+  weight: number;
+  height: number;
+  width: number;
+  length: number;
+  discount_exists: number;
+  discount: number;
+  discount_small_count: number;
+  discount_big_count: number;
+  count_price1: number;
+  count_price2: number;
+  currency: Currency;
+  unit: Unit;
+  amount: number;
+  brand: Brand;
+  category: Category;
+  category_full: string;
+  category_full_array: CategoryFullArray[];
+  views: number;
+  rating: number;
+  photo: string;
+  isFavorite: boolean;
+  credit_label: string;
+  status: number;
+  productProperties: ProductProperty[];
+}
+
+export interface Color {
+  id: number;
+  name: string;
+  color: string;
+}
+
+export interface Currency {
+  id: number;
+  bts_region_id: any;
+  bts_city_id: any;
+  name: string;
+  description: string;
+  photo: string;
+}
+
+export interface Unit {
+  id: number;
+  bts_region_id: any;
+  bts_city_id: any;
+  name: string;
+  description: string;
+  photo: string;
+}
+
+export interface Brand {
+  id: number;
+  name: string;
+  description: string;
+  photo: string;
+  category: any;
+}
+
+export interface CategoryFullArray {
+  id: number;
+  name: string;
+}
+
+export interface ProductProperty {
+  key_name: string;
+  value_name: string;
+}

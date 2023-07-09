@@ -1,4 +1,4 @@
-package com.misslighting.newarchitecture;
+package uz.misslighting.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.misslighting.BuildConfig;
-import com.misslighting.newarchitecture.components.MainComponentsRegistry;
-import com.misslighting.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import uz.misslighting.BuildConfig;
+import uz.misslighting.newarchitecture.components.MainComponentsRegistry;
+import uz.misslighting.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 

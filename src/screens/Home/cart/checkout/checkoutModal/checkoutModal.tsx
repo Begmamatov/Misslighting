@@ -97,8 +97,6 @@ const CheckoutModal = (props: any) => {
     } catch (error) {}
   };
 
-  // let logist2Split = logist2?.split(' ');
-  // let logist2Last = logist2Split && logist2Split[logist2Split.length - 1];
   let id = props.orderValyu;
 
   const SubmetHandler = () => {

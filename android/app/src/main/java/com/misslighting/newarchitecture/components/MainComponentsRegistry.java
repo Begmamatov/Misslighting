@@ -1,4 +1,4 @@
-package com.misslighting.newarchitecture.components;
+package uz.misslighting.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;

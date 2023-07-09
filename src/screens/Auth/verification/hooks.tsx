@@ -34,7 +34,7 @@ const useVerificationHook = () => {
         return false;
       }
       setTimeLeft(timeLeft - 1);
-    }, 1000);
+    }, 1500);
     return timer;
   };
 

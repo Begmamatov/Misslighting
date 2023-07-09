@@ -34,6 +34,7 @@ export default function ProductList(props: Props) {
 
   const onPress = () => {
     navigation.navigate(
+      //@ts-ignore
       ROUTES.ALLPRODUCTS as never,
       {props, products} as never,
     );

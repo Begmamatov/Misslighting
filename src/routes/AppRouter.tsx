@@ -1,52 +1,50 @@
-import React from 'react';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import AuthStack from '@auth/index';
+import MakeRefund from '@components/uikit/MakeRefund';
+import Search from '@components/uikit/search';
+import {COLORS} from '@constants/colors';
 import {ROUTES} from '@constants/routes';
 import TabNavigation from '@home/bottomTab/TabNavigation';
-import {useAppSelector} from '@store/hooks';
-import {selectUser} from '@store/slices/userSlice';
-import AuthStack from '@auth/index';
-import AllProducts from '@home/home/allProducts/view';
-import Subcategory from '@home/catalog/subCatalog/Subcategory';
 import {CheckoutScreen} from '@home/cart/checkout';
-import ProfileScreen from '@home/profile/ProfileScreen';
-import MyProduct from '@home/profile/MyOrders/MyOrders';
+import WebViewComponets from '@home/cart/checkout/OrderModal/WebView';
+import CatalogProductsScreen from '@home/catalog/catalogProducts/CatalogProductsScreen';
+import Subcategory from '@home/catalog/subCatalog/Subcategory';
+import AllNews from '@home/home/AllNews/AllNews';
+import AllShop from '@home/home/Allshop/AllShop';
+import AllProducts from '@home/home/allProducts/view';
+import Reviews from '@home/modulus/components/reviews';
+import NewDetails from '@home/modulus/news-details/NewDetails';
+import PdoductDetails from '@home/modulus/product-details/PdoductDetails';
+import ShopDetails from '@home/modulus/shop-details/ShopDetails';
+import BonusProgram from '@home/profile/BonusProgram/BonusProgram';
 import Message from '@home/profile/Message/Message';
-import Setting from '@home/profile/Setting/Setting';
-import Transactions from '@home/profile/Transactions/Transactions';
+import ChatProducts from '@home/profile/Message/components/ChatProduct/ChatProduct';
+import Chat from '@home/profile/Message/components/chat/Chat';
+import MyProduct from '@home/profile/MyOrders/MyOrders';
 import ActiveList from '@home/profile/MyOrders/components/ActiveList/ActiveList';
 import StoryList from '@home/profile/MyOrders/components/StoreList/StoryList';
-import TechnicalSupport from '@home/profile/Technical_Support/TechnicalSupport';
-import BonusProgram from '@home/profile/BonusProgram/BonusProgram';
-import PersonalData from '@home/profile/PersonalData/PersonalData';
-import PersonalDataChange from '@home/profile/PersonDataChange/PersonDataChange';
-import Notification from '@home/profile/Notification/Notification';
-import Search from '@components/uikit/search';
-import CatalogProductsScreen from '@home/catalog/catalogProducts/CatalogProductsScreen';
-import PdoductDetails from '@home/modulus/product-details/PdoductDetails';
 import OrderView from '@home/profile/MyOrders/components/order/OrderView';
-import MakeRefund from '@components/uikit/MakeRefund';
-import {COLORS} from '@constants/colors';
+import Notification from '@home/profile/Notification/Notification';
+import PersonalDataChange from '@home/profile/PersonDataChange/PersonDataChange';
+import PersonalData from '@home/profile/PersonalData/PersonalData';
+import ProfileScreen from '@home/profile/ProfileScreen';
+import Setting from '@home/profile/Setting/Setting';
+import TechnicalSupport from '@home/profile/Technical_Support/TechnicalSupport';
+import Transactions from '@home/profile/Transactions/Transactions';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import React from 'react';
 import {View} from 'react-native';
-import Chat from '@home/profile/Message/components/chat/Chat';
-import AllShop from '@home/home/Allshop/AllShop';
-import ShopDetails from '@home/modulus/shop-details/ShopDetails';
-import NewDetails from '@home/modulus/news-details/NewDetails';
-import AllNews from '@home/home/AllNews/AllNews';
-import ChatProducts from '@home/profile/Message/components/ChatProduct/ChatProduct';
-import TabNavigation2 from '@home/bottomTab/TabNavigation2';
-import WebView from 'react-native-webview';
-import WebViewComponets from '@home/cart/checkout/OrderModal/WebView';
-import Reviews from '@home/modulus/components/reviews';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import NavigationService from './NavigationService';
+import Camera from '@components/uikit/Camera/Camera';
+import CameraScreen from '@components/uikit/Camera/Camera';
 // import Chat from '@home/profile/Notification/components/chat';
 
 let Stack = createNativeStackNavigator();
 
 export default function AppRouter() {
   const insets = useSafeAreaInsets();
-  const user = useAppSelector(selectUser);
+
   return (
     <View
       style={{
@@ -114,8 +112,7 @@ export default function AppRouter() {
           <Stack.Screen name={ROUTES.CHATPRODUCTS} component={ChatProducts} />
           <Stack.Screen name={ROUTES.WebView} component={WebViewComponets} />
           <Stack.Screen name={ROUTES.AUTH} component={AuthStack} />
-          {/* </>
-          )} */}
+          <Stack.Screen name={ROUTES.Camera} component={CameraScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </View>
